@@ -7,7 +7,8 @@
 ## Server:
 
 - Spring [MVC + JSON](https://www.geeksforgeeks.org/spring-rest-json-response/) für REST API
-- Hibernate als ORM (https://www.tutorialspoint.com/hibernate/hibernate_examples.htm, https://www.javatpoint.com/hibernate-configuration, https://www.javatpoint.com/hibernate-many-to-many-example-using-xml) 
+- ~Hibernate als ORM (https://www.tutorialspoint.com/hibernate/hibernate_examples.htm, https://www.javatpoint.com/hibernate-configuration, https://www.javatpoint.com/hibernate-many-to-many-example-using-xml)~
+$\Rightarrow$ er will MPS
 
 ## Client:
 
@@ -15,10 +16,10 @@
 
 ## Fragen:
 
-- Client als richtige CLI anwendung, oder nur mocken? (wäre .NET ggf hier auch okay)
-- Ist Transaktionssicherheit mit Hibernate okay, oder *muss* das der MPS kram sein?
-- Schrifliche ausarbeitung (LaTeX, Deutsch oder Englisch)?
-- Java version vorgegeben oder uns überlassen? (genauso mit IDE)
+- Client als richtige CLI anwendung, oder nur mocken? C# ist fine, aber mit CLI parser.
+- Ist Transaktionssicherheit mit Hibernate okay, oder *muss* das der MPS kram sein? MPS zumindest versuchen
+- Schrifliche ausarbeitung (LaTeX, Deutsch oder Englisch)? LaTeX englisch ist fine.
+- Java version vorgegeben oder uns überlassen? (genauso mit IDE)? Egal.
 
 ## Rest API endpoints:
 
