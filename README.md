@@ -12,7 +12,7 @@ $\Rightarrow$ er will MPS
 
 ## Client:
 
-- [HttpClient](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html) (Java built-in) + [Jackson API](https://www.delftstack.com/howto/java/java-deserialize-json/#deserialize-json-using-jackson-api) for JSON deserialization 
+- [HttpClient](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html) (Java built-in) + [Jackson API](https://www.delftstack.com/howto/java/java-deserialize-json/#deserialize-json-using-jackson-api) for JSON deserialization ODER was anderes (C#)
 
 ## Fragen:
 
