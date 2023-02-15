@@ -27,3 +27,4 @@ $\Rightarrow$ er will MPS
 - Buchen
 - Stornieren
 - Einnahmen (admin)
+- komplette Verwaltung!
