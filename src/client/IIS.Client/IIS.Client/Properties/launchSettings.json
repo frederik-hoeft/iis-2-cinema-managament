@@ -2,7 +2,7 @@
   "profiles": {
     "IIS.Client": {
       "commandName": "Project",
-      "commandLineArgs": "user --as-identity mail@example.com account register"
+      "commandLineArgs": "user --as-identity notavalidemaillol account register"
     }
   }
 }

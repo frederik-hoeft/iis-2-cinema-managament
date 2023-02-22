@@ -3,6 +3,8 @@ using IIS.Client.ApiAccess.Network.Extensions;
 using IIS.Client.ApiAccess.Operations.User.Requests;
 using IIS.Client.ApiAccess.Operations.User.Responses;
 using IIS.Client.Cli.Utils;
+using System.ComponentModel.DataAnnotations;
+using System;
 using System.Net.Http.Json;
 
 namespace IIS.Client.ApiAccess.Operations.User;
@@ -23,6 +25,10 @@ internal class AccountOperation : UserOperationBase
         string? firstName = InputProvider.RequestValueFor("first name");
         string? lastName = InputProvider.RequestValueFor("last name");
         UserCreateAccountRequest request = new(firstName!, lastName!, userIdentifier!);
+        if (!ValidationService.ValidateRecord(request))
+        {
+            return;
+        }
 
         Uri userApi = apiContext.ApiBase.CombineWith(ApiPath).CombineWith("account");
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, userApi.CombineWith("create"));

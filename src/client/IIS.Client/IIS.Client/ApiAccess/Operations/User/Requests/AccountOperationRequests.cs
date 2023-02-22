@@ -6,7 +6,7 @@ internal record UserCreateAccountRequest
 (
     [Required] string FirstName,
     [Required] string LastName,
-    [Required][EmailAddress] string Email
+    [EmailAddress] string Email
 );
 
 internal record UserDeleteAccountRequest
