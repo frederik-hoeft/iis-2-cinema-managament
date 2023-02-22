@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="Cli\Commands\CommandBase.cs~RF83c304.TMP" />
+    <None Remove="Cli\Commands\User\Booking\UserBookingCommand.cs~RFdb04c9.TMP" />
     <None Remove="Cli\Handlers\ICliHandler.cs~RF873b62.TMP" />
     <None Remove="Cli\ManagementOperation.cs~RF987868.TMP" />
   </ItemGroup>

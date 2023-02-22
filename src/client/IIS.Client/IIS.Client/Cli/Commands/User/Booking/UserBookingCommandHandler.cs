@@ -1,18 +1,19 @@
 ﻿using System.CommandLine;
-using System.CommandLine.NamingConventionBinder;
-using IIS.Client.Cli.Commands.Management;
 
 namespace IIS.Client.Cli.Commands.User.Booking;
 
-internal class UserBookingCommandHandler : ICliHandler
+internal class UserBookingCommandHandler : HandlerBase<UserBookingCommand>, ICliHandler<UserBookingCommand, UserBookingCommandHandler>
 {
-    public static void RegisterOn(Command command)
+    private UserBookingCommandHandler(UserBookingCommand command) : base(command)
     {
-        command.Handler = CommandHandler.Create<ManagementTarget>(Handle);
     }
 
-    private static void Handle(ManagementTarget target)
+    public void RegisterOn(Command command) => command.SetHandler(Handle, Command.UserIdentity, Command.Operation);
+
+    private void Handle(string? userIdentity, UserBookingOperation bookingOperation)
     {
-        Console.WriteLine(target);
+        Console.WriteLine((userIdentity, bookingOperation));
     }
+
+    public static UserBookingCommandHandler Create(UserBookingCommand command) => new(command);
 }

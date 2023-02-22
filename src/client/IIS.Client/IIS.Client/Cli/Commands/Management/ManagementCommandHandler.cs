@@ -9,12 +9,16 @@ namespace IIS.Client.Cli.Commands.Management;
 
 using static CommonOperationProvider;
 
-internal class ManagementCommandHandler : ICliHandler
+internal class ManagementCommandHandler : HandlerBase<ManagementCommand>, ICliHandler<ManagementCommand, ManagementCommandHandler>
 {
-    public static void RegisterOn(Command command) =>
+    private ManagementCommandHandler(ManagementCommand command) : base(command)
+    {
+    }
+
+    public void RegisterOn(Command command) =>
         command.Handler = CommandHandler.Create<ManagementTarget, ManagementOperation>(Handle);
 
-    private static void Handle(ManagementTarget target, ManagementOperation operation)
+    private void Handle(ManagementTarget target, ManagementOperation operation)
     {
         RemoteOperation remoteOperation = target switch
         {
@@ -27,4 +31,6 @@ internal class ManagementCommandHandler : ICliHandler
         };
         RemoteApi.Execute(remoteOperation);
     }
+
+    public static ManagementCommandHandler Create(ManagementCommand command) => new(command);
 }
