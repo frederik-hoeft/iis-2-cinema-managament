@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import IIS.Server.api.user.info.requests.TestRequest;
 import IIS.Server.api.user.info.responses.TestResponse;
 
-
+// TODO
 @RestController
-@RequestMapping(path="/user-info", produces="application/json")
+@RequestMapping(path="/user/info", produces="application/json")
 @CrossOrigin(origins="*")
 public class UserInfoController {
 

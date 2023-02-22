@@ -13,7 +13,7 @@ import IIS.Server.api.user.booking.responses.*;
 
 
 @RestController
-@RequestMapping(path="/user-booking", produces="application/json")
+@RequestMapping(path="/user/booking", produces="application/json")
 @CrossOrigin(origins="*")
 public class UserBookingController {
     
@@ -22,7 +22,7 @@ public class UserBookingController {
 
         UserBookingResponse response = new UserBookingResponse();
         response.setSuccess(false);
-        return new ResponseEntity<UserBookingResponse>(response, HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<UserBookingResponse>(response, HttpStatus.OK);
     }
 
     @PostMapping("/reserve")
@@ -30,7 +30,7 @@ public class UserBookingController {
 
         UserReservationResponse response = new UserReservationResponse();
         response.setSuccess(false);
-        return new ResponseEntity<UserReservationResponse>(response, HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<UserReservationResponse>(response, HttpStatus.OK);
     }
 
     @PostMapping("/upgrade")
@@ -38,7 +38,7 @@ public class UserBookingController {
 
         UserUpgradeReservationResponse response = new UserUpgradeReservationResponse();
         response.setSuccess(false);
-        return new ResponseEntity<UserUpgradeReservationResponse>(response, HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<UserUpgradeReservationResponse>(response, HttpStatus.OK);
     }
 
     @PostMapping("/cancel")
@@ -46,6 +46,6 @@ public class UserBookingController {
 
         UserCancelReservationResponse response = new UserCancelReservationResponse();
         response.setSuccess(false);
-        return new ResponseEntity<UserCancelReservationResponse>(response, HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<UserCancelReservationResponse>(response, HttpStatus.OK);
     }
 }
