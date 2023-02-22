@@ -4,6 +4,8 @@
 ![java-service](https://github.com/frederik-hoeft/iis-2-cinema-managament/actions/workflows/maven.yml/badge.svg)
 [![CodeFactor](https://www.codefactor.io/repository/github/frederik-hoeft/iis-2-cinema-managament/badge?s=2033dbd82a54803db81d899b448496bfabb36920)](https://www.codefactor.io/repository/github/frederik-hoeft/iis-2-cinema-managament)
 
+![data-model](./docs/export/data-model-final.png)
+
 ## DB: 
 
  - MySQL
