@@ -17,10 +17,10 @@ import IIS.Server.api.user.account.responses.UserCreateAccountResponse;
 public class UserAccountController {
     
     @PostMapping("/create")
-    public ResponseEntity<UserCreateAccountResponse> create(@RequestBody UserCreateAccountRequest request) {
+    public ResponseEntity<UserCreateAccountResponse> createAccount(@RequestBody UserCreateAccountRequest request) {
 
         UserCreateAccountResponse response = new UserCreateAccountResponse();
         response.setSuccess(false);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
