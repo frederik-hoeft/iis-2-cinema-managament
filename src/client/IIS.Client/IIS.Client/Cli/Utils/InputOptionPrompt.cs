@@ -4,7 +4,7 @@ using System.Runtime;
 
 namespace IIS.Client.Cli.Utils;
 
-internal readonly struct InputOptionPrompt<TOption>
+internal readonly struct InputOptionPrompt<TOption> : IInputPrompt<TOption>
 {
     public IReadOnlyList<TOption> Options { get; }
 
