@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.CommandLine;
 
 namespace IIS.Client.Cli.Commands.User;
 
 internal class UserCommand : CommandBase<UserCommand, UserCommandHandler>, ICliCommandBuilder
 {
-    public Option<string?> UserIdentity { get; private set; }
+    public Option<string?> UserIdentity { get; private set; } = null!;
 
     public Command Build()
     {

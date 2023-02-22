@@ -1,6 +1,6 @@
 ﻿namespace IIS.Client.Cli.Commands.Management;
 
-public enum ManagementTarget
+public enum ManagementOperationTarget
 {
     Movies,
     Screenings,

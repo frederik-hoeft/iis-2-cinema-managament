@@ -1,24 +1,26 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Management;
+﻿using IIS.Client.ApiAccess.Network;
+
+namespace IIS.Client.ApiAccess.Operations.Management;
 
 internal class MovieOperation : IManagementOperation
 {
-    public static void Create(HttpClient httpClient)
+    public static void Create(ApiContext apiContext)
     {
-        // TODO
+        throw new NotImplementedException();
     }
 
-    public static void Delete(HttpClient httpClient)
+    public static void Delete(ApiContext apiContext)
     {
-        // TODO
+        throw new NotImplementedException();
     }
 
-    public static void Update(HttpClient httpClient)
+    public static void Update(ApiContext apiContext)
     {
-        // TODO
+        throw new NotImplementedException();
     }
 
-    public static void ShowAll(HttpClient httpClient)
+    public static void ShowAll(ApiContext apiContext)
     {
-        // TODO
+        throw new NotImplementedException();
     }
 }

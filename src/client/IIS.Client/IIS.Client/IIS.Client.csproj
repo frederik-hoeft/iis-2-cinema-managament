@@ -10,9 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ApiAccess\Operations\Management\CinemaHallOperation.cs~RF1705ab4.TMP" />
+    <None Remove="Cli\Commands\Admin\AdminOperationTarget.cs~RF14ba36a.TMP" />
     <None Remove="Cli\Commands\CommandBase.cs~RF83c304.TMP" />
     <None Remove="Cli\Commands\User\Booking\UserBookingCommand.cs~RFdb04c9.TMP" />
-    <None Remove="Cli\Handlers\ICliHandler.cs~RF873b62.TMP" />
+    <None Remove="Cli\Utils\ICliHandler.cs~RF873b62.TMP" />
     <None Remove="Cli\ManagementOperation.cs~RF987868.TMP" />
   </ItemGroup>
 
@@ -23,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Cli\Handlers\" />
+    <None Update="config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

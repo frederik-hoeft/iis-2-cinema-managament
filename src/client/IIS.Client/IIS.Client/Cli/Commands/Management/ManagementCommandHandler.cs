@@ -16,17 +16,17 @@ internal class ManagementCommandHandler : HandlerBase<ManagementCommand>, ICliHa
     }
 
     public void RegisterOn(Command command) =>
-        command.Handler = CommandHandler.Create<ManagementTarget, ManagementOperation>(Handle);
+        command.Handler = CommandHandler.Create<ManagementOperationTarget, ManagementOperation>(Handle);
 
-    private void Handle(ManagementTarget target, ManagementOperation operation)
+    private void Handle(ManagementOperationTarget target, ManagementOperation operation)
     {
         RemoteOperation remoteOperation = target switch
         {
-            ManagementTarget.Movies => ManagementDispatch<MovieOperation>.Parse(operation),
-            ManagementTarget.Screenings => ManagementDispatch<MovieScreeningOperation>.Parse(operation),
-            ManagementTarget.Rooms => ManagementDispatch<CinemaHallOperation>.Parse(operation),
-            ManagementTarget.Rows => ManagementDispatch<SeatRowOperation>.Parse(operation),
-            ManagementTarget.Seats => ManagementDispatch<SeatOperation>.Parse(operation),
+            ManagementOperationTarget.Movies => ManagementDispatch<MovieOperation>.Parse(operation),
+            ManagementOperationTarget.Screenings => ManagementDispatch<MovieScreeningOperation>.Parse(operation),
+            ManagementOperationTarget.Rooms => ManagementDispatch<CinemaHallOperation>.Parse(operation),
+            ManagementOperationTarget.Rows => ManagementDispatch<SeatRowOperation>.Parse(operation),
+            ManagementOperationTarget.Seats => ManagementDispatch<SeatOperation>.Parse(operation),
             _ => Fail($"Undefined management target: '{target}'")
         };
         RemoteApi.Execute(remoteOperation);

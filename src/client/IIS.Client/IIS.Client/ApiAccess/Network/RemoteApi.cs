@@ -5,17 +5,22 @@ namespace IIS.Client.ApiAccess.Network;
 
 internal static class RemoteApi
 {
-    private static readonly HttpClient _httpClient;
+    private static ApiContext? _apiContext;
 
-    static RemoteApi()
+    public static void LoadConfig(Config config)
     {
-        _httpClient = new HttpClient(new SocketsHttpHandler()
+        HttpClient httpClient = new(new SocketsHttpHandler()
         {
             CookieContainer = new CookieContainer(),
             UseCookies = true
         });
+        Uri apiBase = new(config.ApiEndpoint);
+        _apiContext = new ApiContext(httpClient, apiBase);
     }
 
-    public static void Execute(RemoteOperation operation) => 
-        operation.Invoke(_httpClient);
+    public static void Execute(RemoteOperation operation)
+    {
+        _ = _apiContext ?? throw new InvalidOperationException("config was not loaded!");
+        operation.Invoke(_apiContext);
+    }
 }
