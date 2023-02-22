@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IIS.Client": {
+      "commandName": "Project",
+      "commandLineArgs": "manage movies create"
+    }
+  }
+}
