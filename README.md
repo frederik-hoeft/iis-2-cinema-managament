@@ -26,8 +26,8 @@
 
 ## Rest API endpoints:
 
-/management/{all the classes lol}/[create/update/delete/list]
-/admin/[revenue]
-/user/account/create (create new Customer)
-/user/booking/[book/reserve/upgrade?/cancel/...]
-/user/info/... (stuff für booking)
+- /management/{all the classes lol}/[create/update/delete/list]
+- /admin/[revenue]
+- /user/account/create (create new Customer)
+- /user/booking/[book/reserve/upgrade?/cancel/...]
+- /user/info/... (stuff für booking)
