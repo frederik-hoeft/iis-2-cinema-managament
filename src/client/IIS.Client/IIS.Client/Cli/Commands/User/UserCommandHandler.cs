@@ -1,4 +1,5 @@
 ﻿using IIS.Client.Cli.Commands.Management;
+using IIS.Client.Cli.Commands.User.Account;
 using IIS.Client.Cli.Commands.User.Booking;
 using IIS.Client.Cli.Extensions;
 using System;
@@ -23,7 +24,9 @@ internal class UserCommandHandler : HandlerBase<UserCommand>, ICliHandler<UserCo
 
     public void RegisterOn(Command command)
     {
-        UserBookingCommand childCommand = new(Command.UserIdentity);
-        command.Register(childCommand);
+        UserBookingCommand userBooking = new(Command.UserIdentity);
+        command.Register(userBooking);
+        UserAccountCommand userAccount = new(Command.UserIdentity);
+        command.Register(userAccount);
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "IIS.Client": {
       "commandName": "Project",
-      "commandLineArgs": "user booking new"
+      "commandLineArgs": "user --as-identity mail@example.com account register"
     }
   }
 }
