@@ -11,12 +11,11 @@
 ## Server:
 
 - Spring [MVC + JSON](https://www.geeksforgeeks.org/spring-rest-json-response/) für REST API
-- ~Hibernate als ORM (https://www.tutorialspoint.com/hibernate/hibernate_examples.htm, https://www.javatpoint.com/hibernate-configuration, https://www.javatpoint.com/hibernate-many-to-many-example-using-xml)~
-$\Rightarrow$ er will MPS
+- MPS for persistence
 
 ## Client:
 
-- [HttpClient](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html) (Java built-in) + [Jackson API](https://www.delftstack.com/howto/java/java-deserialize-json/#deserialize-json-using-jackson-api) for JSON deserialization ODER was anderes (C#)
+- C#/.NET 7 CLI application (`System.CommandLine`)
 
 ## Fragen:
 
@@ -27,8 +26,8 @@ $\Rightarrow$ er will MPS
 
 ## Rest API endpoints:
 
-- Reservieren
-- Buchen
-- Stornieren
-- Einnahmen (admin)
-- komplette Verwaltung!
+/management/{all the classes lol}/[create/update/delete/list]
+/admin/[revenue]
+/user/account/create (create new Customer)
+/user/booking/[book/reserve/upgrade?/cancel/...]
+/user/info/... (stuff für booking)
