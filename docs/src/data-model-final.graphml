@@ -13,10 +13,9 @@
   <key attr.name="description" attr.type="string" for="edge" id="d9"/>
   <key for="edge" id="d10" yfiles.type="edgegraphics"/>
   <graph edgedefault="directed" id="G">
-    <data key="d0"/>
+    <data key="d0" xml:space="preserve"/>
     <node id="n0">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="66.09279999999995" width="100.0" x="1593.81696" y="341.55900000000025"/>
@@ -33,7 +32,6 @@
     </node>
     <node id="n1">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="50.11839999999995" width="100.0" x="1593.81696" y="454.94080000000014"/>
@@ -49,7 +47,6 @@
     </node>
     <node id="n2">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="50.11839999999995" width="100.0" x="1593.81696" y="550.0954"/>
@@ -65,7 +62,6 @@
     </node>
     <node id="n3">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="50.11839999999995" width="108.51968000000011" x="1438.0543999999995" y="349.5462000000002"/>
@@ -81,7 +77,6 @@
     </node>
     <node id="n4">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="72.97407999999996" width="100.0" x="1750.0" y="443.5129600000001"/>
@@ -97,7 +92,6 @@
     </node>
     <node id="n5">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="52.90368000000001" width="173.72799999999984" x="1924.43552" y="390.41632000000055"/>
@@ -113,7 +107,6 @@
     </node>
     <node id="n6">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="52.90368000000001" width="173.72799999999984" x="1923.1359999999995" y="513.3654400000006"/>
@@ -129,7 +122,6 @@
     </node>
     <node id="n7">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="52.90368000000001" width="173.72799999999984" x="1923.136" y="453.54816000000005"/>
@@ -145,7 +137,6 @@
     </node>
     <node id="n8">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="51.51103999999998" width="100.0" x="1270.0" y="348.8498800000002"/>
@@ -161,7 +152,6 @@
     </node>
     <node id="n9">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="77.47967999999992" width="100.0" x="1824.0884480000004" y="631.56936"/>
@@ -179,7 +169,6 @@
     </node>
     <node id="n10">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="50.11839999999995" width="100.0" x="1593.81696" y="645.25"/>
@@ -195,7 +184,6 @@
     </node>
     <node id="n11">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="100.0" x="1531.8880000000001" y="747.7792000000001"/>
@@ -211,7 +199,6 @@
     </node>
     <node id="n12">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="63.63520000000017" width="100.0" x="1674.7359999999999" y="748.1823999999999"/>
@@ -227,7 +214,6 @@
     </node>
     <node id="n13">
       <data key="d4" xml:space="preserve"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLNoteNode>
           <y:Geometry height="77.47967999999992" width="244.17920000000004" x="1203.4350105394906" y="531.26016"/>
@@ -239,9 +225,57 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
         </y:UMLNoteNode>
       </data>
     </node>
+    <node id="n14">
+      <data key="d4" xml:space="preserve"/>
+      <data key="d6">
+        <y:UMLNoteNode>
+          <y:Geometry height="102.56768" width="348.72960000000035" x="755.6351999999998" y="447.0361599999999"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="77.505859375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="316.85546875" x="15.937065625000287" xml:space="preserve" y="12.530910312500055">/management/{all the classes lol}/[create/update/delete/list]
+/admin/[revenue]
+/user/account (create new Customer)
+/user/booking/[book/reserve/upgrade?/cancel/...]
+/user/info/... (stuff für booking)<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+        </y:UMLNoteNode>
+      </data>
+    </node>
+    <node id="n15">
+      <data key="d5"/>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="602.4159999999999" width="5.4240000000002055" x="1144.3917158092358" y="274.04000000000013"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="0.7120000000002165" y="299.20799999999997">
+            <y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n16">
+      <data key="d4" xml:space="preserve"/>
+      <data key="d6">
+        <y:UMLClassNode>
+          <y:Geometry height="35.127039999999965" width="100.0" x="866.3360000000001" y="372.43648"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="25.6708984375" x="37.16455078125" xml:space="preserve" y="3.0">API<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+          <y:UML clipContent="true" constraint="" hasDetailsColor="false" omitDetails="false" stereotype="" use3DEffect="true">
+            <y:AttributeLabel xml:space="preserve"/>
+            <y:MethodLabel xml:space="preserve"/>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+    </node>
     <edge id="e0" source="n0" target="n1">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -256,7 +290,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e1" source="n1" target="n2">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -270,7 +303,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e2" source="n4" target="n1">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="26.80128000000559" ty="0.0">
@@ -287,7 +319,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e3" source="n3" target="n8">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -302,7 +333,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e4" source="n0" target="n3">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="5.6843418860808015E-14"/>
@@ -316,7 +346,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e5" source="n2" target="n10">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -349,7 +378,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e6" source="n3" target="n10">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-30.656496640001023" ty="0.06814911999845208">
@@ -366,7 +394,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e7" source="n12" target="n10">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -381,7 +408,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e8" source="n11" target="n10">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -396,7 +422,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e9" source="n10" target="n9">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -411,7 +436,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e10" source="n5" target="n4">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -426,7 +450,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e11" source="n7" target="n4">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -438,7 +461,6 @@ eindeutiger identifier für API)<y:LabelModel><y:SmartNodeLabelModel distance="4
     </edge>
     <edge id="e12" source="n6" target="n4">
       <data key="d8" xml:space="preserve"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
