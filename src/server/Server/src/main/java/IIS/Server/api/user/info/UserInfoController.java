@@ -1,4 +1,4 @@
-package IIS.Server.controller;
+package IIS.Server.api.user.info;
 
 import java.util.ArrayList;
 
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import IIS.Server.models.response.TestResponse;
+import IIS.Server.api.user.info.responses.TestResponse;
 
 
 @RestController
 @RequestMapping(path="/JSON", produces="application/json")
 @CrossOrigin(origins="*")
-public class HomeController {
+public class UserInfoController {
 
 	@GetMapping("/data")
     public ArrayList<TestResponse> get() {

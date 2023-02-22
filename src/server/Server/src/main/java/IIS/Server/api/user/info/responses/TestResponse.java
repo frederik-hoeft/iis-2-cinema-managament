@@ -1,4 +1,4 @@
-package IIS.Server.models.response;
+package IIS.Server.api.user.info.responses;
 
 import lombok.Data;
 
