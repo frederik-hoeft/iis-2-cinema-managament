@@ -28,5 +28,5 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      working-directory: ./src/server/Server
+      working-directory: ./src/server/java/Server
       run: mvn -B package --file pom.xml
