@@ -1,5 +1,5 @@
 module generated.cinema {
-    requires transitive src;
+    requires src;
     
     requires java.sql;
 }
