@@ -6,7 +6,7 @@ import src.db.DBConstants;
 import src.db.connection.NoConnectionException;
 
 /**
- * Textkonserven für DML-Befehle 
+ * Textkonserven fr DML-Befehle 
  */
 public class DMLStatementTextCreator {
 	private static final String insertInto = "INSERT INTO ";

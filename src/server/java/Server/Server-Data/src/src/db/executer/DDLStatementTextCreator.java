@@ -2,7 +2,7 @@ package src.db.executer;
 
 import src.db.DBConstants;
 /**
- * Textkonserven für DDL-Befehle 
+ * Textkonserven fr DDL-Befehle 
  */
 public class DDLStatementTextCreator {
 	private static final String createTable = "CREATE TABLE ";

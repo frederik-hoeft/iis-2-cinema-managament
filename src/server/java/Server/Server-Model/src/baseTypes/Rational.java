@@ -37,9 +37,7 @@ public class Rational {
 	public BigInteger getDenominator() {
 		return this.denominator;
 	}
-/**
- * Kürzen!	
- */
+
 	public void cancelDown(){
 		BigInteger gcd = this.enumerator.gcd(this.denominator);
 		this.enumerator = this.enumerator.divide(gcd);
