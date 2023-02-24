@@ -430,3 +430,6 @@ FodyWeavers.xsd
 classes_gen/
 # Default ignored files
 workspace.xml
+
+# Eclipse
+.metadata/
