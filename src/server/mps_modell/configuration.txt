@@ -1,6 +1,0 @@
-protocolFileDirectory = ./mps-logs
-javaIDEProjectDirectory = ../Server/src/main/java/IIS/Server/mps
-database(Yes/No) = No
-databaseURL = jdbc:mysql://localhost:3306
-databaseUser = root
-databasePassword = 
