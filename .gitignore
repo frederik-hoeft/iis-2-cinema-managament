@@ -422,4 +422,16 @@ FodyWeavers.xsd
 *.sln.iml
 
 # vs code
-.vscode
+**/.vscode/
+
+# MPS 
+
+# Project exclude paths
+**/classes_gen/
+# Default ignored files
+**/workspace.xml
+**/mps-logs/
+
+# Eclipse
+**/.metadata/
+**/target/

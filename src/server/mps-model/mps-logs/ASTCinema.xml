@@ -1,0 +1,599 @@
+<JService>
+  <name>Cinema</name>
+  <relationTypes class="list">
+    <metaModel.JClass>
+      <name>Movie</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>movieId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector">
+            <name>Integer</name>
+          </targetType>
+          <constraint class="metaModel.enumerations.JTotalMap"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../targetType"/>
+        </metaModel.JAttributeConnector>
+        <metaModel.JAttributeConnector>
+          <role>title</role>
+          <targetType class="metaModel.primitives.JString" defined-in="metaModel.JTargetConnector">
+            <name>String</name>
+          </targetType>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JString" reference="../targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>MovieScreening</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>movieScreeningId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+        <metaModel.JAttributeConnector>
+          <role>finished</role>
+          <targetType class="metaModel.primitives.JBoolean" defined-in="metaModel.JTargetConnector">
+            <name>Boolean</name>
+          </targetType>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JBoolean" reference="../targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>CinemaHall</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>available</role>
+          <targetType class="metaModel.primitives.JBoolean" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass[2]/attributes/metaModel.JAttributeConnector[2]/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JBoolean" reference="../../../../metaModel.JClass[2]/attributes/metaModel.JAttributeConnector[2]/targetType"/>
+        </metaModel.JAttributeConnector>
+        <metaModel.JAttributeConnector>
+          <role>roomId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>SeatRow</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>rowId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>Seat</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>seatId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>BookingState</name>
+      <singleton>false</singleton>
+      <attributes/>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>Booking</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>bookingId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>Reservation</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>reservationId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>Customer</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>customerId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+        <metaModel.JAttributeConnector>
+          <role>firstName</role>
+          <targetType class="metaModel.primitives.JString" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector[2]/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JString" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector[2]/targetType"/>
+        </metaModel.JAttributeConnector>
+        <metaModel.JAttributeConnector>
+          <role>lastName</role>
+          <targetType class="metaModel.primitives.JString" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector[2]/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JString" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector[2]/targetType"/>
+        </metaModel.JAttributeConnector>
+        <metaModel.JAttributeConnector>
+          <role>email</role>
+          <targetType class="metaModel.primitives.JString" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector[2]/targetType"/>
+          <constraint class="metaModel.enumerations.JTotalMap" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JString" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector[2]/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>PriceCategory</name>
+      <singleton>false</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>priceId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JPartialMap"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+        <metaModel.JAttributeConnector>
+          <role>price</role>
+          <targetType class="metaModel.primitives.JRational" defined-in="metaModel.JTargetConnector">
+            <name>Rational</name>
+          </targetType>
+          <constraint class="metaModel.enumerations.JPartialMap" reference="../../metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JRational" reference="../targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>PriceCategoryBox</name>
+      <singleton>true</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>priceCategoryBoxId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JPartialMap" reference="../../../../metaModel.JClass[10]/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>PriceCategoryServiceBox</name>
+      <singleton>true</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>PriceCategoryServiceBoxId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JPartialMap" reference="../../../../metaModel.JClass[10]/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JClass>
+      <name>PriceCategoryStalls</name>
+      <singleton>true</singleton>
+      <attributes>
+        <metaModel.JAttributeConnector>
+          <role>PriceCategoryStallsId</role>
+          <targetType class="metaModel.primitives.JInteger" defined-in="metaModel.JTargetConnector" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+          <constraint class="metaModel.enumerations.JPartialMap" reference="../../../../metaModel.JClass[10]/attributes/metaModel.JAttributeConnector/constraint"/>
+          <targetType class="metaModel.primitives.JInteger" reference="../../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/targetType"/>
+        </metaModel.JAttributeConnector>
+      </attributes>
+      <operations/>
+    </metaModel.JClass>
+    <metaModel.JAssociation>
+      <name>Movie_MovieScreening</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>Movie</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>screenings</role>
+        <targetType class="metaModel.JClassLink">
+          <name>MovieScreening</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[2]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JSet"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>MovieScreeninig_Movie</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>MovieScreening</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[2]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>movie</role>
+        <targetType class="metaModel.JClassLink">
+          <name>Movie</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JTotalMap" reference="../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>MovieScreening_BookingState</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>MovieScreening</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[2]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>bookingStates</role>
+        <targetType class="metaModel.JClassLink">
+          <name>BookingState</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[6]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JSet" reference="../../../metaModel.JAssociation/target/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>BookingState_MovieScreening</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>BookingState</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[6]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>screening</role>
+        <targetType class="metaModel.JClassLink">
+          <name>MovieScreening</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[2]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JTotalMap" reference="../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>MovieScreening_CinemaHall</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>MovieScreening</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[2]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>hall</role>
+        <targetType class="metaModel.JClassLink">
+          <name>CinemaHall</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[3]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JTotalMap" reference="../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>CinemaHall_SeatRow</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>CinemaHall</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[3]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>rows</role>
+        <targetType class="metaModel.JClassLink">
+          <name>SeatRow</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[4]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JSet" reference="../../../metaModel.JAssociation/target/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>SeatRow_CinemaHall</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>SeatRow</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[4]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>hall</role>
+        <targetType class="metaModel.JClassLink">
+          <name>CinemaHall</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[3]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JTotalMap" reference="../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>SeatRow_PriceCategory</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>SeatRow</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[4]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>price</role>
+        <targetType class="metaModel.JClassLink">
+          <name>PriceCategory</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[10]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JTotalMap" reference="../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>SeatRow_Seat</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>SeatRow</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[4]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>seats</role>
+        <targetType class="metaModel.JClassLink">
+          <name>Seat</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[5]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JSet" reference="../../../metaModel.JAssociation/target/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>Seat_SeatRow</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>Seat</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[5]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>row</role>
+        <targetType class="metaModel.JClassLink">
+          <name>SeatRow</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[4]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JTotalMap" reference="../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>Seat_BookingState</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>Seat</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[5]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>bookingState</role>
+        <targetType class="metaModel.JClassLink">
+          <name>BookingState</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[6]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JPartialMap" reference="../../../metaModel.JClass[10]/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>BookingState_Seat</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>BookingState</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[6]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>seat</role>
+        <targetType class="metaModel.JClassLink">
+          <name>Seat</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[5]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JTotalMap" reference="../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>BookingState_Customer</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>BookingState</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[6]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>customer</role>
+        <targetType class="metaModel.JClassLink">
+          <name>Customer</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[9]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JTotalMap" reference="../../../metaModel.JClass/attributes/metaModel.JAttributeConnector/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+    <metaModel.JAssociation>
+      <name>Customer_BookingState</name>
+      <owner class="metaModel.JUnidirectional">
+        <ownerType>
+          <name>Customer</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[9]"/>
+          </state>
+        </ownerType>
+      </owner>
+      <target class="metaModel.JConstrainedTargetConnector">
+        <role>bookings</role>
+        <targetType class="metaModel.JClassLink">
+          <name>BookingState</name>
+          <state class="metaModel.JClassLinkStateLocallyAssigned">
+            <target reference="../../../../../metaModel.JClass[6]"/>
+          </state>
+        </targetType>
+        <constraint class="metaModel.enumerations.JSet" reference="../../../metaModel.JAssociation/target/constraint"/>
+      </target>
+      <derived>false</derived>
+    </metaModel.JAssociation>
+  </relationTypes>
+  <generalisations class="set">
+    <metaModel.JGeneralisation>
+      <general>
+        <name>BookingState</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[6]"/>
+        </state>
+      </general>
+      <specific>
+        <name>Reservation</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[8]"/>
+        </state>
+      </specific>
+    </metaModel.JGeneralisation>
+    <metaModel.JGeneralisation>
+      <general>
+        <name>PriceCategory</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[10]"/>
+        </state>
+      </general>
+      <specific>
+        <name>PriceCategoryBox</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[11]"/>
+        </state>
+      </specific>
+    </metaModel.JGeneralisation>
+    <metaModel.JGeneralisation>
+      <general>
+        <name>PriceCategory</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[10]"/>
+        </state>
+      </general>
+      <specific>
+        <name>PriceCategoryServiceBox</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[12]"/>
+        </state>
+      </specific>
+    </metaModel.JGeneralisation>
+    <metaModel.JGeneralisation>
+      <general>
+        <name>BookingState</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[6]"/>
+        </state>
+      </general>
+      <specific>
+        <name>Booking</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[7]"/>
+        </state>
+      </specific>
+    </metaModel.JGeneralisation>
+    <metaModel.JGeneralisation>
+      <general>
+        <name>PriceCategory</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[10]"/>
+        </state>
+      </general>
+      <specific>
+        <name>PriceCategoryStalls</name>
+        <state class="metaModel.JClassLinkStateLocallyAssigned">
+          <target reference="../../../../../relationTypes/metaModel.JClass[13]"/>
+        </state>
+      </specific>
+    </metaModel.JGeneralisation>
+  </generalisations>
+  <operations class="set"/>
+  <exceptions class="set"/>
+</JService>
