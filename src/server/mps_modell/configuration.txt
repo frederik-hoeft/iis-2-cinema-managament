@@ -1,5 +1,5 @@
-protocolFileDirectory = C:\Users\manuele\git\MPS_Java_Framework\MDE23Gen\protocols
-javaIDEProjectDirectory = C:\Users\manuele\Documents\Projects\iis-2-cinema-managament\src\server\Server\src\main\java\IIS\Server\mps
+protocolFileDirectory = ./mps-logs
+javaIDEProjectDirectory = ../Server/src/main/java/IIS/Server/mps
 database(Yes/No) = No
 databaseURL = jdbc:mysql://localhost:3306
 databaseUser = root
