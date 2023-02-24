@@ -12,6 +12,7 @@
   <url>http://maven.apache.org</url>
   
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
 		<cglib.version>2.2.2</cglib.version>
 	</properties>
