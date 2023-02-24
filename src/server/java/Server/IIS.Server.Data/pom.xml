@@ -3,8 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>Data</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-	<name>IIS.Server.Data</name>
+  <name>IIS.Server.Data</name>
 	<url>http://maven.apache.org</url>
   <packaging>jar</packaging>
 
