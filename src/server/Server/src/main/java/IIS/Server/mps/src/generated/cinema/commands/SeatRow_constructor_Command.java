@@ -1,11 +1,11 @@
-/**--- Generated at Thu Feb 23 23:12:56 CET 2023 
+/**--- Generated at Fri Feb 24 16:52:36 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinema.commands;
 import generated.cinema.*;
 import commands.*;
 public class SeatRow_constructor_Command extends ServiceCommand<SeatRow>{
-   private static final long serialVersionUID = -2115189872L;
+   private static final long serialVersionUID = -455334469L;
    private CinemaHall hall;
    private PriceCategory price;
    private Integer  rowId;

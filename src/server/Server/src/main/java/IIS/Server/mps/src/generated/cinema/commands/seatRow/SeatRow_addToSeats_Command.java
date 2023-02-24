@@ -1,11 +1,11 @@
-/**--- Generated at Thu Feb 23 23:12:56 CET 2023 
+/**--- Generated at Fri Feb 24 16:52:36 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinema.commands.seatRow;
 import generated.cinema.*;
 import commands.*;
 public class SeatRow_addToSeats_Command extends ObjectCommand<SeatRow, Void>{
-   private static final long serialVersionUID = 1647323420L;
+   private static final long serialVersionUID = -1936458590L;
    private Seat arg;
    public SeatRow_addToSeats_Command(SeatRow receiver, Seat arg){
       super(receiver);

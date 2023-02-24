@@ -1,11 +1,11 @@
-/**--- Generated at Thu Feb 23 23:12:56 CET 2023 
+/**--- Generated at Fri Feb 24 16:52:36 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinema.commands.customer;
 import generated.cinema.*;
 import commands.*;
 public class Customer_addToBookings_Command extends ObjectCommand<Customer, Void>{
-   private static final long serialVersionUID = 866054046L;
+   private static final long serialVersionUID = 1478568356L;
    private BookingState arg;
    public Customer_addToBookings_Command(Customer receiver, BookingState arg){
       super(receiver);

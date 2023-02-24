@@ -1,11 +1,11 @@
-/**--- Generated at Thu Feb 23 23:12:56 CET 2023 
+/**--- Generated at Fri Feb 24 16:52:36 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinema.commands.movie;
 import generated.cinema.*;
 import commands.*;
 public class Movie_addToScreenings_Command extends ObjectCommand<Movie, Void>{
-   private static final long serialVersionUID = 1300865707L;
+   private static final long serialVersionUID = 1890144460L;
    private MovieScreening arg;
    public Movie_addToScreenings_Command(Movie receiver, MovieScreening arg){
       super(receiver);
