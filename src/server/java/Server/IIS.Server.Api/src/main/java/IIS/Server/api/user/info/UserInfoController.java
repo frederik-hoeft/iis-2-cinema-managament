@@ -46,7 +46,7 @@ public class UserInfoController {
         user.setId(id);
         user.setName(name);
         user.setData(data);
-         
+
         HttpHeaders headers = new HttpHeaders();
          
         ResponseEntity<TestResponse> entity = new ResponseEntity<TestResponse>(user,headers,HttpStatus.CREATED);

@@ -9,8 +9,8 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>Data</module>
-    <module>Model</module>
+    <module>Server-Data</module>
+    <module>Server-Model</module>
   </modules>
 
   <properties>
