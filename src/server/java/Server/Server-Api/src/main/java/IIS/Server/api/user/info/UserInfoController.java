@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import IIS.Server.api.user.info.requests.TestRequest;
 import IIS.Server.api.user.info.responses.TestResponse;
+import generated.cinema.Movie;
 
 @RestController
 @RequestMapping(path="/user/info", produces="application/json")

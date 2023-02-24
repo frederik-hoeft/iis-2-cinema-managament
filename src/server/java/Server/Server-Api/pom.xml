@@ -30,16 +30,16 @@
 		   <groupId>org.springframework.boot</groupId>
 		   <artifactId>spring-boot-starter-web</artifactId>
  		</dependency>
- 		<!--<dependency>
+ 		<dependency>
       		<groupId>IIS.Server</groupId>
-			<artifactId>Data</artifactId>
+			<artifactId>Server-Data</artifactId>
 			<version>${project.version}</version>
 	    </dependency>
 	    <dependency>
       		<groupId>IIS.Server</groupId>
-	      	<artifactId>Model</artifactId>
+	      	<artifactId>Server-Model</artifactId>
 	      	<version>${project.version}</version>
-	    </dependency>-->
+	    </dependency>
  
         <dependency>
 			<groupId>org.springframework.boot</groupId>
