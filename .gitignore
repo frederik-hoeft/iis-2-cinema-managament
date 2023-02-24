@@ -423,3 +423,10 @@ FodyWeavers.xsd
 
 # vs code
 .vscode
+
+# MPS 
+
+# Project exclude paths
+classes_gen/
+# Default ignored files
+workspace.xml
