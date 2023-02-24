@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
-import src.db.DBConstants;
 import src.db.connection.NoConnectionException;
 /**
  * Execution of DML Commands for a given database schema

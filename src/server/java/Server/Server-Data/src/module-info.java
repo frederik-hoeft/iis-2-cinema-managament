@@ -1,5 +1,5 @@
 module src {
-	requires java.sql;
+	requires transitive java.sql;
 	
 	exports src.db;
 	exports src.db.connection;
