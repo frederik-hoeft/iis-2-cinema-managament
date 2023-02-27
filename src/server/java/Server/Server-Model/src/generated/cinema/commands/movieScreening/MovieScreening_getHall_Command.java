@@ -1,11 +1,11 @@
-/**--- Generated at Fri Feb 24 18:32:14 CET 2023 
+/**--- Generated at Mon Feb 27 14:09:22 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinema.commands.movieScreening;
 import generated.cinema.*;
 import commands.*;
 public class MovieScreening_getHall_Command extends ObjectCommand<MovieScreening, CinemaHall>{
-   private static final long serialVersionUID = 835745093L;
+   private static final long serialVersionUID = 560075150L;
    public MovieScreening_getHall_Command(MovieScreening receiver){
       super(receiver);
    }

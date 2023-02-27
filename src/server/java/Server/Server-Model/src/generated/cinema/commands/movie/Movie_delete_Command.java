@@ -1,11 +1,11 @@
-/**--- Generated at Fri Feb 24 18:32:14 CET 2023 
+/**--- Generated at Mon Feb 27 14:09:22 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinema.commands.movie;
 import generated.cinema.*;
 import commands.*;
 public class Movie_delete_Command extends ObjectCommand<Movie, Void>{
-   private static final long serialVersionUID = -1200774051L;
+   private static final long serialVersionUID = -604268257L;
    public Movie_delete_Command(Movie receiver){
       super(receiver);
    }
