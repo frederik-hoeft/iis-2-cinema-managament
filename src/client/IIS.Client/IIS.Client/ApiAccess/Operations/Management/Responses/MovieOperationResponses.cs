@@ -1,7 +1,7 @@
 ﻿using IIS.Client.ApiAccess.ModelValidation;
 
 namespace IIS.Client.ApiAccess.Operations.Management.Responses;
-
+    
 internal record CreateMovieResponse(bool Success): IApiResponse;
 
 internal record DeleteMovieResponse(bool Success): IApiResponse;
