@@ -1,16 +1,19 @@
-﻿using System.CommandLine;
+﻿using IIS.Client.ApiAccess.Network;
+using IIS.Client.Cli.Commands.Management.Create;
+using IIS.Client.Cli.Extensions;
+using System.CommandLine;
 
 namespace IIS.Client.Cli.Commands.Management;
 
-internal class ManagementCommand : CommandBase<ManagementCommand, ManagementCommandHandler>, ICliCommandBuilder
+internal class ManagementCommand : CommandBase<ManagementCommand, ManagementCommandHandler>
 {
-    public Command Build()
+    public ManagementCommand(ApiContext apiContext) : base(apiContext)
     {
-        Command command = new("manage", "The admin management API to create, update, or delete elements of the cinema infrastructure.")
-        {
-            new Argument<ManagementOperationTarget>("target", "The element of the cinema infrastructure to be managed."),
-            new Argument<ManagementOperation>("operation", () => ManagementOperation.Show, "What to do with the target.")
-        };
+    }
+
+    public override Command Build()
+    {
+        Command command = new("management", "The admin management API to create, update, or delete elements of the cinema infrastructure.");
         return RegisterHandler(this, command);
     }
 }

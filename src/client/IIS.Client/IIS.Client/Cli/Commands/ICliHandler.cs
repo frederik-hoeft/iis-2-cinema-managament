@@ -3,13 +3,13 @@ using System.CommandLine.Invocation;
 
 namespace IIS.Client.Cli.Commands;
 
-internal interface ICliHandler<TCommand> where TCommand : ICliCommandBuilder
+public interface ICliHandler<TCommand> where TCommand : ICliCommand
 {
     TCommand Command { get; }
 }
 
-internal interface ICliHandler<TCommand, THandler> : ICliHandler<TCommand>
-    where TCommand : ICliCommandBuilder 
+public interface ICliHandler<TCommand, THandler> : ICliHandler<TCommand>
+    where TCommand : ICliCommand 
     where THandler : class, ICliHandler<TCommand, THandler> 
 {
     void RegisterOn(Command command);

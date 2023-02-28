@@ -1,26 +1,19 @@
 ﻿using IIS.Client.ApiAccess.Network;
+using IIS.Client.Cli.Commands.Management;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
-internal class MovieOperation : IManagementOperation
+internal class MovieOperation : OperationBase, IManagementOperation
 {
-    public static void Create(ApiContext apiContext)
+    public MovieOperation(ApiContext apiContext) : base(apiContext)
     {
-        throw new NotImplementedException();
     }
 
-    public static void Delete(ApiContext apiContext)
-    {
-        throw new NotImplementedException();
-    }
+    public bool CanHandle(ManagementOperationTarget target) =>
+        target is ManagementOperationTarget.Movies;
 
-    public static void Update(ApiContext apiContext)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static void ShowAll(ApiContext apiContext)
-    {
-        throw new NotImplementedException();
-    }
+    public void Create() => throw new NotImplementedException();
+    public void Delete() => throw new NotImplementedException();
+    public void Read() => throw new NotImplementedException();
+    public void Update() => throw new NotImplementedException();
 }

@@ -1,10 +1,15 @@
-﻿namespace IIS.Client.ApiAccess.Operations.User;
+﻿using IIS.Client.ApiAccess.Network;
 
-internal abstract class UserOperationBase
+namespace IIS.Client.ApiAccess.Operations.User;
+
+internal abstract class UserOperationBase : OperationBase
 {
-    protected string? UserIdentifier { get; }
+    protected UserOperationBase(ApiContext apiContext, string? userIdentity) : base(apiContext)
+    {
+        UserIdentity = userIdentity;
+    }
+
+    protected string? UserIdentity { get; }
 
     protected virtual string ApiPath { get; } = "user";
-
-    protected UserOperationBase(string? userIdentifier) => UserIdentifier = userIdentifier;
 }
