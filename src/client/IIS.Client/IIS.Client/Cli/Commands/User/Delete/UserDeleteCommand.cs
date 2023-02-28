@@ -14,9 +14,10 @@ internal class UserDeleteCommand : UserSubCommandBase<UserDeleteCommand, UserDel
 
     public override Command Build()
     {
-        // TODO
-        Command command = new("delete", "TODO");
-        Target = new Argument<UserDeleteCommandTarget>("target", () => UserDeleteCommandTarget.User, "TODO");
+        Command command = new("delete", "Deletes an existing instance of the specified <target>.");
+        Target = new Argument<UserDeleteCommandTarget>("target", () => UserDeleteCommandTarget.User, "The thing to delete.");
+        command.AddAlias("-d");
+        command.AddAlias("remove");
         command.AddArgument(Target);
         return RegisterHandler(this, command);
     }

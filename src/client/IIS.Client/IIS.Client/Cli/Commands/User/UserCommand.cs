@@ -13,8 +13,9 @@ internal class UserCommand : CommandBase<UserCommand, UserCommandHandler>
 
     public override Command Build()
     {
-        Command command = new("user", "perform a user operation.");
-        UserIdentity = new Option<string?>("--as-identity", () => null, "specify the identity (email address) of the existing user with which to perform the operation.");
+        Command command = new("customer", "Perform an operation as a cinema customer.");
+        command.AddAlias("user");
+        UserIdentity = new Option<string?>(new string[] { "--as-identity" , "-i" }, () => null, "Specifies the identity (email address) of the existing user with which to perform the operation.");
         command.AddGlobalOption(UserIdentity);
         return RegisterHandler(this, command);
     }

@@ -13,8 +13,9 @@ internal class ManagementDeleteCommand : ManagementSubCommandBase<ManagementDele
 
     public override Command Build()
     {
-        // TODO
-        Command command = new("delete", "TODO");
+        Command command = new("delete", "Deletes the specified <target> from the cinema infrastructure.");
+        command.AddAlias("-d");
+        command.AddAlias("remove");
         AddDefaultArguments(command);
         return RegisterHandler(this, command);
     }

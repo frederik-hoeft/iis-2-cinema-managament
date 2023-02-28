@@ -13,9 +13,12 @@ internal class UserReadCommand : UserSubCommandBase<UserReadCommand, UserReadCom
 
     public override Command Build()
     {
-        // TODO
-        Command command = new("read", "TODO");
-        Target = new Argument<UserReadCommandTarget>("target", () => UserReadCommandTarget.Users, "TODO");
+        Command command = new("list", "Lists all existing instances of the specified <target>.");
+        command.AddAlias("-l");
+        command.AddAlias("show");
+        command.AddAlias("view");
+        command.AddAlias("display");
+        Target = new Argument<UserReadCommandTarget>("target", () => UserReadCommandTarget.Users, "The things to be listed");
         command.AddArgument(Target);
         return RegisterHandler(this, command);
     }

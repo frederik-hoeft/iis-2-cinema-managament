@@ -11,12 +11,13 @@ internal class AdminReadCommand : CommandBase<AdminReadCommand, AdminReadCommand
 
     public override Command Build()
     {
-        Command command = new("read", "Displays data regarding the specified <target>.")
+        Command command = new("list", "Displays data regarding the specified <target>.")
         {
             new Argument<AdminReadCommandTarget>("target", () => AdminReadCommandTarget.Revenue, "Inspect the revenue made from a movie or movie screening.")
         };
-        command.AddAlias("-r");
+        command.AddAlias("-l");
         command.AddAlias("show");
+        command.AddAlias("view");
         command.AddAlias("display");
         return RegisterHandler(this, command);
     }

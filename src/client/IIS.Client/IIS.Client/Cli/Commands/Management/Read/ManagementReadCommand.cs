@@ -9,12 +9,15 @@ internal class ManagementReadCommand : ManagementSubCommandBase<ManagementReadCo
     {
     }
 
-    static string IManagementOperationCommand.OperationVerbPassive => "be read";
+    static string IManagementOperationCommand.OperationVerbPassive => "be listed";
 
     public override Command Build()
     {
-        // TODO:
-        Command command = new("read", "TODO");
+        Command command = new("list", "Lists the specified by <target> instances of the cinema infrastructure.");
+        command.AddAlias("-l");
+        command.AddAlias("show");
+        command.AddAlias("view");
+        command.AddAlias("display");
         AddDefaultArguments(command);
         return RegisterHandler(this, command);
     }

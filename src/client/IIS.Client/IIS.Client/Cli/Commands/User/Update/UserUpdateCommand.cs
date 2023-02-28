@@ -13,10 +13,9 @@ internal class UserUpdateCommand : UserSubCommandBase<UserUpdateCommand, UserUpd
 
     public override Command Build()
     {
-        // TODO
-        Command command = new("update", "TODO");
-        command.AddAlias("upgrade");
-        Target = new Argument<UserUpdateCommandTarget>("target", () => UserUpdateCommandTarget.Reservation, "TODO");
+        Command command = new("upgrade", "Upgrades the specified reservation to a booking.");
+        command.AddAlias("update");
+        Target = new Argument<UserUpdateCommandTarget>("target", () => UserUpdateCommandTarget.Reservation, "The resevation to upgrade.");
         command.AddArgument(Target);
         return RegisterHandler(this, command);
     }

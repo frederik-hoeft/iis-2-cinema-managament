@@ -2,6 +2,7 @@
 using System.CommandLine;
 
 namespace IIS.Client.Cli.Commands.User.Create;
+
 internal class UserCreateCommand : UserSubCommandBase<UserCreateCommand, UserCreateCommandHandler>
 {
     public Argument<UserCreateCommandTarget> Target { get; private set; } = null!;
@@ -12,9 +13,10 @@ internal class UserCreateCommand : UserSubCommandBase<UserCreateCommand, UserCre
 
     public override Command Build()
     {
-        // TODO
-        Command command = new("create", "TODO");
-        Target = new Argument<UserCreateCommandTarget>("target", () => UserCreateCommandTarget.User, "TODO");
+        Command command = new("create", "Creates a new instance of the specified <target>.");
+        command.AddAlias("-c");
+        command.AddAlias("add");
+        Target = new Argument<UserCreateCommandTarget>("target", () => UserCreateCommandTarget.User, "The thing to create.");
         command.AddArgument(Target);
         return RegisterHandler(this, command);
     }

@@ -13,8 +13,9 @@ internal class ManagementCreateCommand : ManagementSubCommandBase<ManagementCrea
 
     public override Command Build()
     {
-        // TODO
-        Command command = new("create", "TODO");
+        Command command = new("create", "Adds a new instance of <target> to the cinema infrastructure.");
+        command.AddAlias("-c");
+        command.AddAlias("add");
         AddDefaultArguments(command);
         return RegisterHandler(this, command);
     }

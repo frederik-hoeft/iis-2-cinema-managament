@@ -1,4 +1,7 @@
-﻿using IIS.Client.Cli.Commands.User.Create;
+﻿using IIS.Client.Cli.Commands.User.AliasBook;
+using IIS.Client.Cli.Commands.User.AliasCancel;
+using IIS.Client.Cli.Commands.User.AliasReserve;
+using IIS.Client.Cli.Commands.User.Create;
 using IIS.Client.Cli.Commands.User.Delete;
 using IIS.Client.Cli.Commands.User.Read;
 using IIS.Client.Cli.Commands.User.Upgrade;
@@ -25,5 +28,12 @@ internal class UserCommandHandler : HandlerBase<UserCommand>, ICliHandler<UserCo
         command.RegisterSubCommand(update);
         ICliCommand delete = new UserDeleteCommand(Command.ApiContext, Command.UserIdentity);
         command.RegisterSubCommand(delete);
+
+        ICliCommand book = new UserBookAlias(Command.ApiContext, Command.UserIdentity);
+        command.RegisterSubCommand(book);
+        ICliCommand reserve = new UserReserveAlias(Command.ApiContext, Command.UserIdentity);
+        command.RegisterSubCommand(reserve);
+        ICliCommand cancel = new UserCancelAlias(Command.ApiContext, Command.UserIdentity);
+        command.RegisterSubCommand(cancel);
     }
 }

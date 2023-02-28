@@ -9,6 +9,10 @@ using IIS.Client.ApiAccess.Network;
 using IIS.Client.ApiAccess;
 using IIS.Client.Cli.Commands;
 
+Version? clientVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+Console.WriteLine($"Welcome to the IIS cinema client v{clientVersion}!");
+
 const string CFG_FILE_NAME = "config.json";
 
 Config? config;
@@ -20,7 +24,7 @@ _ = config ?? throw new FormatException($"'{CFG_FILE_NAME}' has an invalid forma
 
 ApiContext apiContext = RemoteApi.CreateApiContext(config);
 
-RootCommand rootCommand = new($"The IIS cinema client v{Assembly.GetExecutingAssembly().GetName().Version}");
+RootCommand rootCommand = new($"The IIS cinema client v{clientVersion}");
 
 ICliCommand management = new ManagementCommand(apiContext);
 rootCommand.RegisterSubCommand(management);

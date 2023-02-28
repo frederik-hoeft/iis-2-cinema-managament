@@ -13,8 +13,8 @@ internal class ManagementUpdateCommand : ManagementSubCommandBase<ManagementUpda
 
     public override Command Build()
     {
-        // TODO:
-        Command command = new("update", "TODO");
+        Command command = new("update", "Updates one or more properties of a single instance of the specified <target> component in the cinema infrastructure.");
+        command.AddAlias("-u");
         AddDefaultArguments(command);
         return RegisterHandler(this, command);
     }
