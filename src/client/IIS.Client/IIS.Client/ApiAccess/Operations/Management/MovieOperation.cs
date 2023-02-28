@@ -9,7 +9,7 @@ using IIS.Client.Cli.Utils;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
-internal class MovieOperation : OperationBase, IManagementOperation
+internal class MovieOperation : ManagementOperationBase, IManagementOperation
 {
     protected override Uri Uri => base.Uri.CombineWith("movie");
 
