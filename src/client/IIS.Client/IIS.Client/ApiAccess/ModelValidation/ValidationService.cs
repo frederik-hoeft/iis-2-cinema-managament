@@ -1,20 +1,34 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Text;
 
-namespace IIS.Client.ApiAccess;
+namespace IIS.Client.ApiAccess.ModelValidation;
 
 internal static class ValidationService
 {
-    public static bool ValidateRecord<T>(T model) where T : IEquatable<T>
+    public static void AssertIsValid<T>(T record) where T : IEquatable<T>
     {
-        _ = model ?? throw new ArgumentNullException(nameof(model));
+        if (!ValidateRecord(record, out List<string>? errors))
+        {
+            StringBuilder bobTheBuilder = new();
+            foreach (string error in errors)
+            {
+                bobTheBuilder.AppendLine(error);
+            }
+            throw new ApiRequestValidationException(bobTheBuilder.ToString());
+        }
+    }
+
+    public static bool ValidateRecord<T>(T record, [NotNullWhen(false)] out List<string>? errors) where T : IEquatable<T>
+    {
+        _ = record ?? throw new ArgumentNullException(nameof(record));
 
         // yes this is incredibly dumb... :P
         // when using validation attributes on record types they become parameter attributes (in the ctor) causing
         // them to be overlooked by the framework.
         // therefore we must manually validate them agains matching *property* names.
-        List<(PropertyInfo MatchingProperty, List<ValidationAttribute> Attributes)> attributeData = model.GetType()
+        List<(PropertyInfo MatchingProperty, List<ValidationAttribute> Attributes)> attributeData = record.GetType()
             .GetConstructors()
             .Select(c => c
                 .GetParameters()
@@ -37,25 +51,26 @@ internal static class ValidationService
 
         bool success = true;
 
+        errors = null;
+
         if (attributeData.Count > 0)
         {
             List<ValidationResult> validationResults = new(0);
             foreach ((PropertyInfo MatchingProperty, List<ValidationAttribute> Attributes) in attributeData)
             {
-                object? value = MatchingProperty.GetValue(model);
+                object? value = MatchingProperty.GetValue(record);
                 if (!Validator.TryValidateValue(value!, _context, validationResults, Attributes))
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    errors ??= new List<string>();
                     foreach (ValidationResult validationResult in validationResults)
                     {
-                        Console.WriteLine(validationResult.ErrorMessage?.Replace(_contextDummyTypeName, MatchingProperty.Name) + $" Value was '{value}'.");
+                        errors.Add(validationResult.ErrorMessage?.Replace(_contextDummyTypeName, MatchingProperty.Name) + $" Value was '{value}'.");
                     }
                     success = false;
                     validationResults.Clear();
                 }
             }
         }
-        Console.ResetColor();
         return success;
     }
 

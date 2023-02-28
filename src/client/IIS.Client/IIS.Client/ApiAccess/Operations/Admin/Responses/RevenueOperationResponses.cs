@@ -1,5 +1,7 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Admin.Requests;
+﻿using IIS.Client.ApiAccess.ModelValidation;
 
-internal record GetMovieRevenueResponse(bool Success);
+namespace IIS.Client.ApiAccess.Operations.Admin.Requests;
 
-internal record GetScreeningRevenueResponse(bool Success);
+internal record GetMovieRevenueResponse(bool Success, decimal TotalRevenue) : IApiResponse;
+
+internal record GetScreeningRevenueResponse(bool Success, decimal TotalRevenue) : IApiResponse;

@@ -8,10 +8,11 @@ using System.Text.Json;
 using IIS.Client.ApiAccess.Network;
 using IIS.Client.ApiAccess;
 using IIS.Client.Cli.Commands;
+using IIS.Client.Cli.IO;
 
 Version? clientVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
-Console.WriteLine($"Welcome to the IIS cinema client v{clientVersion}!");
+Stdout.WriteLine($"Welcome to the IIS cinema client v{clientVersion}!");
 
 const string CFG_FILE_NAME = "config.json";
 

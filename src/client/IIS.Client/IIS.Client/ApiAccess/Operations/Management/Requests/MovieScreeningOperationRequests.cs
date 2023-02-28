@@ -1,7 +1,21 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Management.Requests;
+﻿using System.ComponentModel.DataAnnotations;
 
-internal record CreateScreeningRequest(int MovieId, int CinemaHallId);
+namespace IIS.Client.ApiAccess.Operations.Management.Requests;
 
-internal record DeleteScreeningRequest(int ScreeningId);
+internal record CreateMovieScreeningRequest
+(
+    [Required][Range(1, int.MaxValue)] int MovieId, 
+    [Required][Range(1, int.MaxValue)] int CinemaHallId, 
+    [Required] string Name
+);
 
-internal record UpdateScreeningRequest(int ScreeningId, int MovieId, int CinemaHallId);
+internal record DeleteMovieScreeningRequest
+(
+    [Required][Range(1, int.MaxValue)] int ScreeningId
+);
+
+internal record UpdateMovieScreeningRequest
+(
+    [Required][Range(1, int.MaxValue)] int ScreeningId,
+    [Required] string Name
+);
