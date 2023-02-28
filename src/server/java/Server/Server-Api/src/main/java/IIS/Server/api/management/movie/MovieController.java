@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import IIS.Server.api.management.movie.requests.*;
 import IIS.Server.api.management.movie.responses.*;
+import IIS.Server.management.AsyncWorkload;
+import IIS.Server.management.GenericAsyncResult;
+import IIS.Server.management.PersistencyService;
 
 @RestController
 @RequestMapping(path="/management/movie", produces="application/json")
@@ -18,11 +21,16 @@ import IIS.Server.api.management.movie.responses.*;
 public class MovieController {
     
     @GetMapping("/list")
-    public ResponseEntity<GetMoviesResponse> getMovies() {
-
-        GetMoviesResponse response = new GetMoviesResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
+    public ResponseEntity<GetMoviesResponse> getMovies() 
+    {
+        AsyncWorkload<ResponseEntity<GetMoviesResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+        {
+            GetMoviesResponse response = new GetMoviesResponse();
+            response.setSuccess(true);
+            return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
+        });
+        GenericAsyncResult<ResponseEntity<GetMoviesResponse>> result = workload.getResultAsync().join();
+        return result.getValue();
     }
 
     @PostMapping("/create")
