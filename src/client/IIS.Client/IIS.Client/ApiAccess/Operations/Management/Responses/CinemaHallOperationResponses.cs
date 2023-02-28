@@ -1,9 +1,13 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Management.Responses;
+﻿using IIS.Client.ApiAccess.ModelValidation;
 
-internal record CreateCinemaHallResponse(bool Success);
+namespace IIS.Client.ApiAccess.Operations.Management.Responses;
 
-internal record DeleteCinemaHallResponse(bool Success);
+internal record CreateCinemaHallResponse(bool Success): IApiResponse;
 
-internal record GetCinemaHallsResponse(bool Success);
+internal record DeleteCinemaHallResponse(bool Success): IApiResponse;
 
-internal record UpdateCinemaHallResponse(bool Success);
+internal record GetCinemaHallsResponseEntry(int Id, string Name);
+
+internal record GetCinemaHallsResponse(bool Success, GetCinemaHallsResponseEntry[] CinemaHalls) : IApiResponse;
+
+internal record UpdateCinemaHallResponse(bool Success) : IApiResponse;

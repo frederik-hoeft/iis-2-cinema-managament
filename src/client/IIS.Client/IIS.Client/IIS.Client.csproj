@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ApiAccess\Operations\Admin\Responses\RevenueOperationResponses.cs~RF154c57c.TMP" />
+    <None Remove="ApiAccess\Operations\Management\Requests\SeatOperationRequests.cs~RF1c47c9b.TMP" />
+    <None Remove="ApiAccess\Operations\Management\Requests\SeatRowOperationRequests.cs~RF1b7d809.TMP" />
+    <None Remove="ApiAccess\Operations\User\Responses\AccountOperationResponses.cs~RF1d03b14.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>

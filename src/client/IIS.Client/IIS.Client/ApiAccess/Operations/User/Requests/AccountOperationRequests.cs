@@ -4,9 +4,9 @@ namespace IIS.Client.ApiAccess.Operations.User.Requests;
 
 internal record UserCreateAccountRequest
 (
+    [Required][EmailAddress] string Email,
     [Required] string FirstName,
-    [Required] string LastName,
-    [EmailAddress] string Email
+    [Required] string LastName
 );
 
 internal record UserDeleteAccountRequest
@@ -14,7 +14,14 @@ internal record UserDeleteAccountRequest
     [Required][EmailAddress] string Email
 );
 
-internal record UserShowAccountRequest
+internal record GetUserAccountRequest
 (
-    [EmailAddress] string? Email
+    [Required][EmailAddress] string Email
+);
+
+internal record UserUpdateAccountRequest
+(
+    [Required][EmailAddress] string Email,
+    [Required] string FirstName,
+    [Required] string LastName
 );

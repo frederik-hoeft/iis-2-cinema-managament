@@ -10,7 +10,7 @@ internal readonly struct InputOptionPrompt<TOption> : IInputPrompt<TOption>
 
     private readonly string _prompt;
 
-    public InputOptionPrompt(IReadOnlyList<TOption> options, string? prompt)
+    public InputOptionPrompt(IReadOnlyList<TOption> options, string? prompt = null)
     {
         Options = options;
         _prompt = prompt ?? "Select one of the following options:";

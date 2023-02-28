@@ -1,9 +1,14 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Management.Responses;
+﻿using IIS.Client.ApiAccess.ModelValidation;
+using IIS.Client.ApiAccess.Operations.Management.Requests;
 
-internal record CreateSeatRowResponse(bool Success);
+namespace IIS.Client.ApiAccess.Operations.Management.Responses;
 
-internal record DeleteSeatRowResponse(bool Success);
+internal record CreateSeatRowResponse(bool Success) : IApiResponse;
 
-internal record GetSeatRowsResponse(bool Success);
+internal record DeleteSeatRowResponse(bool Success) : IApiResponse;
 
-internal record UpdateSeatRowResponse(bool Success);
+internal record GetSeatRowsResponseEntry(int Id, string CinemaHallName, string Name, PriceCategory PriceCategory);
+
+internal record GetSeatRowsResponse(bool Success, GetSeatRowsResponseEntry[] Rows) : IApiResponse;
+
+internal record UpdateSeatRowResponse(bool Success) : IApiResponse;

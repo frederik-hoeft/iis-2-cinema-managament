@@ -1,7 +1,9 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Management.Requests;
+﻿using System.ComponentModel.DataAnnotations;
 
-internal record CreateCinemaHallRequest();
+namespace IIS.Client.ApiAccess.Operations.Management.Requests;
 
-internal record DeleteCinemaHallRequest(int CinemaHallId);
+internal record CreateCinemaHallRequest([Required] string CinemaHallName);
 
-internal record UpdateCinemaHallRequest(int CinemaHallId);
+internal record DeleteCinemaHallRequest([Required] int CinemaHallId);
+
+internal record UpdateCinemaHallRequest([Required] int CinemaHallId, [Required] string NewCinemaHallName);
