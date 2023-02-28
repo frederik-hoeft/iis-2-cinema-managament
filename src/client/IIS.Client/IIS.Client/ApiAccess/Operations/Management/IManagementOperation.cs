@@ -1,14 +1,17 @@
 ﻿using IIS.Client.ApiAccess.Network;
+using IIS.Client.Cli.Commands.Management;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
-internal interface IManagementOperation
+public interface IManagementOperation
 {
-    static abstract void Create(ApiContext apiContext);
+    void Create();
 
-    static abstract void Delete(ApiContext apiContext);
+    void Delete();
 
-    static abstract void Update(ApiContext apiContext);
+    void Update();
 
-    static abstract void ShowAll(ApiContext apiContext);
+    void Read();
+
+    bool CanHandle(ManagementOperationTarget target);
 }

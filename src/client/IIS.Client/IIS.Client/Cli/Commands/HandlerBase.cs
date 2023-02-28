@@ -1,6 +1,6 @@
 ﻿namespace IIS.Client.Cli.Commands;
 
-internal abstract class HandlerBase<TCommand> : ICliHandler<TCommand> where TCommand : ICliCommandBuilder
+public abstract class HandlerBase<TCommand> : ICliHandler<TCommand> where TCommand : ICliCommand
 {
     public TCommand Command { get; }
 

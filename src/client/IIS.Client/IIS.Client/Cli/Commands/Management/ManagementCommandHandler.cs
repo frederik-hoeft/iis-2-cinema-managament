@@ -1,13 +1,11 @@
-﻿using IIS.Client.ApiAccess.Network;
-using IIS.Client.ApiAccess.Operations;
-using IIS.Client.ApiAccess.Operations.Management;
+﻿using IIS.Client.Cli.Commands.Management.Create;
+using IIS.Client.Cli.Commands.Management.Delete;
+using IIS.Client.Cli.Commands.Management.Read;
+using IIS.Client.Cli.Commands.Management.Update;
+using IIS.Client.Cli.Extensions;
 using System.CommandLine;
-using System.CommandLine.NamingConventionBinder;
-using System.IO.Pipes;
 
 namespace IIS.Client.Cli.Commands.Management;
-
-using static CommonOperationProvider;
 
 internal class ManagementCommandHandler : HandlerBase<ManagementCommand>, ICliHandler<ManagementCommand, ManagementCommandHandler>
 {
@@ -15,22 +13,17 @@ internal class ManagementCommandHandler : HandlerBase<ManagementCommand>, ICliHa
     {
     }
 
-    public void RegisterOn(Command command) =>
-        command.Handler = CommandHandler.Create<ManagementOperationTarget, ManagementOperation>(Handle);
-
-    private void Handle(ManagementOperationTarget target, ManagementOperation operation)
-    {
-        RemoteOperation remoteOperation = target switch
-        {
-            ManagementOperationTarget.Movies => ManagementDispatch<MovieOperation>.Parse(operation),
-            ManagementOperationTarget.Screenings => ManagementDispatch<MovieScreeningOperation>.Parse(operation),
-            ManagementOperationTarget.Rooms => ManagementDispatch<CinemaHallOperation>.Parse(operation),
-            ManagementOperationTarget.Rows => ManagementDispatch<SeatRowOperation>.Parse(operation),
-            ManagementOperationTarget.Seats => ManagementDispatch<SeatOperation>.Parse(operation),
-            _ => Fail($"Undefined management target: '{target}'")
-        };
-        RemoteApi.Execute(remoteOperation);
-    }
-
     public static ManagementCommandHandler Create(ManagementCommand command) => new(command);
+
+    public void RegisterOn(Command command)
+    {
+        ICliCommand create = new ManagementCreateCommand(Command.ApiContext);
+        command.RegisterSubCommand(create);
+        ICliCommand read = new ManagementReadCommand(Command.ApiContext);
+        command.RegisterSubCommand(read);
+        ICliCommand update = new ManagementUpdateCommand(Command.ApiContext);
+        command.RegisterSubCommand(update);
+        ICliCommand delete = new ManagementDeleteCommand(Command.ApiContext);
+        command.RegisterSubCommand(delete);
+    }
 }

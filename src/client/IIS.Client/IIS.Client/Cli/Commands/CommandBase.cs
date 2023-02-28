@@ -1,15 +1,13 @@
-﻿using System.CommandLine;
+﻿using IIS.Client.ApiAccess.Network;
+using System.CommandLine;
 
 namespace IIS.Client.Cli.Commands;
 
-internal class CommandBase<TCommand, THandler>
-    where TCommand : CommandBase<TCommand, THandler>, ICliCommandBuilder
-    where THandler : class, ICliHandler<TCommand, THandler>
+public abstract class CommandBase : ICliCommand
 {
-    protected static Command RegisterHandler(TCommand cliCommand, Command command)
-    {
-        THandler handler = THandler.Create(cliCommand);
-        handler.RegisterOn(command);
-        return command;
-    }
+    public ApiContext ApiContext { get; }
+
+    protected CommandBase(ApiContext apiContext) => ApiContext = apiContext;
+
+    public abstract Command Build();
 }

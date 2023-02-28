@@ -3,21 +3,22 @@ using IIS.Client.ApiAccess.Network.Extensions;
 using IIS.Client.ApiAccess.Operations.User.Requests;
 using IIS.Client.ApiAccess.Operations.User.Responses;
 using IIS.Client.Cli.Utils;
-using System.ComponentModel.DataAnnotations;
-using System;
 using System.Net.Http.Json;
 
 namespace IIS.Client.ApiAccess.Operations.User;
 
-internal class AccountOperation : UserOperationBase
+internal class UserAccountOperation : UserOperationBase, IUserOperationFactory<UserAccountOperation>
 {
-    public AccountOperation(string? userIdentifier) : base(userIdentifier)
+    private UserAccountOperation(ApiContext apiContext, string? userIdentity) : base(apiContext, userIdentity)
     {
     }
 
-    public void Register(ApiContext apiContext)
+    public static UserAccountOperation Create(ApiContext apiContext, string? userIdentity) => 
+        new(apiContext, userIdentity);
+
+    public void Register()
     {
-        string? userIdentifier = UserIdentifier;
+        string? userIdentifier = UserIdentity;
         if (string.IsNullOrEmpty(userIdentifier))
         {
             userIdentifier = InputProvider.RequestValueFor("email");
@@ -30,15 +31,15 @@ internal class AccountOperation : UserOperationBase
             return;
         }
 
-        Uri userApi = apiContext.ApiBase.CombineWith(ApiPath).CombineWith("account");
+        Uri userApi = ApiContext.ApiBase.CombineWith(ApiPath).CombineWith("account");
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, userApi.CombineWith("create"));
         requestMessage.Content = JsonContent.Create(request);
-        using HttpResponseMessage responseMessage = apiContext.HttpClient.Send(requestMessage);
+        using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         UserCreateAccountResponse? response = responseMessage.Content.ReadFromJson<UserCreateAccountResponse>();
         Console.WriteLine($"Success: {response?.Success is true}");
     }
 
-    public void Delete(ApiContext apiContext) => throw new NotImplementedException();
+    public void Delete() => throw new NotImplementedException();
 
-    public void Show(ApiContext apiContext) => throw new NotImplementedException();
+    public void Show() => throw new NotImplementedException();
 }

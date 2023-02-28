@@ -1,16 +1,17 @@
-﻿using System.CommandLine;
+﻿using IIS.Client.ApiAccess.Network;
+using System.CommandLine;
 
 namespace IIS.Client.Cli.Commands.Admin;
 
-internal class AdminCommand : CommandBase<AdminCommand, AdminCommandHandler>, ICliCommandBuilder
+internal class AdminCommand : CommandBase<AdminCommand, AdminCommandHandler>, ICliCommand
 {
-    public Command Build()
+    public AdminCommand(ApiContext apiContext) : base(apiContext)
     {
-        Command command = new("admin", "The admin API to perform operational tasks like inspecting revenue.")
-        {
-            new Argument<AdminOperationTarget>("target", "The target of the operational task."),
-            new Argument<AdminOperation>("operation", "The operational task to perform on the target.")
-        };
+    }
+
+    public override Command Build()
+    {
+        Command command = new("admin", "The admin API to perform operational tasks like inspecting revenue.");
         return RegisterHandler(this, command);
     }
 }

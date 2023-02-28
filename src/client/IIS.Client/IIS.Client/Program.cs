@@ -7,6 +7,11 @@ using IIS.Client.Cli.Commands.Admin;
 using System.Text.Json;
 using IIS.Client.ApiAccess.Network;
 using IIS.Client.ApiAccess;
+using IIS.Client.Cli.Commands;
+
+Version? clientVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+Console.WriteLine($"Welcome to the IIS cinema client v{clientVersion}!");
 
 const string CFG_FILE_NAME = "config.json";
 
@@ -16,12 +21,16 @@ using (Stream configStream = File.OpenRead(CFG_FILE_NAME))
     config = JsonSerializer.Deserialize<Config>(configStream);
 }
 _ = config ?? throw new FormatException($"'{CFG_FILE_NAME}' has an invalid format and could not be read!");
-RemoteApi.LoadConfig(config);
 
-RootCommand rootCommand = new($"The IIS cinema client v{Assembly.GetExecutingAssembly().GetName().Version}");
-rootCommand
-    .Register<ManagementCommand>()
-    .Register<UserCommand>()
-    .Register<AdminCommand>();
+ApiContext apiContext = RemoteApi.CreateApiContext(config);
+
+RootCommand rootCommand = new($"The IIS cinema client v{clientVersion}");
+
+ICliCommand management = new ManagementCommand(apiContext);
+rootCommand.RegisterSubCommand(management);
+ICliCommand user = new UserCommand(apiContext);
+rootCommand.RegisterSubCommand(user);
+ICliCommand admin = new AdminCommand(apiContext);
+rootCommand.RegisterSubCommand(admin);
 
 return rootCommand.Invoke(args);

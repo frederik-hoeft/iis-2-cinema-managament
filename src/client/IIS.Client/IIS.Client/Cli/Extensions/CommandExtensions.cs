@@ -5,7 +5,7 @@ namespace IIS.Client.Cli.Extensions;
 
 internal static class CommandExtensions
 {
-    public static Command Register<T>(this Command root) where T : ICliCommandBuilder, new()
+    public static Command RegisterSubCommand<T>(this Command root) where T : ICliCommand, new()
     {
         T commandBuilder = new();
         Command command = commandBuilder.Build();
@@ -13,7 +13,7 @@ internal static class CommandExtensions
         return root;
     }
 
-    public static Command Register<T>(this Command root, T commandBuilder) where T : ICliCommandBuilder
+    public static Command RegisterSubCommand<T>(this Command root, T commandBuilder) where T : ICliCommand
     {
         Command command = commandBuilder.Build();
         root.AddCommand(command);
