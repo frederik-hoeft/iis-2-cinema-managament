@@ -19,7 +19,6 @@ internal static class InputProvider
             input = inputPrompt.RequestInput();
 
         } while (input is null || !regex.IsMatch(input));
-        
         return input;
     }
 }
