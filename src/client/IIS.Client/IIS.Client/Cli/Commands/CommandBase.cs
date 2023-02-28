@@ -11,19 +11,3 @@ public abstract class CommandBase : ICliCommand
 
     public abstract Command Build();
 }
-
-public abstract class CommandBase<TCommand, THandler> : CommandBase
-    where TCommand : CommandBase<TCommand, THandler>
-    where THandler : class, ICliHandler<TCommand, THandler>
-{
-    protected CommandBase(ApiContext apiContext) : base(apiContext)
-    {
-    }
-
-    protected static Command RegisterHandler(TCommand cliCommand, Command command)
-    {
-        THandler handler = THandler.Create(cliCommand);
-        handler.RegisterOn(command);
-        return command;
-    }
-}
