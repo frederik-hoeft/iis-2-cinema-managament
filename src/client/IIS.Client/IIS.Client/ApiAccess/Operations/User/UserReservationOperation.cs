@@ -51,7 +51,7 @@ internal class UserReservationOperation : UserBookingOperationBase, IUserOperati
         else
         {
             GetUserReservationsRequest request = new(userIdentifier!);
-            using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("get-reservation"));
+            using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("get-reservations"));
             requestMessage.Content = JsonContent.Create(request);
             using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
             GetUserReservationsResponse? response = responseMessage.Content.ReadFromJson<GetUserReservationsResponse>();
@@ -72,7 +72,7 @@ internal class UserReservationOperation : UserBookingOperationBase, IUserOperati
             userIdentifier = InputProvider.RequestStringFor("email");
         }
         GetUserReservationsRequest listRequest = new(userIdentifier!);
-        using HttpRequestMessage listRequestMessage = new(HttpMethod.Post, Uri.CombineWith("get-reservation"));
+        using HttpRequestMessage listRequestMessage = new(HttpMethod.Post, Uri.CombineWith("get-reservations"));
         listRequestMessage.Content = JsonContent.Create(listRequest);
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
         GetUserReservationsResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetUserReservationsResponse>();
@@ -99,7 +99,7 @@ internal class UserReservationOperation : UserBookingOperationBase, IUserOperati
             userIdentifier = InputProvider.RequestStringFor("email");
         }
         GetUserReservationsRequest listRequest = new(userIdentifier!);
-        using HttpRequestMessage listRequestMessage = new(HttpMethod.Post, Uri.CombineWith("get-reservation"));
+        using HttpRequestMessage listRequestMessage = new(HttpMethod.Post, Uri.CombineWith("get-reservations"));
         listRequestMessage.Content = JsonContent.Create(listRequest);
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
         GetUserReservationsResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetUserReservationsResponse>();
