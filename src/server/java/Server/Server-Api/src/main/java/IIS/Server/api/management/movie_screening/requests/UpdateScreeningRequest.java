@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UpdateScreeningRequest {
-    Integer screeningId;
-    Integer movieId;
-    Integer cinemaHallId;
+    Integer id;
+    String newName;
+    boolean newHasExpired;
 }

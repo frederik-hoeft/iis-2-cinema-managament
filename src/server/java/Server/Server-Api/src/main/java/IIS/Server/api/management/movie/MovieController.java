@@ -18,6 +18,7 @@ import IIS.Server.management.GenericAsyncResult;
 import IIS.Server.management.PersistencyService;
 import IIS.Server.utils.ObjectX;
 import generated.cinema.Cinema;
+import generated.cinema.Movie;
 
 @RestController
 @RequestMapping(path="/management/movie", produces="application/json")
@@ -25,10 +26,11 @@ import generated.cinema.Cinema;
 public class MovieController {
     
     @GetMapping("/list")
-    public ResponseEntity<GetMoviesResponse> getMovies() 
+    public ResponseEntity<GetMoviesResponse> listMovies() 
     {
         AsyncWorkload<ResponseEntity<GetMoviesResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
+            Movie m = Movie.createFresh(20, "test");
             GetMoviesResponse response = new GetMoviesResponse();
             response.setSuccess(true);
             response.setMovies(ObjectX.createFromMany(Cinema.getInstance().getMovieCache().values(), GetMoviesResponseEntry.class));
@@ -36,6 +38,22 @@ public class MovieController {
             return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetMoviesResponse>> result = workload.getResultAsync().join();
+        return result.getValue();
+    }
+
+    @GetMapping("/list-full")
+    public ResponseEntity<GetMoviesFullResponse> listDetailedMovies() 
+    {
+        AsyncWorkload<ResponseEntity<GetMoviesFullResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+        {
+            Movie m = Movie.createFresh(20, "test");
+            GetMoviesFullResponse response = new GetMoviesFullResponse();
+            response.setSuccess(true);
+            response.setMovies(ObjectX.createFromMany(Cinema.getInstance().getMovieCache().values(), GetMoviesFullResponseEntry.class));
+
+            return new ResponseEntity<GetMoviesFullResponse>(response, HttpStatus.OK);
+        });
+        GenericAsyncResult<ResponseEntity<GetMoviesFullResponse>> result = workload.getResultAsync().join();
         return result.getValue();
     }
 

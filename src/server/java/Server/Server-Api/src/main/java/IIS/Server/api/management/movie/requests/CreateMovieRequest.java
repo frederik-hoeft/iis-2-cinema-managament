@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class CreateMovieRequest {
     String title;
+    String description;
 }

@@ -6,4 +6,5 @@ import lombok.Data;
 public class UserReservationRequest {
     Integer screeningId;
     Integer seatId;
+    String email;
 }
