@@ -22,8 +22,9 @@ internal class CinemaHallOperation : ManagementOperationBase, IManagementOperati
 
     public void Create()
     {
-        string? id = InputProvider.RequestValueFor("cinema hall identifier");
-        CreateCinemaHallRequest request = new(id!);
+        string? id = InputProvider.RequestStringFor("cinema hall identifier");
+        bool isAvailable = InputProvider.RequestBoolFor("is the cinema hall available for booking?", false);
+        CreateCinemaHallRequest request = new(id!, isAvailable);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
@@ -53,12 +54,12 @@ internal class CinemaHallOperation : ManagementOperationBase, IManagementOperati
 
     public void Read()
     {
-        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list"));
+        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list-full"));
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
-        GetCinemaHallsResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetCinemaHallsResponse>();
-        GetCinemaHallsResponseEntry[] halls = listResponse.AssertIsValid().CinemaHalls;
+        GetCinemaHallsFullResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetCinemaHallsFullResponse>();
+        GetCinemaHallsFullResponseEntry[] halls = listResponse.AssertIsValid().CinemaHalls;
         Stdout.WriteLine("Ok. These are the cinema halls:", ConsoleColor.Green);
-        foreach (GetCinemaHallsResponseEntry hall in halls)
+        foreach (GetCinemaHallsFullResponseEntry hall in halls)
         {
             Stdout.WriteLine($"  {hall}", ConsoleColor.Green);
         }
@@ -76,12 +77,13 @@ internal class CinemaHallOperation : ManagementOperationBase, IManagementOperati
             return;
         }
         Stdout.WriteLine("Enter new values, or press <enter> to keep current ones.");
-        string? name = InputProvider.RequestValueFor($"new cinema hall identifier [{hall.Name}]");
+        string? name = InputProvider.RequestStringFor($"new cinema hall identifier [{hall.Name}]");
         if (string.IsNullOrEmpty(name))
         {
             name = hall.Name;
         }
-        UpdateCinemaHallRequest request = new(hall.Id, name);
+        bool isAvailable = InputProvider.RequestBoolFor("is the cinema hall available for booking?", hall.IsAvailable);
+        UpdateCinemaHallRequest request = new(hall.Id, name, isAvailable);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);

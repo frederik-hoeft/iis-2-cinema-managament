@@ -6,7 +6,6 @@ using IIS.Client.ApiAccess.Operations.User.Responses;
 using IIS.Client.Cli.IO;
 using IIS.Client.Cli.Utils;
 using System.Net.Http.Json;
-using System.Security.Principal;
 
 namespace IIS.Client.ApiAccess.Operations.User;
 
@@ -26,10 +25,10 @@ internal class UserAccountOperation : UserOperationBase, IUserOperationFactory<U
         string? userIdentifier = UserIdentity;
         if (string.IsNullOrEmpty(userIdentifier))
         {
-            userIdentifier = InputProvider.RequestValueFor("email");
+            userIdentifier = InputProvider.RequestStringFor("email");
         }
-        string? firstName = InputProvider.RequestValueFor("first name");
-        string? lastName = InputProvider.RequestValueFor("last name");
+        string? firstName = InputProvider.RequestStringFor("first name");
+        string? lastName = InputProvider.RequestStringFor("last name");
         UserCreateAccountRequest request = new(userIdentifier!, firstName!, lastName!);
         ValidationService.AssertIsValid(request);
 
@@ -121,12 +120,12 @@ internal class UserAccountOperation : UserOperationBase, IUserOperationFactory<U
             account = getResponse.AssertIsValid().Account;
         }
         Stdout.WriteLine("Enter new values, or press <enter> to keep current ones.");
-        string? firstName = InputProvider.RequestValueFor($"new first name [{account.FirstName}]");
+        string? firstName = InputProvider.RequestStringFor($"new first name [{account.FirstName}]");
         if (string.IsNullOrEmpty(firstName))
         {
             firstName = account.FirstName;
         }
-        string? lastName = InputProvider.RequestValueFor($"new last name [{account.LastName}]");
+        string? lastName = InputProvider.RequestStringFor($"new last name [{account.LastName}]");
         if (string.IsNullOrEmpty(lastName))
         {
             lastName = account.LastName;

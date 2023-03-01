@@ -3,4 +3,6 @@
 internal interface IApiResponse
 {
     bool Success { get; }
+
+    string? Error { get; }
 }

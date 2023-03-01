@@ -24,8 +24,8 @@ internal class UserReadCommandHandler : UserSubCommandHandlerBase<UserReadComman
         RemoteOperation remoteOperation = target switch
         {
             UserReadCommandTarget.Users => UserAccountOperation.Create(apiContext, userIdentity).Read,
-            UserReadCommandTarget.Reservations => UserReservationOperation.Create(apiContext, userIdentity).ShowAll,
-            UserReadCommandTarget.Bookings => UserBookingOperation.Create(apiContext, userIdentity).ShowAll,
+            UserReadCommandTarget.Reservations => UserReservationOperation.Create(apiContext, userIdentity).Read,
+            UserReadCommandTarget.Bookings => UserBookingOperation.Create(apiContext, userIdentity).Read,
             _ => Fail($"Unable to handle read target '{target}'.")
         };
         RemoteApi.Execute(remoteOperation);

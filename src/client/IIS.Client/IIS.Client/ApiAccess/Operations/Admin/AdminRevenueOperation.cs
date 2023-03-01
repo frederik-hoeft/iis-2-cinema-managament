@@ -2,7 +2,6 @@
 using IIS.Client.ApiAccess.Network;
 using IIS.Client.ApiAccess.Network.Extensions;
 using IIS.Client.ApiAccess.Operations.Admin.Requests;
-using IIS.Client.ApiAccess.Operations.Management.Requests;
 using IIS.Client.ApiAccess.Operations.Management.Responses;
 using IIS.Client.Cli.Utils;
 using System.Net.Http.Json;
@@ -11,7 +10,7 @@ namespace IIS.Client.ApiAccess.Operations.Admin;
 
 internal class AdminRevenueOperation : OperationBase
 {
-    protected override Uri Uri => base.Uri.CombineWith("revenue");
+    protected override Uri Uri => base.Uri.CombineWith("admin/revenue");
 
     public AdminRevenueOperation(ApiContext apiContext) : base(apiContext)
     {

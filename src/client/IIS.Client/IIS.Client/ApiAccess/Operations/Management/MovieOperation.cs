@@ -22,8 +22,8 @@ internal class MovieOperation : ManagementOperationBase, IManagementOperation
 
     public void Create()
     {
-        string? title = InputProvider.RequestValueFor("movie title");
-        string? description = InputProvider.RequestValueFor("movie description");
+        string? title = InputProvider.RequestStringFor("movie title");
+        string? description = InputProvider.RequestStringFor("movie description");
         CreateMovieRequest request = new(title!, description!);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
@@ -54,12 +54,12 @@ internal class MovieOperation : ManagementOperationBase, IManagementOperation
 
     public void Read()
     {
-        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list"));
+        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list-full"));
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
-        GetMoviesResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetMoviesResponse>();
-        GetMoviesResponseEntry[] movies = listResponse.AssertIsValid().Movies;
+        GetMoviesFullResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetMoviesFullResponse>();
+        GetMoviesFullResponseEntry[] movies = listResponse.AssertIsValid().Movies;
         Stdout.WriteLine("Ok. These are the movies:", ConsoleColor.Green);
-        foreach (GetMoviesResponseEntry movie in movies)
+        foreach (GetMoviesFullResponseEntry movie in movies)
         {
             Stdout.WriteLine($"  {movie}", ConsoleColor.Green);
         }
@@ -77,12 +77,12 @@ internal class MovieOperation : ManagementOperationBase, IManagementOperation
             return;
         }
         Stdout.WriteLine("Enter new values, or press <enter> to keep current ones.");
-        string? title = InputProvider.RequestValueFor($"new movie title [{movie.Title}]");
+        string? title = InputProvider.RequestStringFor($"new movie title [{movie.Title}]");
         if (string.IsNullOrEmpty(title))
         {
             title = movie.Title;
         }
-        string? description = InputProvider.RequestValueFor($"new movie description [{movie.Description}]");
+        string? description = InputProvider.RequestStringFor($"new movie description [{movie.Description}]");
         if (string.IsNullOrEmpty(description))
         {
             description = movie.Description;

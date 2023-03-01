@@ -2,6 +2,12 @@
 
 namespace IIS.Client.ApiAccess.Operations.Admin.Requests;
 
-internal record GetMovieRevenueRequest([Required] int MovieId);
+/// <summary>
+/// POST /admin/revenue/list-movies
+/// </summary>
+internal record GetMovieRevenueRequest([Required][Range(1, int.MaxValue)] int MovieId);
 
-internal record GetScreeningRevenueRequest([Required] int ScreeningId);
+/// <summary>
+/// POST /admin/revenue/list-screenings
+/// </summary>
+internal record GetScreeningRevenueRequest([Required][Range(1, int.MaxValue)] int ScreeningId);

@@ -2,20 +2,32 @@
 
 namespace IIS.Client.ApiAccess.Operations.Management.Responses;
 
-internal record CreateMovieScreeningResponse(bool Success) : IApiResponse;
+/// <summary>
+/// POST /management/movie-screening/create
+/// </summary>
+internal record CreateMovieScreeningResponse(bool Success, string? Error) : IApiResponse;
 
-internal record DeleteMovieScreeningResponse(bool Success) : IApiResponse;
+/// <summary>
+/// POST /management/movie-screening/delete
+/// </summary>
+internal record DeleteMovieScreeningResponse(bool Success, string? Error) : IApiResponse;
 
-internal record GetMovieScreeningsResponseEntry(int Id, string Name);
+internal record GetMovieScreeningsResponseEntry(int Id, string Name, string MovieTitle, bool HasExpired);
 
-internal record GetMovieScreeningsResponse(bool Success, GetMovieScreeningsResponseEntry[] Screenings) : IApiResponse;
+/// <summary>
+/// GET /management/movie-screening/list
+/// </summary>
+internal record GetMovieScreeningsResponse(bool Success, string? Error, GetMovieScreeningsResponseEntry[] Screenings) : IApiResponse;
 
-internal record GetAvailableMoviesResponseEntry(int Id, string Title);
+internal record GetMovieScreeningsFullResponseEntry(int Id, string Name, GetMoviesResponseEntry Movie, GetCinemaHallsResponseEntry CinemaHall, bool HasExpired);
 
-internal record GetAvailableMoviesResponse(bool Success, GetAvailableMoviesResponseEntry[] Movies) : IApiResponse;
+/// <summary>
+/// GET /management/movie-screening/list-full
+/// POST /user/booking/available-screenings
+/// </summary>
+internal record GetMovieScreeningsFullResponse(bool Success, string? Error, GetMovieScreeningsFullResponseEntry[] Screenings) : IApiResponse;
 
-internal record GetAvailableHallsResponseEntry(int Id, string Title);
-
-internal record GetAvailableHallsResponse(bool Success, GetAvailableHallsResponseEntry[] Halls) : IApiResponse;
-
-internal record UpdateMovieScreeningResponse(bool Success) : IApiResponse;
+/// <summary>
+/// POST /management/movie-screening/update
+/// </summary>
+internal record UpdateMovieScreeningResponse(bool Success, string? Error) : IApiResponse;

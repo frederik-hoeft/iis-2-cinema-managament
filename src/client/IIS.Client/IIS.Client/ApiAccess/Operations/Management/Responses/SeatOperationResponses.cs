@@ -3,16 +3,27 @@ using IIS.Client.ApiAccess.Operations.Management.Requests;
 
 namespace IIS.Client.ApiAccess.Operations.Management.Responses;
 
-internal record CreateSeatResponse(bool Success) : IApiResponse;
+/// <summary>
+/// POST /management/seat/create
+/// </summary>
+internal record CreateSeatResponse(bool Success, string? Error) : IApiResponse;
 
-internal record DeleteSeatResponse(bool Success) : IApiResponse;
+/// <summary>
+/// POST /management/seat/delete
+/// </summary>
+internal record DeleteSeatResponse(bool Success, string? Error) : IApiResponse;
 
 internal record GetSeatsResponseEntry(int Id, string Name);
 
-internal record GetSeatsResponse(bool Success, GetSeatsResponseEntry[] Seats) : IApiResponse;
+internal record GetSeatsFullResponseEntry(int Id, string Name, GetSeatRowsResponseEntry Row);
 
-internal record UpdateSeatResponse(bool Success) : IApiResponse;
+/// <summary>
+/// POST /management/seat/list
+/// POST /user/booking/available-seats
+/// </summary>
+internal record GetSeatsResponse(bool Success, string? Error, GetSeatsResponseEntry[] Seats) : IApiResponse;
 
-internal record GetAvailableRowsResponseEntry(int Id, int SeatCount, PriceCategory PriceCategory);
-
-internal record GetAvailableRowsResponse(bool Success, GetAvailableRowsResponseEntry[] Rows) : IApiResponse;
+/// <summary>
+/// POST /management/seat/update
+/// </summary>
+internal record UpdateSeatResponse(bool Success, string? Error) : IApiResponse;
