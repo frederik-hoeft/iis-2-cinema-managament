@@ -18,7 +18,7 @@ import IIS.Server.api.admin.responses.GetScreeningRevenueResponse;
 @CrossOrigin(origins="*")
 public class AdminController {
     
-    @PostMapping("/revenue/movie")
+    @PostMapping("/revenue/list-movies")
     public ResponseEntity<GetMovieRevenueResponse> getMovieRevenue(@RequestBody GetMovieRevenueRequest request) {
 
         GetMovieRevenueResponse response = new GetMovieRevenueResponse();
@@ -26,7 +26,7 @@ public class AdminController {
         return new ResponseEntity<GetMovieRevenueResponse>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/revenue/screening")
+    @PostMapping("/revenue/list-screenings")
     public ResponseEntity<GetScreeningRevenueResponse> getScreeningRevenue(@RequestBody GetScreeningRevenueRequest request) {
 
         GetScreeningRevenueResponse response = new GetScreeningRevenueResponse();

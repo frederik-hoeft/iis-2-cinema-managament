@@ -1,5 +1,7 @@
 package IIS.Server.api.management.cinema_hall;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,15 +20,24 @@ import IIS.Server.api.management.cinema_hall.responses.*;
 public class CinemaHallController {
     
     @GetMapping("/list")
-    public ResponseEntity<GetCinemaHallsResponse> getCinemaHalls() {
+    public ResponseEntity<GetCinemaHallsResponse> listCinemaHalls() {
 
         GetCinemaHallsResponse response = new GetCinemaHallsResponse();
         response.setSuccess(false);
+        response.setError(Optional.empty());
         return new ResponseEntity<GetCinemaHallsResponse>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/list-full")
+    public ResponseEntity<GetCinemaHallsFullResponse> listDetailedCinemaHalls() {
+
+        GetCinemaHallsFullResponse response = new GetCinemaHallsFullResponse();
+        response.setSuccess(false);
+        return new ResponseEntity<GetCinemaHallsFullResponse>(response, HttpStatus.CREATED);
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<CreateCinemaHallResponse> createMovie(@RequestBody CreateCinemaHallRequest request) {
+    public ResponseEntity<CreateCinemaHallResponse> createCinemaHall(@RequestBody CreateCinemaHallRequest request) {
 
         CreateCinemaHallResponse response = new CreateCinemaHallResponse();
         response.setSuccess(false);
@@ -34,7 +45,7 @@ public class CinemaHallController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<UpdateCinemaHallResponse> updateMovie(@RequestBody UpdateCinemaHallRequest request) {
+    public ResponseEntity<UpdateCinemaHallResponse> updateCinemaHall(@RequestBody UpdateCinemaHallRequest request) {
 
         UpdateCinemaHallResponse response = new UpdateCinemaHallResponse();
         response.setSuccess(false);
@@ -42,7 +53,7 @@ public class CinemaHallController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<DeleteCinemaHallResponse> deleteMovie(@RequestBody DeleteCinemaHallRequest request) {
+    public ResponseEntity<DeleteCinemaHallResponse> deleteCinemaHall(@RequestBody DeleteCinemaHallRequest request) {
 
         DeleteCinemaHallResponse response = new DeleteCinemaHallResponse();
         response.setSuccess(false);

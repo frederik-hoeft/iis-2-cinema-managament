@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class UserCancelReservationRequest {
     Integer reservationId;
+    String email;
 }

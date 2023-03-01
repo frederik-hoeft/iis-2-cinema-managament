@@ -4,4 +4,6 @@ import lombok.Data;
 
 @Data
 public class CreateCinemaHallRequest {
+    String name;
+    boolean isAvailable;
 }
