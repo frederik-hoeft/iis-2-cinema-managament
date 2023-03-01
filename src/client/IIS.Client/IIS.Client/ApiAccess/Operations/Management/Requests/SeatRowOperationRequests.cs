@@ -1,14 +1,35 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Management.Requests;
+﻿using System.ComponentModel.DataAnnotations;
 
-internal record CreateSeatRowRequest(int CinemaHallId, string Name, PriceCategory PriceCategory);
+namespace IIS.Client.ApiAccess.Operations.Management.Requests;
 
-internal enum PriceCategory
-{
-    Stalls,
-    Box,
-    BoxService
-}
+/// <summary>
+/// POST /management/seat-row/create
+/// </summary>
+internal record CreateSeatRowRequest
+(
+    [Required][Range(1, int.MaxValue)] int CinemaHallId,
+    [Required]string Name,
+    [Required][Range(1, 3)] PriceCategory PriceCategory
+);
 
-internal record DeleteSeatRowRequest(int SeatRowId);
+/// <summary>
+/// POST /management/seat-row/delete
+/// </summary>
+internal record DeleteSeatRowRequest([Required][Range(1, int.MaxValue)] int Id);
 
-internal record UpdateSeatRowRequest(int SeatRowId, string Name, PriceCategory PriceCategory);
+/// <summary>
+/// POST /management/seat-row/update
+/// </summary>
+internal record UpdateSeatRowRequest
+(
+    [Required][Range(1, int.MaxValue)] int Id,
+    [Required] string Name,
+    [Required][Range(1, 3)] PriceCategory PriceCategory
+);
+
+/// <summary>
+/// POST /management/seat-row/list
+/// POST /management/seat/available-rows
+/// POST /user/booking/available-seat-rows
+/// </summary>
+internal record GetSeatRowRequest([Required][Range(1, int.MaxValue)] int CinemaHallId);

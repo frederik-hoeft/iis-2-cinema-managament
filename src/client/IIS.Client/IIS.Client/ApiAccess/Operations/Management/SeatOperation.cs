@@ -6,10 +6,11 @@ using IIS.Client.ApiAccess.Operations.Management.Responses;
 using IIS.Client.Cli.Commands.Management;
 using IIS.Client.Cli.IO;
 using IIS.Client.Cli.Utils;
+using System.Net.Http.Json;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
-internal class SeatOperation : OperationBase, IManagementOperation
+internal class SeatOperation : ManagementOperationBase, IManagementOperation
 {
     protected override Uri Uri => base.Uri.CombineWith("seat");
 
@@ -22,27 +23,12 @@ internal class SeatOperation : OperationBase, IManagementOperation
 
     public void Create()
     {
-        using HttpRequestMessage availableHallsRequestMessage = new(HttpMethod.Get, Uri.CombineWith("available-halls"));
-        using HttpResponseMessage availableHallsResponseMessage = ApiContext.HttpClient.Send(availableHallsRequestMessage);
-        GetAvailableHallsResponse? availableHallsResponse = availableHallsResponseMessage.Content.ReadFromJson<GetAvailableHallsResponse>();
-        GetAvailableHallsResponseEntry[] availableHalls = availableHallsResponse.AssertIsValid().Halls;
-        InputOptionPrompt<GetAvailableHallsResponseEntry> hallPrompt = new(availableHalls, "Which cinema hall should be used?");
-        if (!hallPrompt.TryRequestInput(out GetAvailableHallsResponseEntry? hall))
+        if (GetContext() is not (int, int rowId))
         {
             return;
         }
-        GetAvailableRowsRequest availableRowsRequest = new(hall.Id);
-        using HttpRequestMessage availableRowsRequestMessage = new(HttpMethod.Post, Uri.CombineWith("available-rows"));
-        using HttpResponseMessage availableRowsResponseMessage = ApiContext.HttpClient.Send(availableRowsRequestMessage);
-        GetAvailableRowsResponse? availableRowsResponse = availableRowsResponseMessage.Content.ReadFromJson<GetAvailableRowsResponse>();
-        GetAvailableRowsResponseEntry[] availableRows = availableRowsResponse.AssertIsValid().Rows;
-        InputOptionPrompt<GetAvailableRowsResponseEntry> rowPrompt = new(availableRows, "Which seat row should be used?");
-        if (!rowPrompt.TryRequestInput(out GetAvailableRowsResponseEntry? row))
-        {
-            return;
-        }
-        string? name = InputProvider.RequestValueFor("seat name");
-        CreateSeatRequest request = new(row.Id, name!);
+        string? name = InputProvider.RequestStringFor("seat name");
+        CreateSeatRequest request = new(rowId, name!);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
@@ -53,7 +39,13 @@ internal class SeatOperation : OperationBase, IManagementOperation
 
     public void Delete()
     {
-        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list"));
+        if (GetContext() is not (int, int rowId))
+        {
+            return;
+        }
+        GetSeatsRequest listRequest = new(rowId);
+        using HttpRequestMessage listRequestMessage = new(HttpMethod.Post, Uri.CombineWith("list"));
+        listRequestMessage.Content = JsonContent.Create(listRequest);
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
         GetSeatsResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetSeatsResponse>();
         GetSeatsResponseEntry[] seats = listResponse.AssertIsValid().Seats;
@@ -85,7 +77,13 @@ internal class SeatOperation : OperationBase, IManagementOperation
 
     public void Update()
     {
-        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list"));
+        if (GetContext() is not (int, int rowId))
+        {
+            return;
+        }
+        GetSeatsRequest listRequest = new(rowId);
+        using HttpRequestMessage listRequestMessage = new(HttpMethod.Post, Uri.CombineWith("list"));
+        listRequestMessage.Content = JsonContent.Create(listRequest);
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
         GetSeatsResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetSeatsResponse>();
         GetSeatsResponseEntry[] seats = listResponse.AssertIsValid().Seats;
@@ -95,7 +93,7 @@ internal class SeatOperation : OperationBase, IManagementOperation
             return;
         }
         Stdout.WriteLine("Enter new values, or press <enter> to keep current ones.");
-        string? name = InputProvider.RequestValueFor($"new seat name [{seat.Name}]");
+        string? name = InputProvider.RequestStringFor($"new seat name [{seat.Name}]");
         if (string.IsNullOrEmpty(name))
         {
             name = seat.Name;
@@ -107,5 +105,27 @@ internal class SeatOperation : OperationBase, IManagementOperation
         UpdateSeatResponse? response = responseMessage.Content.ReadFromJson<UpdateSeatResponse>();
         response.AssertIsValid();
         Stdout.WriteLine($"Ok. Successfully updated seat {seat} to {request}", ConsoleColor.Green);
+    }
+
+    private (int HallId, int RowId)? GetContext()
+    {
+        using HttpRequestMessage availableHallsRequestMessage = new(HttpMethod.Get, Uri.CombineWith("available-halls"));
+        using HttpResponseMessage availableHallsResponseMessage = ApiContext.HttpClient.Send(availableHallsRequestMessage);
+        GetCinemaHallsResponse? availableHallsResponse = availableHallsResponseMessage.Content.ReadFromJson<GetCinemaHallsResponse>();
+        GetCinemaHallsResponseEntry[] availableHalls = availableHallsResponse.AssertIsValid().CinemaHalls;
+        InputOptionPrompt<GetCinemaHallsResponseEntry> hallPrompt = new(availableHalls, "Which cinema hall should be used?");
+        if (!hallPrompt.TryRequestInput(out GetCinemaHallsResponseEntry? hall))
+        {
+            return null;
+        }
+        GetSeatRowRequest availableRowsRequest = new(hall.Id);
+        using HttpRequestMessage availableRowsRequestMessage = new(HttpMethod.Post, Uri.CombineWith("available-rows"));
+        using HttpResponseMessage availableRowsResponseMessage = ApiContext.HttpClient.Send(availableRowsRequestMessage);
+        GetSeatRowsResponse? availableRowsResponse = availableRowsResponseMessage.Content.ReadFromJson<GetSeatRowsResponse>();
+        GetSeatRowsResponseEntry[] availableRows = availableRowsResponse.AssertIsValid().Rows;
+        InputOptionPrompt<GetSeatRowsResponseEntry> rowPrompt = new(availableRows, "Which seat row should be used?");
+        return !rowPrompt.TryRequestInput(out GetSeatRowsResponseEntry? row) 
+            ? null 
+            : (hall.Id, row.Id);
     }
 }

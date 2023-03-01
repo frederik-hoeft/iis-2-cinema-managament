@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
-internal class MovieScreeningOperation : OperationBase, IManagementOperation
+internal class MovieScreeningOperation : ManagementOperationBase, IManagementOperation
 {
     protected override Uri Uri => base.Uri.CombineWith("movie-screening");
 
@@ -25,24 +25,25 @@ internal class MovieScreeningOperation : OperationBase, IManagementOperation
     {
         using HttpRequestMessage availableMoviesRequestMessage = new(HttpMethod.Get, Uri.CombineWith("available-movies"));
         using HttpResponseMessage availableMoviesResponseMessage = ApiContext.HttpClient.Send(availableMoviesRequestMessage);
-        GetAvailableMoviesResponse? availableMovieResponse = availableMoviesResponseMessage.Content.ReadFromJson<GetAvailableMoviesResponse>();
-        GetAvailableMoviesResponseEntry[] availableMovies = availableMovieResponse.AssertIsValid().Movies;
-        InputOptionPrompt<GetAvailableMoviesResponseEntry> moviePrompt = new(availableMovies, "Which movie should be screened?");
-        if (!moviePrompt.TryRequestInput(out GetAvailableMoviesResponseEntry? movie))
+        GetMoviesResponse? availableMovieResponse = availableMoviesResponseMessage.Content.ReadFromJson<GetMoviesResponse>();
+        GetMoviesResponseEntry[] availableMovies = availableMovieResponse.AssertIsValid().Movies;
+        InputOptionPrompt<GetMoviesResponseEntry> moviePrompt = new(availableMovies, "Which movie should be screened?");
+        if (!moviePrompt.TryRequestInput(out GetMoviesResponseEntry? movie))
         {
             return;
         }
         using HttpRequestMessage availableHallsRequestMessage = new(HttpMethod.Get, Uri.CombineWith("available-halls"));
         using HttpResponseMessage availableHallsResponseMessage = ApiContext.HttpClient.Send(availableHallsRequestMessage);
-        GetAvailableHallsResponse? availableHallsResponse = availableHallsResponseMessage.Content.ReadFromJson<GetAvailableHallsResponse>();
-        GetAvailableHallsResponseEntry[] availableHalls = availableHallsResponse.AssertIsValid().Halls;
-        InputOptionPrompt<GetAvailableHallsResponseEntry> hallPrompt = new(availableHalls, "Which cinema hall should be used?");
-        if (!hallPrompt.TryRequestInput(out GetAvailableHallsResponseEntry? hall))
+        GetCinemaHallsResponse? availableHallsResponse = availableHallsResponseMessage.Content.ReadFromJson<GetCinemaHallsResponse>();
+        GetCinemaHallsResponseEntry[] availableHalls = availableHallsResponse.AssertIsValid().CinemaHalls;
+        InputOptionPrompt<GetCinemaHallsResponseEntry> hallPrompt = new(availableHalls, "Which cinema hall should be used?");
+        if (!hallPrompt.TryRequestInput(out GetCinemaHallsResponseEntry? hall))
         {
             return;
         }
-        string? screeningName = InputProvider.RequestValueFor("screening name");
-        CreateMovieScreeningRequest request = new(movie.Id, hall.Id, screeningName!);
+        string? screeningName = InputProvider.RequestStringFor("screening name");
+        bool hasExpired = InputProvider.RequestBoolFor("did this movie screening already take place?", false);
+        CreateMovieScreeningRequest request = new(movie.Id, hall.Id, screeningName!, hasExpired);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
@@ -72,12 +73,12 @@ internal class MovieScreeningOperation : OperationBase, IManagementOperation
 
     public void Read()
     {
-        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list"));
+        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list-full"));
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
-        GetMovieScreeningsResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetMovieScreeningsResponse>();
-        GetMovieScreeningsResponseEntry[] screenings = listResponse.AssertIsValid().Screenings;
+        GetMovieScreeningsFullResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetMovieScreeningsFullResponse>();
+        GetMovieScreeningsFullResponseEntry[] screenings = listResponse.AssertIsValid().Screenings;
         Stdout.WriteLine("Ok. These are the movie screenings:", ConsoleColor.Green);
-        foreach (GetMovieScreeningsResponseEntry screening in screenings)
+        foreach (GetMovieScreeningsFullResponseEntry screening in screenings)
         {
             Stdout.WriteLine($"  {screening}", ConsoleColor.Green);
         }
@@ -95,12 +96,13 @@ internal class MovieScreeningOperation : OperationBase, IManagementOperation
             return;
         }
         Stdout.WriteLine("Enter new values, or press <enter> to keep current ones.");
-        string? name = InputProvider.RequestValueFor($"new movie screening name [{screening.Name}]");
+        string? name = InputProvider.RequestStringFor($"new movie screening name [{screening.Name}]");
         if (string.IsNullOrEmpty(name))
         {
             name = screening.Name;
         }
-        UpdateMovieScreeningRequest request = new(screening.Id, name!);
+        bool hasExpired = InputProvider.RequestBoolFor("did this movie screening already take place?", screening.HasExpired);
+        UpdateMovieScreeningRequest request = new(screening.Id, name!, hasExpired);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);

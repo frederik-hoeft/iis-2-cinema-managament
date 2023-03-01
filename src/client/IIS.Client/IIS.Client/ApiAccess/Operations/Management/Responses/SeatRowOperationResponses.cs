@@ -3,12 +3,32 @@ using IIS.Client.ApiAccess.Operations.Management.Requests;
 
 namespace IIS.Client.ApiAccess.Operations.Management.Responses;
 
-internal record CreateSeatRowResponse(bool Success) : IApiResponse;
+/// <summary>
+/// POST /management/seat-row/create
+/// </summary>
+internal record CreateSeatRowResponse(bool Success, string? Error) : IApiResponse;
 
-internal record DeleteSeatRowResponse(bool Success) : IApiResponse;
+/// <summary>
+/// POST /management/seat-row/delete
+/// </summary>
+internal record DeleteSeatRowResponse(bool Success, string? Error) : IApiResponse;
 
-internal record GetSeatRowsResponseEntry(int Id, string CinemaHallName, string Name, PriceCategory PriceCategory);
+internal record GetSeatRowsResponseEntry(int Id, string Name, int SeatCount, PriceCategory PriceCategory);
 
-internal record GetSeatRowsResponse(bool Success, GetSeatRowsResponseEntry[] Rows) : IApiResponse;
+/// <summary>
+/// POST /management/seat-row/list
+/// POST /management/seat/available-rows
+/// </summary>
+internal record GetSeatRowsResponse(bool Success, string? Error, GetSeatRowsResponseEntry[] Rows) : IApiResponse;
 
-internal record UpdateSeatRowResponse(bool Success) : IApiResponse;
+internal record GetSeatRowsFullResponseEntry(int Id, string Name, string CinemaHallName, PriceCategory PriceCategory, GetSeatsResponseEntry[] Seats);
+
+/// <summary>
+/// GET /management/seat-row/list-full
+/// </summary>
+internal record GetSeatRowsFullResponse(bool Success, string? Error, GetSeatRowsFullResponseEntry[] Rows) : IApiResponse;
+
+/// <summary>
+/// POST /management/seat-row/create
+/// </summary>
+internal record UpdateSeatRowResponse(bool Success, string? Error) : IApiResponse;

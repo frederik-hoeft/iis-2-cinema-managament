@@ -2,6 +2,12 @@
 
 namespace IIS.Client.ApiAccess.Operations.Admin.Requests;
 
-internal record GetMovieRevenueResponse(bool Success, decimal TotalRevenue) : IApiResponse;
+/// <summary>
+/// POST /admin/revenue/list-movies
+/// </summary>
+internal record GetMovieRevenueResponse(bool Success, string? Error, decimal TotalRevenue) : IApiResponse;
 
-internal record GetScreeningRevenueResponse(bool Success, decimal TotalRevenue) : IApiResponse;
+/// <summary>
+/// POST /admin/revenue/list-screenings
+/// </summary>
+internal record GetScreeningRevenueResponse(bool Success, string? Error, decimal TotalRevenue) : IApiResponse;
