@@ -1,11 +1,11 @@
-/**--- Generated at Mon Feb 27 14:09:22 CET 2023 
+/**--- Generated at Wed Mar 01 16:05:44 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinema.commands;
 import generated.cinema.*;
 import commands.*;
 public class getReservationCache_Command extends ServiceCommand<java.util.Map<Integer, generated.cinema.proxies.ReservationProxy>>{
-   private static final long serialVersionUID = -1351599342L;
+   private static final long serialVersionUID = 215885446L;
    public getReservationCache_Command(){
       super();
    }

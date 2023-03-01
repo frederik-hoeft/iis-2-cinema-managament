@@ -1,11 +1,11 @@
-/**--- Generated at Mon Feb 27 14:09:22 CET 2023 
+/**--- Generated at Wed Mar 01 16:05:44 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinema.commands;
 import generated.cinema.*;
 import commands.*;
 public class ServerStart_Command extends ServiceCommand<Void>{
-   private static final long serialVersionUID = -1857659240L;
+   private static final long serialVersionUID = -528702099L;
    public ServerStart_Command(){
       super();
    }

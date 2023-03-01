@@ -1,5 +1,7 @@
 package IIS.Server.api.management.movie;
 
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +16,8 @@ import IIS.Server.api.management.movie.responses.*;
 import IIS.Server.management.AsyncWorkload;
 import IIS.Server.management.GenericAsyncResult;
 import IIS.Server.management.PersistencyService;
+import IIS.Server.utils.ObjectX;
+import generated.cinema.Cinema;
 
 @RestController
 @RequestMapping(path="/management/movie", produces="application/json")
@@ -27,6 +31,8 @@ public class MovieController {
         {
             GetMoviesResponse response = new GetMoviesResponse();
             response.setSuccess(true);
+            response.setMovies(ObjectX.createFromMany(Cinema.getInstance().getMovieCache().values(), GetMoviesResponseEntry.class));
+
             return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetMoviesResponse>> result = workload.getResultAsync().join();
