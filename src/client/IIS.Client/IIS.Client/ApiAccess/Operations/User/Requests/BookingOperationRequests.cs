@@ -46,6 +46,6 @@ internal record UserUpgradeReservationRequest
 internal record GetUserBookingsRequest([Required][EmailAddress] string Email);
 
 /// <summary>
-/// POST /user/booking/get-reservation
+/// POST /user/booking/get-reservations
 /// </summary>
 internal record GetUserReservationsRequest([Required][EmailAddress] string Email);

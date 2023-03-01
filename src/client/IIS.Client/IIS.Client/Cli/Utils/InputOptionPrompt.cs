@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.IO.Pipes;
-using System.Runtime;
 
 namespace IIS.Client.Cli.Utils;
 
