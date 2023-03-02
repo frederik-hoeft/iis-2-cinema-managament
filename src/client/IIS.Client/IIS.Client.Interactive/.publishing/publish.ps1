@@ -4,7 +4,7 @@ $windows_profile="win-x64-embed"
 $osx_profile="osx-x64-embed"
 
 $client_dir="IIS.Client"
-$client_output_dir=..\..\$client_dir\$output_dir
+$client_output_dir="..\..\$($client_dir)$($output_dir)"
 
 Remove-Item -Path ..\$output_dir\* -Recurse
 
