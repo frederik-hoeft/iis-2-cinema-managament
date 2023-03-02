@@ -16,6 +16,8 @@ public class Program
 {
     public static Version? Version { get; }
 
+    public const string SLAVE_ENVIRONMENT_VARIABLE = "SLAVE";
+
     static Program()
     {
         Version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -23,21 +25,28 @@ public class Program
 
     public static int Main(string[] args)
     {
-        Stdout.WriteLine($"Welcome to the IIS cinema client v{Version}!");
+        bool isSlave = Environment.GetEnvironmentVariable(SLAVE_ENVIRONMENT_VARIABLE) is not null;
+        if (!isSlave)
+        {
+            Stdout.WriteLine($"Welcome to the IIS cinema client v{Version}!");
+        }
         Command rootCommand = BuildCommandTree();
         return rootCommand.Invoke(args);
     }
 
     public static Command BuildCommandTree()
     {
+        bool isSlave = Environment.GetEnvironmentVariable(SLAVE_ENVIRONMENT_VARIABLE) is not null;
         const string CFG_FILE_NAME = "config.json";
 
-        Config? config;
+        RuntimeConfig? config;
         using (Stream configStream = File.OpenRead(CFG_FILE_NAME))
         {
-            config = JsonSerializer.Deserialize<Config>(configStream);
+            config = JsonSerializer.Deserialize<RuntimeConfig>(configStream);
         }
         _ = config ?? throw new FormatException($"'{CFG_FILE_NAME}' has an invalid format and could not be read!");
+
+        config = config with { IsSlave = isSlave };
 
         ApiContext apiContext = RemoteApi.CreateApiContext(config);
 

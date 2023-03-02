@@ -2,7 +2,7 @@
   "profiles": {
     "IIS.Client": {
       "commandName": "Project",
-      "commandLineArgs": "management list movies"
+      "commandLineArgs": "management create halls"
     }
   }
 }
