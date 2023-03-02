@@ -18,7 +18,7 @@ public class Program
 
     public const string SLAVE_ENVIRONMENT_VARIABLE = "SLAVE";
 
-    public const string SLAVE_PROMPT = "$ ";
+    public const string SLAVE_PROMPT = "> ";
 
     static Program()
     {
@@ -36,7 +36,7 @@ public class Program
         return rootCommand.Invoke(args);
     }
 
-    public static Command BuildCommandTree()
+    public static RuntimeConfig LoadConfig()
     {
         bool isSlave = Environment.GetEnvironmentVariable(SLAVE_ENVIRONMENT_VARIABLE) is not null;
         const string CFG_FILE_NAME = "config.json";
@@ -48,7 +48,12 @@ public class Program
         }
         _ = config ?? throw new FormatException($"'{CFG_FILE_NAME}' has an invalid format and could not be read!");
 
-        config = config with { IsSlave = isSlave };
+        return config with { IsSlave = isSlave };
+    }
+
+    public static Command BuildCommandTree()
+    {
+        RuntimeConfig config = LoadConfig();
 
         ApiContext apiContext = RemoteApi.CreateApiContext(config);
 
