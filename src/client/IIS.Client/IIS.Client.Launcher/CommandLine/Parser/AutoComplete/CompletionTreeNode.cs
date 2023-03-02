@@ -3,7 +3,7 @@ using System.CommandLine;
 using System.CommandLine.Completions;
 using System.Diagnostics;
 
-namespace IIS.Client.Interactive.AutoComplete;
+namespace IIS.Client.Interactive.CommandLine.Parser.AutoComplete;
 
 [DebuggerDisplay("{Symbol.Name}")]
 internal class CompletionTreeNode

@@ -18,6 +18,8 @@ public class Program
 
     public const string SLAVE_ENVIRONMENT_VARIABLE = "SLAVE";
 
+    public const string SLAVE_PROMPT = "$ ";
+
     static Program()
     {
         Version = Assembly.GetExecutingAssembly().GetName().Version;
