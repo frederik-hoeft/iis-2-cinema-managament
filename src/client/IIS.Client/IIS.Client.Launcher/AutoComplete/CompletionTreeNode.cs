@@ -22,7 +22,7 @@ internal class CompletionTreeNode
 
     public List<CompletionTreeNode> Children { get; } = new();
 
-    public IEnumerator<CompletionItem>? AutoComplete(string input)
+    public IEnumerator<CompletionItem>? GetSuggestions(string input)
     {
         if (input is not null)
         {

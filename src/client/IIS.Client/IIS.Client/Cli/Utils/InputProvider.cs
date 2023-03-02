@@ -10,21 +10,21 @@ internal static partial class InputProvider
         return inputPrompt.RequestInput();
     }
 
-    public static string? RequestStringFor(string name, Regex regex, string? prompt = null)
+    public static string? RequestStringForOrEmpty(string name, Regex regex, string? prompt = null)
     {
         string? input;
         do
         {
             InputStringPrompt inputPrompt = new(prompt ?? $"{name} (must match {regex}): ");
             input = inputPrompt.RequestInput();
-        } while (!string.IsNullOrEmpty(input) || !regex.IsMatch(input?.Trim() ?? string.Empty));
+        } while (!string.IsNullOrEmpty(input) && !regex.IsMatch(input?.Trim() ?? string.Empty));
 
         return input;
     }
 
     public static bool RequestBoolFor(string name, bool std)
     {
-        string? input = RequestStringFor(string.Empty, BoolRegex(), $"{name} (must be one of 'true, false, yes, no, 1, 0') [{std}]");
+        string? input = RequestStringForOrEmpty(string.Empty, BoolRegex(), $"{name} (must be one of 'true, false, yes, no, 1, 0') [{std}]");
         return string.IsNullOrEmpty(input) 
             ? std 
             : input.ToLower() is "true" or "yes" or "1";

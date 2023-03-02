@@ -1,3 +1,5 @@
 ﻿namespace IIS.Client.ApiAccess;
 
-internal record Config(string ApiEndpoint);
+public record Config(string ApiEndpoint);
+
+public record RuntimeConfig(string ApiEndpoint, bool IsSlave) : Config(ApiEndpoint);
