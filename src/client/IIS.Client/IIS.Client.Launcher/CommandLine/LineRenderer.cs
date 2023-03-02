@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics.SymbolStore;
+using System.Text;
 
 namespace IIS.Client.Interactive.CommandLine;
 
@@ -32,7 +33,31 @@ internal class LineRenderer
         Stdout.ResetColor();
     }
 
-    public void RemoveCount(int length) => _line.Remove(_line.Length - length, length);
+    public void RemoveCount(int length)
+    {
+        if (length <= 0)
+        {
+            return;
+        }
+        if (_line.Length >= length)
+        {
+            _line.Remove(_line.Length - length, length);
+        }
+        else
+        {
+            _line.Clear();
+        }
+    }
+
+    public bool TryRemoveCount(int length)
+    {
+        if (_line.Length >= length)
+        {
+            _line.Remove(_line.Length - length, length);
+            return true;
+        }
+        return false;
+    }
 
     public void Clear() => _line.Clear();
 
