@@ -1,4 +1,5 @@
-﻿using IIS.Client.Interactive.CommandLine.Parser;
+﻿using IIS.Client.ApiAccess;
+using IIS.Client.Interactive.CommandLine.Parser;
 using IIS.Client.Interactive.CommandLine.Parser.AutoComplete;
 using System.CommandLine;
 using System.Diagnostics;
@@ -6,23 +7,31 @@ using SlaveProgram = IIS.Client.Program;
 
 namespace IIS.Client.Interactive.CommandLine;
 
+using static AnsiColors;
+
 internal class Shell
 {
     private readonly CinemaArgumentHistory _history = new();
     private readonly ArgumentBuilder _argumentBuilder;
+    private readonly LineRenderer _renderer;
+    private readonly string _slaveProcessName;
 
-    public Shell(CommandCompletionService completionService)
+    public Shell(CommandCompletionService completionService, LineRenderer renderer, string slaveProcessName)
     {
-        _argumentBuilder = new ArgumentBuilder
-        {
-            CompletionService = completionService
-        };
+        _renderer = renderer;
+        _argumentBuilder = new ArgumentBuilder(completionService, renderer);
+        _slaveProcessName = slaveProcessName;
     }
 
     public static Shell Create(Command rootCommand)
     {
         CommandCompletionService completionService = CommandCompletionService.CreateFor(rootCommand);
-        Shell shell = new(completionService);
+        RuntimeConfig slaveConfig = SlaveProgram.LoadConfig();
+        string slaveName = slaveConfig.ProcessName;
+        string remoteEndpoint = new Uri(slaveConfig.ApiEndpoint).Authority;
+        string prompt = $"{LIGHT_CYAN}launch against {YELLOW}{remoteEndpoint}{RESET}> {LIGHT_BLACK}\"";
+        LineRenderer renderer = new(prompt, contentPrefix: "cinema ", invalidColor: LIGHT_RED, contentColor: WHITE);
+        Shell shell = new(completionService, renderer, slaveName);
         return shell;
     }
 
@@ -33,9 +42,9 @@ internal class Shell
             _argumentBuilder.Reset();
             while (true)
             {
-                _argumentBuilder.LineRenderer.RenderLine();
+                _renderer.RenderPrompt();
                 ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
-                if (char.IsLetter(keyInfo.KeyChar) || char.IsSymbol(keyInfo.KeyChar))
+                if (char.IsLetter(keyInfo.KeyChar) || keyInfo.KeyChar.IsAsciiSymbol())
                 {
                     _argumentBuilder.Append(keyInfo);
                 }
@@ -73,12 +82,15 @@ internal class Shell
                 else if (keyInfo.Key is ConsoleKey.Spacebar or ConsoleKey.Enter)
                 {
                     _argumentBuilder.FlushCurrentArgument();
-                    _argumentBuilder.LineRenderer.Append(keyInfo);
                     if (keyInfo.Key is ConsoleKey.Enter)
                     {
+                        _renderer.Append($"{LIGHT_BLACK}\"");
+                        _renderer.RenderPrompt();
+                        Stdout.WriteLine();
                         Stdout.WriteLine();
                         break;
                     }
+                    _renderer.Append(keyInfo);
                 }
                 // tab-completion & validation
                 _argumentBuilder.Validate();
@@ -97,10 +109,11 @@ internal class Shell
         }
     }
 
-    private static void RunSlave(CinemaArguments arguments)
+    private void RunSlave(CinemaArguments arguments)
     {
-        Stdout.WriteLine($"Spawning 'cinema {arguments.Line}' as slave process ...", ConsoleColor.DarkGray);
-        ProcessStartInfo cinemaClientInfo = new("cinema.exe", arguments.Line)
+        _renderer.RenderLine($"{LIGHT_BLACK}Spawning '{WHITE}./{_slaveProcessName} {arguments.Line}{LIGHT_BLACK}' as slave process ...");
+        Stdout.WriteLine();
+        ProcessStartInfo cinemaClientInfo = new(_slaveProcessName, arguments.Line)
         {
             RedirectStandardOutput = true,
             RedirectStandardError = true,

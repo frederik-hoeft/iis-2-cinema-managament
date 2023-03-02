@@ -1,6 +1,7 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Completions;
 using System.Diagnostics.CodeAnalysis;
+using IIS.Client.Interactive.CommandLine.Parser.AutoComplete.NodeData;
 
 namespace IIS.Client.Interactive.CommandLine.Parser.AutoComplete;
 
@@ -44,11 +45,11 @@ public class CommandCompletionService
         return true;
     }
 
-    public bool TryGetNextSuggestion([NotNullWhen(true)] out string? suggestion)
+    public bool TryGetNextSuggestion([NotNullWhen(true)] out CompletionItem? suggestion)
     {
         if (_suggestions?.MoveNext() is true)
         {
-            suggestion = _suggestions.Current.InsertText ?? _suggestions.Current.Label;
+            suggestion = _suggestions.Current;
             return true;
         }
         suggestion = null;
@@ -63,9 +64,20 @@ public class CommandCompletionService
     public void ResetSuggestions() =>
         _suggestions = null;
 
+    public void Reset()
+    {
+        ResetSuggestions();
+        _current = _root;
+    }
+
     private static CompletionTreeNode CreateAutoCompleteTree(CompletionTreeNode? parent, Symbol current)
     {
-        CompletionTreeNode node = new(current)
+        ICompletionTreeNodeData data = current switch
+        {
+            IdentifierSymbol identifier => new IdentifierSymbolCompletionTreeNodeData(identifier),
+            _ => new SymbolCompletionTreeNodeData(current)
+        };
+        CompletionTreeNode node = new(data)
         {
             Parent = parent
         };
@@ -77,6 +89,13 @@ public class CommandCompletionService
                 node.Children.Add(childNode);
             }
         }
+        ICompletionTreeNodeData helpData = new HelpCompletionTreeNodeData();
+        CompletionTreeNode helpNode = new(helpData)
+        {
+            Parent = node
+        };
+        node.Children.Add(helpNode);
+        node.Data.AddCompletions(helpData.GetCompletions());
         return node;
     }
 }

@@ -1,3 +1,4 @@
 {
-  "ApiEndpoint": "http://10.100.20.2:8080/"
+  "ApiEndpoint": "http://10.100.20.2:8080/",
+  "ProcessName":  "cinema-client"
 }

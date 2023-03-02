@@ -68,7 +68,7 @@ internal class IOForwarder
         {
             if (Console.KeyAvailable)
             {
-                lineRenderer.RenderLine();
+                lineRenderer.RenderPrompt();
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 if (keyInfo.Key is ConsoleKey.Enter)
                 {
@@ -88,7 +88,7 @@ internal class IOForwarder
                     lineRenderer.Append(keyInfo);
                     inputBuilder.Append(keyInfo);
                 }
-                lineRenderer.RenderLine();
+                lineRenderer.RenderPrompt();
             }
             else
             {
