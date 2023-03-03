@@ -38,12 +38,12 @@ internal record GetCinemaHallsResponseEntry(int Id, string Name, bool IsAvailabl
 /// </summary>
 internal record GetCinemaHallsResponse(bool Success, string? Error, GetCinemaHallsResponseEntry[] CinemaHalls) : IApiResponse;
 
-internal record GetCinemaHallsFullResponseEntry(int Id, string Name, GetSeatRowsResponseEntry[] Rows);
+internal record GetCinemaHallsFullResponseEntry(int Id, string Name, bool IsAvailable, GetSeatRowsResponseEntry[] Rows);
 
 /// <summary>
 /// GET /management/cinema-hall/list-full
 /// </summary>
-internal record GetCinemaHallsFullResponse(bool Success, string? Error, bool IsAvailable, GetCinemaHallsFullResponseEntry[] CinemaHalls) : IApiResponse;
+internal record GetCinemaHallsFullResponse(bool Success, string? Error, GetCinemaHallsFullResponseEntry[] CinemaHalls) : IApiResponse;
 
 /// <summary>
 /// POST /management/cinema-hall/update
