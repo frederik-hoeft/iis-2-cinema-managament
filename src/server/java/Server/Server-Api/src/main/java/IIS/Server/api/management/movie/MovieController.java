@@ -31,6 +31,7 @@ public class MovieController {
     
     @GetMapping("/list")
     public ResponseEntity<GetMoviesResponse> listMovies() {
+
         AsyncWorkload<ResponseEntity<GetMoviesResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
             GetMoviesResponse response = new GetMoviesResponse();
@@ -44,6 +45,7 @@ public class MovieController {
 
     @GetMapping("/list-full")
     public ResponseEntity<GetMoviesFullResponse> listDetailedMovies() {
+        
         AsyncWorkload<ResponseEntity<GetMoviesFullResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
             GetMoviesFullResponse response = new GetMoviesFullResponse();

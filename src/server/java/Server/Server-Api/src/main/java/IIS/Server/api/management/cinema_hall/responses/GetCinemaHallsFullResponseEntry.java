@@ -9,5 +9,13 @@ import lombok.Data;
 public class GetCinemaHallsFullResponseEntry {
     Integer id;
     String name;
+    boolean available;
     Collection<GetSeatRowsResponseEntry> rows;
+
+    public GetCinemaHallsFullResponseEntry(Integer id, String name, boolean available, Collection<GetSeatRowsResponseEntry> rows) {
+        this.id = id;
+        this.name = name;
+        this.available = available;
+        this.rows = rows;
+    }
 }

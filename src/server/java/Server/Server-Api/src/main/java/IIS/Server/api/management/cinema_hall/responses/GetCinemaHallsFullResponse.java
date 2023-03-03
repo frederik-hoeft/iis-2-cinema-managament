@@ -9,6 +9,5 @@ import lombok.Data;
 public class GetCinemaHallsFullResponse {
     boolean success;
     Optional<String> error;
-    boolean isAvailable;
     Collection<GetCinemaHallsFullResponseEntry> cinemaHalls;
 }
