@@ -2,10 +2,6 @@
 using System.CommandLine;
 using SlaveProgram = IIS.Client.Program;
 
-Stdout.ResetColor();
-Stdout.WriteLine($"Welcome to the IIS cinema client launcher v{SlaveProgram.Version}!");
-Stdout.ResetColor();
-
 Command rootCommand = SlaveProgram.BuildCommandTree();
 
 Shell shell = Shell.Create(rootCommand);

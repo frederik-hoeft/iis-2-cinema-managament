@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
+using System.CommandLine;
 using System.CommandLine.Completions;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using IIS.Client.Interactive.CommandLine.Parser.AutoComplete.NodeData;
 
 namespace IIS.Client.Interactive.CommandLine.Parser.AutoComplete;
@@ -10,6 +10,8 @@ namespace IIS.Client.Interactive.CommandLine.Parser.AutoComplete;
 internal class CompletionTreeNode
 {
     public ICompletionTreeNodeData Data { get; }
+
+    internal bool IsAllowed { get; set; } = true;
 
     public CompletionTreeNode(ICompletionTreeNodeData data)
     {
@@ -30,7 +32,7 @@ internal class CompletionTreeNode
                 .Where(c => c.Label.StartsWith(input, StringComparison.InvariantCultureIgnoreCase)
                     || c.InsertText?.StartsWith(input, StringComparison.InvariantCultureIgnoreCase) is true)
                 .ToImmutableList();
-            if (candidates.Any())
+            if (candidates.Any() || Data is OptionCompletionTreeNodeData)
             {
                 return candidates.GetEnumerator();
             }
@@ -42,9 +44,21 @@ internal class CompletionTreeNode
     {
         if (!string.IsNullOrEmpty(input))
         {
+            if (Data is OptionCompletionTreeNodeData)
+            {
+                CompletionTreeNode parent = Children.Single(c => c.Data is not HelpCompletionTreeNodeData);
+                parent.IsAllowed = true;
+                return parent;
+            }
+            if (Data is ArgumentCompletionTreeNodeData)
+            {
+                CompletionTreeNode parent = Children.Single(c => c.Data is not HelpCompletionTreeNodeData);
+                parent.IsAllowed = true;
+                return parent;
+            }
             foreach (CompletionTreeNode child in Children)
             {
-                if (child.Data.Aliases.Contains(input, default(AliasEqualityComparer)))
+                if (child.Data.Matches(input))
                 {
                     return child;
                 }
@@ -52,12 +66,4 @@ internal class CompletionTreeNode
         }
         return null;
     }
-}
-
-file readonly struct AliasEqualityComparer : IEqualityComparer<string>
-{
-    public bool Equals(string? x, string? y) => 
-        x?.Equals(y, StringComparison.InvariantCultureIgnoreCase) is true;
-
-    public int GetHashCode([DisallowNull] string obj) => obj.GetHashCode();
 }

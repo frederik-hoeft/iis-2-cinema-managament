@@ -1,3 +1,7 @@
-﻿namespace IIS.Client.Interactive.CommandLine.Parser;
+﻿using IIS.Client.Interactive.CommandLine.Parser.AutoComplete;
 
-internal record CinemaArguments(Stack<(string Argument, bool IsValid)> Arguments, string Line);
+namespace IIS.Client.Interactive.CommandLine.Parser;
+
+internal record CinemaArguments(Stack<ArgumentStackFrame> Arguments, string Line);
+
+internal record ArgumentStackFrame(string Argument, bool IsValid, CompletionTreeNode? Node);

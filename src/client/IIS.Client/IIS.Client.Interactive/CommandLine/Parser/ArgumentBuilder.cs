@@ -7,7 +7,7 @@ internal class ArgumentBuilder
 {
     private readonly WordBuilder _wordBuilder = new();
     private readonly CommandCompletionService CompletionService;
-    private Stack<(string Argument, bool IsValid)> _arguments = new();
+    private Stack<ArgumentStackFrame> _arguments = new();
     private string _beforeCompletionBackup = string.Empty;
     private bool _isCurrentWordValid = true;
     private bool _isAutoCompleting = false;
@@ -32,7 +32,7 @@ internal class ArgumentBuilder
     {
         _renderer.Clear();
         _wordBuilder.Clear();
-        _arguments = new Stack<(string Argument, bool IsValid)>();
+        _arguments = new Stack<ArgumentStackFrame>();
         IsValid = true;
         _isCurrentWordValid = true;
         ResetAutoComplete();
@@ -43,15 +43,20 @@ internal class ArgumentBuilder
     public void RemoveLastCharacter()
     {
         _renderer.TryRemoveLastCharacter();
-        if (!_wordBuilder.TryRemoveLast() && _arguments.TryPop(out (string Argument, bool IsValid) previousArgument))
+        if (!_wordBuilder.TryRemoveLast() && _renderer.TryPeekLastCharacter(out char? c) && c.Value != ' ' && _arguments.TryPop(out ArgumentStackFrame? previousArgument))
         {
             _wordBuilder.Load(previousArgument.Argument);
             _isCurrentWordValid = previousArgument.IsValid;
-            if (_isCurrentWordValid)
+            if (_isCurrentWordValid && !CompletionService.TryLoadFrame(previousArgument))
             {
-                CompletionService.TryMoveUp();
+                string line = _renderer.Clear();
+                _renderer.ClearCurrentLine();
+                _renderer.RenderLine($"\r{AnsiColors.LIGHT_RED} {nameof(CommandCompletionService)} failed to load stack frame: {previousArgument}. Resetting!");
+                CompletionService.Reset();
+                _renderer.Load(line);
+                _renderer.RenderPrompt();
             }
-            IsValid = !_arguments.TryPeek(out (string Argument, bool IsValid) result) || result.IsValid;
+            IsValid = !_arguments.TryPeek(out ArgumentStackFrame? result) || result.IsValid;
             _renderer.IsValid = IsValid && _isCurrentWordValid;
         }
     }
@@ -72,9 +77,9 @@ internal class ArgumentBuilder
         if (!_wordBuilder.IsEmpty)
         {
             string arg = _wordBuilder.Flush();
-            bool argIsValid = CompletionService.TryMoveDown(arg);
+            bool argIsValid = CompletionService.TryMoveDown(arg, out CompletionTreeNode? node);
             IsValid = argIsValid;
-            _arguments.Push((arg, IsValid));
+            _arguments.Push(new ArgumentStackFrame(arg, IsValid, node));
         }
     }
 
@@ -126,12 +131,12 @@ internal class ArgumentBuilder
         _renderer.Append(' ');
         _arguments.Clear();
         _wordBuilder.Clear();
-        foreach ((string Argument, bool _) arg in args.Arguments.Reverse())
+        foreach (ArgumentStackFrame stackFrame in args.Arguments.Reverse())
         {
-            _arguments.Push(arg);
-            CompletionService.TryMoveDown(arg.Argument);
+            _arguments.Push(stackFrame);
+            CompletionService.TryMoveDown(stackFrame.Argument, out _);
         }
-        IsValid = !_arguments.TryPeek(out (string Argument, bool IsValid) result) || result.IsValid;
+        IsValid = !_arguments.TryPeek(out ArgumentStackFrame? sf) || sf.IsValid;
         _renderer.IsValid = IsValid;
         _isCurrentWordValid = true;
     }

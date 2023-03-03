@@ -26,4 +26,6 @@ internal class HelpCompletionTreeNodeData : ICompletionTreeNodeData
 
     public IEnumerable<CompletionItem> GetCompletions() =>
         _completionItems;
+
+    public bool Matches(string input) => Aliases.Contains(input, default(AliasEqualityComparer));
 }

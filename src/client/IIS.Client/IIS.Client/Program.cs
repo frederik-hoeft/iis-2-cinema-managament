@@ -20,6 +20,8 @@ public class Program
 
     public const string SLAVE_PROMPT = "> ";
 
+    public const string CFG_FILE_NAME = "config.json";
+
     static Program()
     {
         Version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -39,7 +41,6 @@ public class Program
     public static RuntimeConfig LoadConfig()
     {
         bool isSlave = Environment.GetEnvironmentVariable(SLAVE_ENVIRONMENT_VARIABLE) is not null;
-        const string CFG_FILE_NAME = "config.json";
 
         RuntimeConfig? config;
         using (Stream configStream = File.OpenRead(CFG_FILE_NAME))
