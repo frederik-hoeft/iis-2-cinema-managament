@@ -40,6 +40,7 @@ public class MovieController {
             GetMoviesResponse response = new GetMoviesResponse();
             response.setMovies(ObjectX.createFromMany(CinemaService.getInstance().getMovieCache().values(), GetMoviesResponseEntry.class));
             response.setSuccess(true);
+            response.setError(Optional.empty());
             return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetMoviesResponse>> result = workload.getResultAsync().join();
@@ -60,6 +61,7 @@ public class MovieController {
             }
             response.setMovies(movies);
             response.setSuccess(true);
+            response.setError(Optional.empty());
             return new ResponseEntity<GetMoviesFullResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetMoviesFullResponse>> result = workload.getResultAsync().join();

@@ -41,6 +41,7 @@ public class CinemaHallController {
             GetCinemaHallsResponse response = new GetCinemaHallsResponse();
             response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values(), GetCinemaHallsResponseEntry.class));
             response.setSuccess(true);
+            response.setError(Optional.empty());
             return new ResponseEntity<GetCinemaHallsResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetCinemaHallsResponse>> result = workload.getResultAsync().join();
@@ -62,6 +63,7 @@ public class CinemaHallController {
             }
             response.setCinemaHalls(cinemaHalls);
             response.setSuccess(true);
+            response.setError(Optional.empty());
             return new ResponseEntity<GetCinemaHallsFullResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetCinemaHallsFullResponse>> result = workload.getResultAsync().join();

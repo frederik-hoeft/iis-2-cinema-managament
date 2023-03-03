@@ -47,6 +47,7 @@ public class MovieScreeningController {
             GetScreeningsResponse response = new GetScreeningsResponse();
             response.setScreenings(ObjectX.createFromMany(CinemaService.getInstance().getMovieScreeningCache().values(), GetMovieScreeningsResponseEntry.class));
             response.setSuccess(true);
+            response.setError(Optional.empty());
             return new ResponseEntity<GetScreeningsResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetScreeningsResponse>> result = workload.getResultAsync().join();
@@ -68,6 +69,7 @@ public class MovieScreeningController {
             }
             response.setScreenings(screenings);
             response.setSuccess(true);
+            response.setError(Optional.empty());
             return new ResponseEntity<GetMovieScreeningsFullResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetMovieScreeningsFullResponse>> result = workload.getResultAsync().join();
