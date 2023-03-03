@@ -35,8 +35,7 @@ public class CinemaHallController {
         AsyncWorkload<ResponseEntity<GetCinemaHallsResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
             GetCinemaHallsResponse response = new GetCinemaHallsResponse();
-            // TODO: name is missing and pls fix this available bs
-            response.setCinemaHalls(CinemaService.getInstance().getCinemaHallCache().values().stream().map(ch -> new GetCinemaHallsResponseEntry(ch.getId(), null, ch.getAvailable())).toList());
+            response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values(), GetCinemaHallsResponseEntry.class));
             response.setSuccess(true);
             return new ResponseEntity<GetCinemaHallsResponse>(response, HttpStatus.OK);
         });
@@ -50,7 +49,7 @@ public class CinemaHallController {
         AsyncWorkload<ResponseEntity<GetCinemaHallsFullResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
             GetCinemaHallsFullResponse response = new GetCinemaHallsFullResponse();
-            // TODO: implement after available is fixed
+            response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values(), GetCinemaHallsFullResponseEntry.class));
             response.setSuccess(true);
             return new ResponseEntity<GetCinemaHallsFullResponse>(response, HttpStatus.OK);
         });

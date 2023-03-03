@@ -6,11 +6,5 @@ import lombok.Data;
 public class GetCinemaHallsResponseEntry {
     Integer id;
     String name;
-    boolean available;
-
-    public GetCinemaHallsResponseEntry(Integer id, String name, boolean available) {
-        this.id = id;
-        this.name = name;
-        this.available = available;
-    }
+    Boolean available;
 }
