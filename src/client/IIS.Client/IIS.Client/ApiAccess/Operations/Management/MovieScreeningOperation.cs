@@ -6,7 +6,6 @@ using IIS.Client.ApiAccess.Operations.Management.Responses;
 using IIS.Client.Cli.Commands.Management;
 using IIS.Client.Cli.IO;
 using IIS.Client.Cli.Utils;
-using System.Xml.Linq;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
