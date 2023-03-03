@@ -1,5 +1,5 @@
-/**--- Generated at Mon Feb 27 14:09:22 CET 2023 
- * --- Mode = No Database 
+/**--- Generated at Fri Mar 03 01:14:19 CET 2023 
+ * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
  * --- Do NOT use automatic Eclipse Comment Formatting!   
@@ -32,8 +32,9 @@ public class Cinema extends Observable{
    private Map<Integer,CustomerProxy> customerCache;
    private static Cinema theInstance = new Cinema();
    private Cinema(){
+      PersistenceExecuterFactory.setUseDataBase();
       this.dmlExecuter = PersistenceExecuterFactory.getConfiguredFactory().getDBDMLExecuter("Cinema");
-      try{
+      try{PersistenceExecuterFactory.getConfiguredFactory().getDBDDLExecuter().openDBConnection(new DBConnectionData("jdbc:mysql://localhost:3306", "Cinema", "root" , ""));
          PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().initializeFor("Cinema");
          this.loadProxies();
          this.loadRelations();
