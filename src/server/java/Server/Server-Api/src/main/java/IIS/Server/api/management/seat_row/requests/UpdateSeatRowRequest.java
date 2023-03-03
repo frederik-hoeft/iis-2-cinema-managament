@@ -1,6 +1,6 @@
 package IIS.Server.api.management.seat_row.requests;
 
-import generated.cinema.PriceCategory;
+import generated.cinemaService.PriceCategory;
 import lombok.Data;
 
 @Data

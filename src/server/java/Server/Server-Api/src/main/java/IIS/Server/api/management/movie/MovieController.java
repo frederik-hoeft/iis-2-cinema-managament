@@ -17,8 +17,8 @@ import IIS.Server.management.AsyncWorkload;
 import IIS.Server.management.GenericAsyncResult;
 import IIS.Server.management.PersistencyService;
 import IIS.Server.utils.ObjectX;
-import generated.cinema.Cinema;
-import generated.cinema.Movie;
+import generated.cinemaService.CinemaService;
+import generated.cinemaService.Movie;
 
 @RestController
 @RequestMapping(path="/management/movie", produces="application/json")
@@ -30,10 +30,10 @@ public class MovieController {
     {
         AsyncWorkload<ResponseEntity<GetMoviesResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
-            Movie m = Movie.createFresh(20, "test");
+            Movie m = Movie.createFresh("test title", "test description");
             GetMoviesResponse response = new GetMoviesResponse();
             response.setSuccess(true);
-            response.setMovies(ObjectX.createFromMany(Cinema.getInstance().getMovieCache().values(), GetMoviesResponseEntry.class));
+            response.setMovies(ObjectX.createFromMany(CinemaService.getInstance().getMovieCache().values(), GetMoviesResponseEntry.class));
 
             return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
         });
@@ -46,10 +46,10 @@ public class MovieController {
     {
         AsyncWorkload<ResponseEntity<GetMoviesFullResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
-            Movie m = Movie.createFresh(20, "test");
+            Movie m = Movie.createFresh("test title", "test description");
             GetMoviesFullResponse response = new GetMoviesFullResponse();
             response.setSuccess(true);
-            response.setMovies(ObjectX.createFromMany(Cinema.getInstance().getMovieCache().values(), GetMoviesFullResponseEntry.class));
+            response.setMovies(ObjectX.createFromMany(CinemaService.getInstance().getMovieCache().values(), GetMoviesFullResponseEntry.class));
 
             return new ResponseEntity<GetMoviesFullResponse>(response, HttpStatus.OK);
         });

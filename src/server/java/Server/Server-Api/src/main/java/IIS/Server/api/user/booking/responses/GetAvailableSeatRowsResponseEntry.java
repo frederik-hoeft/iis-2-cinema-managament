@@ -1,6 +1,6 @@
 package IIS.Server.api.user.booking.responses;
 
-import generated.cinema.PriceCategory;
+import generated.cinemaService.PriceCategory;
 import lombok.Data;
 
 @Data
