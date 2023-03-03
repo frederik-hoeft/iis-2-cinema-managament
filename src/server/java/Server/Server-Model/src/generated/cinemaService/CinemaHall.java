@@ -1,0 +1,113 @@
+/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+ * --- Mode = Integrated Database 
+ * --- Change only in Editable Sections!  
+ * --- Do NOT touch section numbering!   
+ * --- Do NOT use automatic Eclipse Comment Formatting!   
+ */
+package generated.cinemaService;
+//10 ===== GENERATED:      Import Section =========
+import java.sql.SQLException;
+import src.db.connection.NoConnectionException;
+import src.db.executer.PersistenceExecuterFactory;
+import exceptions.ConstraintViolation;
+import java.util.List;
+import generated.cinemaService.proxies.IMovieScreening;
+import generated.cinemaService.relationControl.MovieScreening_CinemaHallSupervisor;
+import generated.cinemaService.proxies.ISeatRow;
+import generated.cinemaService.relationControl.SeatRow_CinemaHallSupervisor;
+import generated.cinemaService.relationControl.CinemaHall_SeatRowSupervisor;
+import src.db.executer.PersistenceExecuterFactory;
+import generated.cinemaService.proxies.CinemaHallProxy;
+import observation.Observable;
+import generated.cinemaService.proxies.ICinemaHall;
+import generated.cinemaService.relationControl.*;
+import generated.cinemaService.proxies.*;
+import src.db.executer.PersistenceException;
+import java.util.Set;
+import java.util.HashSet;
+//20 ===== Editable : Your Import Section =========
+
+//25 ===== GENERATED:      Header Section =========
+public class CinemaHall extends Observable implements java.io.Serializable, ICinemaHall
+{
+   //30 ===== GENERATED:      Attribute Section ======
+   private Integer id;
+   private Boolean available;
+   //40 ===== Editable : Your Attribute Section ======
+   
+   //50 ===== GENERATED:      Constructor ============
+   private CinemaHall(Integer id, Boolean available, boolean objectOnly)
+   {
+      super();
+      this.setId(id);
+      this.available = available;
+      if(objectOnly) return;
+   }
+   public static CinemaHall createFresh(Boolean available)throws PersistenceException{
+      src.db.executer.PersistenceDMLExecuter dmlExecuter = CinemaService.getInstance().getDmlExecuter();
+      Integer id = dmlExecuter.getNextId();
+      try{
+         dmlExecuter.insertInto("CinemaHall", "id, typeKey, available", 
+         id.toString() + ", " + PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().getTypeKey("CinemaService", "CinemaHall").toString() + ", " + available.toString());
+      }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
+      CinemaHall me = new CinemaHall(id, available, false);
+      CinemaService.getInstance().addCinemaHallProxy(new CinemaHallProxy(me));
+      return me;
+   }
+   public static void delete(Integer id) throws ConstraintViolation, SQLException, NoConnectionException {
+      if(!CinemaService.getInstance().getCinemaHallCache().containsKey(id))throw new ConstraintViolation("Deletion not possible: " + "id " + id + " does not exist!");
+      CinemaHall toBeDeleted = CinemaService.getInstance().getCinemaHall(id);
+      List<IMovieScreening> ownersInMovieScreening_CinemaHall = MovieScreening_CinemaHallSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
+      if(ownersInMovieScreening_CinemaHall.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association MovieScreening_CinemaHall");
+      MovieScreening_CinemaHallSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
+      List<ISeatRow> ownersInSeatRow_CinemaHall = SeatRow_CinemaHallSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
+      if(ownersInSeatRow_CinemaHall.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association SeatRow_CinemaHall");
+      SeatRow_CinemaHallSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
+      CinemaHall_SeatRowSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
+      CinemaService.getInstance().getCinemaHallCache().remove(id);
+      CinemaService.getInstance().getDmlExecuter().delete("CinemaHall", id);
+   }
+   /** Caution: A Call to this Method Requires to add any newly instantiated Object to its Cache! */
+   public static CinemaHall instantiateRuntimeCopy(CinemaHallProxy proxy, Boolean available){
+      if(proxy.isObjectPresent()) return proxy.getTheObject();
+      return new CinemaHall(proxy.getId(), available, true);
+   }
+   //60 ===== Editable : Your Constructors ===========
+   
+   //70 ===== GENERATED:      Feature Access =========
+   public CinemaHall getTheObject(){
+      return this;
+   }
+   public Integer getId(){
+      return this.id;
+   }
+   protected void setId(Integer id){
+      this.id = id;
+   }
+   public boolean equals(Object o) {
+      if(!(o instanceof ICinemaHall)) return false;
+      return ((ICinemaHall)o).getId().equals(this.getId());
+   }
+   public int hashCode() {return this.getId().hashCode();}
+   public Set<SeatRow> getRows() throws PersistenceException{
+      Set<SeatRow> result = new HashSet<>();
+      for (ISeatRow i : CinemaHall_SeatRowSupervisor.getInstance().getRows(this)) result.add(i.getTheObject());
+      return result;
+   }
+   public void addToRows(SeatRow arg) throws PersistenceException{
+      CinemaHall_SeatRowSupervisor.getInstance().add(this, arg);
+   }
+   public boolean removeFromRows(SeatRow arg) throws PersistenceException{
+      return CinemaHall_SeatRowSupervisor.getInstance().remove(this, arg);
+   }
+   public Boolean getAvailable() {
+      return this.available;
+   }
+   public void setAvailable(Boolean newAvailable) throws PersistenceException{
+      this.available = newAvailable;
+      try{CinemaService.getInstance().getDmlExecuter().update("CinemaHall", "available", newAvailable.toString(), this.getId());
+      }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
+   }
+   //80 ===== Editable : Your Operations =============
+//90 ===== GENERATED: End of Your Operations ======
+}

@@ -47,7 +47,7 @@
     </language>
   </registry>
   <node concept="3_Gd4U" id="6Kq672PYM_2">
-    <property role="TrG5h" value="Cinema" />
+    <property role="TrG5h" value="CinemaService" />
     <node concept="3_Gd56" id="6Kq672PYM_3" role="3_Gd4Z">
       <property role="TrG5h" value="Movie" />
       <node concept="2_wlaR" id="6Kq672PYM_5" role="2_wlle">
