@@ -1,6 +1,7 @@
 package IIS.Server.api.management.movie;
 
-import java.util.stream.Collectors;
+import java.sql.SQLException;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,11 @@ import IIS.Server.management.AsyncWorkload;
 import IIS.Server.management.GenericAsyncResult;
 import IIS.Server.management.PersistencyService;
 import IIS.Server.utils.ObjectX;
+import exceptions.ConstraintViolation;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.Movie;
+import src.db.connection.NoConnectionException;
+import src.db.executer.PersistenceException;
 
 @RestController
 @RequestMapping(path="/management/movie", produces="application/json")
@@ -26,15 +30,12 @@ import generated.cinemaService.Movie;
 public class MovieController {
     
     @GetMapping("/list")
-    public ResponseEntity<GetMoviesResponse> listMovies() 
-    {
+    public ResponseEntity<GetMoviesResponse> listMovies() {
         AsyncWorkload<ResponseEntity<GetMoviesResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
-            Movie m = Movie.createFresh("test title", "test description");
             GetMoviesResponse response = new GetMoviesResponse();
-            response.setSuccess(true);
             response.setMovies(ObjectX.createFromMany(CinemaService.getInstance().getMovieCache().values(), GetMoviesResponseEntry.class));
-
+            response.setSuccess(true);
             return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetMoviesResponse>> result = workload.getResultAsync().join();
@@ -42,15 +43,12 @@ public class MovieController {
     }
 
     @GetMapping("/list-full")
-    public ResponseEntity<GetMoviesFullResponse> listDetailedMovies() 
-    {
+    public ResponseEntity<GetMoviesFullResponse> listDetailedMovies() {
         AsyncWorkload<ResponseEntity<GetMoviesFullResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
-            Movie m = Movie.createFresh("test title", "test description");
             GetMoviesFullResponse response = new GetMoviesFullResponse();
-            response.setSuccess(true);
             response.setMovies(ObjectX.createFromMany(CinemaService.getInstance().getMovieCache().values(), GetMoviesFullResponseEntry.class));
-
+            response.setSuccess(true);
             return new ResponseEntity<GetMoviesFullResponse>(response, HttpStatus.OK);
         });
         GenericAsyncResult<ResponseEntity<GetMoviesFullResponse>> result = workload.getResultAsync().join();
@@ -60,24 +58,100 @@ public class MovieController {
     @PostMapping("/create")
     public ResponseEntity<CreateMovieResponse> createMovie(@RequestBody CreateMovieRequest request) {
 
-        CreateMovieResponse response = new CreateMovieResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<CreateMovieResponse>(response, HttpStatus.CREATED);
+        AsyncWorkload<ResponseEntity<CreateMovieResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+        {
+            try {
+                Movie.createFresh(request.getTitle(), request.getDescription());
+            }
+            catch (PersistenceException e) {
+                CreateMovieResponse response = new CreateMovieResponse();
+                response.setSuccess(false);
+                response.setError(Optional.of(e.getMessage()));
+                return new ResponseEntity<CreateMovieResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            CreateMovieResponse response = new CreateMovieResponse();
+            response.setSuccess(true);
+            response.setError(Optional.empty());
+            return new ResponseEntity<CreateMovieResponse>(response, HttpStatus.OK);
+        });
+        GenericAsyncResult<ResponseEntity<CreateMovieResponse>> result = workload.getResultAsync().join();
+        return result.getValue();
     }
 
     @PostMapping("/update")
     public ResponseEntity<UpdateMovieResponse> updateMovie(@RequestBody UpdateMovieRequest request) {
 
-        UpdateMovieResponse response = new UpdateMovieResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<UpdateMovieResponse>(response, HttpStatus.OK);
+        AsyncWorkload<ResponseEntity<UpdateMovieResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+        {
+            if (!CinemaService.getInstance().getMovieCache().containsKey(request.getId())) {
+                UpdateMovieResponse response = new UpdateMovieResponse();
+                response.setSuccess(false);
+                response.setError(Optional.of("Could not find movie for id " + request.getId()));
+                return new ResponseEntity<UpdateMovieResponse>(response, HttpStatus.BAD_REQUEST);
+            }
+
+            try {
+                Movie movie = CinemaService.getInstance().getMovie(request.getId());
+                movie.setTitle(request.getTitle());
+                movie.setDescription(request.getDescription());
+            }
+            catch (PersistenceException e) {
+                UpdateMovieResponse response = new UpdateMovieResponse();
+                response.setSuccess(false);
+                response.setError(Optional.of(e.getMessage()));
+                return new ResponseEntity<UpdateMovieResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            UpdateMovieResponse response = new UpdateMovieResponse();
+            response.setSuccess(true);
+            response.setError(Optional.empty());
+            return new ResponseEntity<UpdateMovieResponse>(response, HttpStatus.OK);
+        });
+        GenericAsyncResult<ResponseEntity<UpdateMovieResponse>> result = workload.getResultAsync().join();
+        return result.getValue();
     }
 
     @PostMapping("/delete")
     public ResponseEntity<DeleteMovieResponse> deleteMovie(@RequestBody DeleteMovieRequest request) {
 
-        DeleteMovieResponse response = new DeleteMovieResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<DeleteMovieResponse>(response, HttpStatus.OK);
+        AsyncWorkload<ResponseEntity<DeleteMovieResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+        {
+            if (!CinemaService.getInstance().getMovieCache().containsKey(request.getId())) {
+                DeleteMovieResponse response = new DeleteMovieResponse();
+                response.setSuccess(false);
+                response.setError(Optional.of("Could not find movie for id " + request.getId()));
+                return new ResponseEntity<DeleteMovieResponse>(response, HttpStatus.BAD_REQUEST);
+            }
+
+            try {
+                Movie.delete(request.getId());
+            }
+            catch (ConstraintViolation e) {
+                DeleteMovieResponse response = new DeleteMovieResponse();
+                response.setSuccess(false);
+                response.setError(Optional.of(e.getMessage()));
+                return new ResponseEntity<DeleteMovieResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            catch (SQLException e) {
+                DeleteMovieResponse response = new DeleteMovieResponse();
+                response.setSuccess(false);
+                response.setError(Optional.of(e.getMessage()));
+                return new ResponseEntity<DeleteMovieResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            catch (NoConnectionException e) {
+                DeleteMovieResponse response = new DeleteMovieResponse();
+                response.setSuccess(false);
+                response.setError(Optional.of(e.getMessage()));
+                return new ResponseEntity<DeleteMovieResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            DeleteMovieResponse response = new DeleteMovieResponse();
+            response.setSuccess(true);
+            response.setError(Optional.empty());
+            return new ResponseEntity<DeleteMovieResponse>(response, HttpStatus.OK);
+        });
+        GenericAsyncResult<ResponseEntity<DeleteMovieResponse>> result = workload.getResultAsync().join();
+        return result.getValue();
     }
 }
