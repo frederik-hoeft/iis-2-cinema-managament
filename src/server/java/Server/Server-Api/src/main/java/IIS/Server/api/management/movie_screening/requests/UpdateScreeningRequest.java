@@ -6,5 +6,5 @@ import lombok.Data;
 public class UpdateScreeningRequest {
     Integer id;
     String newName;
-    boolean newHasExpired;
+    Boolean newFinished;
 }

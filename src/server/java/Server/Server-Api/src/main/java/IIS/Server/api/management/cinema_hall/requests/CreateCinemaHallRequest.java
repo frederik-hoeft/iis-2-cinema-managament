@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class CreateCinemaHallRequest {
     String name;
-    boolean available;
+    Boolean available;
 }

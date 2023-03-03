@@ -7,5 +7,5 @@ public class CreateScreeningRequest {
     Integer movieId;
     Integer cinemaHallId;
     String name;
-    boolean hasExpired;
+    Boolean hasExpired;
 }

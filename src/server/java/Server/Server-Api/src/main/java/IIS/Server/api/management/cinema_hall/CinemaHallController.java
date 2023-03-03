@@ -1,6 +1,8 @@
 package IIS.Server.api.management.cinema_hall;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import IIS.Server.api.management.cinema_hall.requests.*;
 import IIS.Server.api.management.cinema_hall.responses.*;
+import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponseEntry;
 import IIS.Server.management.AsyncWorkload;
 import IIS.Server.management.GenericAsyncResult;
 import IIS.Server.management.PersistencyService;
@@ -21,6 +24,7 @@ import IIS.Server.utils.ObjectX;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.CinemaHall;
 import generated.cinemaService.CinemaService;
+import generated.cinemaService.proxies.CinemaHallProxy;
 import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceException;
 
@@ -50,6 +54,13 @@ public class CinemaHallController {
         {
             GetCinemaHallsFullResponse response = new GetCinemaHallsFullResponse();
             response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values(), GetCinemaHallsFullResponseEntry.class));
+            List<GetCinemaHallsFullResponseEntry> cinemaHalls = new ArrayList<GetCinemaHallsFullResponseEntry>();
+            for (CinemaHallProxy ch : CinemaService.getInstance().getCinemaHallCache().values()) {
+                GetCinemaHallsFullResponseEntry entry = ObjectX.createFrom(ch, GetCinemaHallsFullResponseEntry.class);
+                entry.setRows(ObjectX.createFromMany(ch.getRows(), GetSeatRowsResponseEntry.class));
+                cinemaHalls.add(entry);
+            }
+            response.setCinemaHalls(cinemaHalls);
             response.setSuccess(true);
             return new ResponseEntity<GetCinemaHallsFullResponse>(response, HttpStatus.OK);
         });
@@ -64,7 +75,7 @@ public class CinemaHallController {
         {
             try {
                 // TODO: name field is missing
-                CinemaHall.createFresh(request.isAvailable());
+                CinemaHall.createFresh(request.getAvailable());
             }
             catch (PersistenceException e) {
                 CreateCinemaHallResponse response = new CreateCinemaHallResponse();
@@ -97,7 +108,7 @@ public class CinemaHallController {
             try {
                 CinemaHall cinemaHall = CinemaService.getInstance().getCinemaHall(request.getId());
                 // TODO: name field is missing 
-                cinemaHall.setAvailable(request.isAvailable());
+                cinemaHall.setAvailable(request.getAvailable());
             }
             catch (PersistenceException e) {
                 UpdateCinemaHallResponse response = new UpdateCinemaHallResponse();

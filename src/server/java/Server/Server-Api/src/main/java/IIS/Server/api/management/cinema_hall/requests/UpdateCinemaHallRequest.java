@@ -6,5 +6,5 @@ import lombok.Data;
 public class UpdateCinemaHallRequest {
     Integer id;
     String newName;
-    boolean available;
+    Boolean available;
 }

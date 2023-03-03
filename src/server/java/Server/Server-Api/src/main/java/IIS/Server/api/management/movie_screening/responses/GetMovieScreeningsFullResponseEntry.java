@@ -9,6 +9,6 @@ public class GetMovieScreeningsFullResponseEntry {
     Integer id;
     String name;
     GetMoviesResponseEntry movie;
-    GetCinemaHallsResponseEntry cinemaHall;
-    boolean hasExpired;
+    GetCinemaHallsResponseEntry hall;
+    Boolean finished;
 }

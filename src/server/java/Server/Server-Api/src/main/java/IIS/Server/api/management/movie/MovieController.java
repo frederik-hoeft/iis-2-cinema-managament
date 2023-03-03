@@ -1,6 +1,8 @@
 package IIS.Server.api.management.movie;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import IIS.Server.utils.ObjectX;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.Movie;
+import generated.cinemaService.proxies.MovieProxy;
 import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceException;
 
@@ -49,7 +52,13 @@ public class MovieController {
         AsyncWorkload<ResponseEntity<GetMoviesFullResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
             GetMoviesFullResponse response = new GetMoviesFullResponse();
-            response.setMovies(ObjectX.createFromMany(CinemaService.getInstance().getMovieCache().values(), GetMoviesFullResponseEntry.class));
+            List<GetMoviesFullResponseEntry> movies = new ArrayList<GetMoviesFullResponseEntry>();
+            for (MovieProxy m : CinemaService.getInstance().getMovieCache().values()) {
+                GetMoviesFullResponseEntry entry = ObjectX.createFrom(m, GetMoviesFullResponseEntry.class);
+                entry.setScreeningCount(m.getScreenings().size());
+                movies.add(entry);
+            }
+            response.setMovies(movies);
             response.setSuccess(true);
             return new ResponseEntity<GetMoviesFullResponse>(response, HttpStatus.OK);
         });

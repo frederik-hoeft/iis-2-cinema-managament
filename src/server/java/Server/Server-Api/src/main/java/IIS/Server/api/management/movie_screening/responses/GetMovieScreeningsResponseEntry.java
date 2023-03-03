@@ -6,6 +6,5 @@ import lombok.Data;
 public class GetMovieScreeningsResponseEntry {
     Integer id;
     String name;
-    String movieTitle;
-    boolean hasExpired;
+    Boolean finished;
 }
