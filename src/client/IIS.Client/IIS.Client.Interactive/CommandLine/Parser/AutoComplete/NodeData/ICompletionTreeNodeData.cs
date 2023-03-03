@@ -11,4 +11,6 @@ internal interface ICompletionTreeNodeData
     IEnumerable<CompletionItem> GetCompletions();
 
     public void AddCompletions(IEnumerable<CompletionItem> completions);
+
+    public bool Matches(string input);
 }

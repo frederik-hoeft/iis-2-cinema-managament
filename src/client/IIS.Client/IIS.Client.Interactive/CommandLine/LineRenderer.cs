@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.SymbolStore;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.SymbolStore;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -34,8 +35,7 @@ internal partial class LineRenderer
         Stdout.ResetColor();
         if (_line.Length < _previousContentLength)
         {
-            Stdout.Write('\r');
-            Stdout.Write(new string(' ', _promptLength + _previousContentLength));
+            ClearCurrentLine();
         }
         string line = _line.ToString();
         _previousContentLength = GetRenderedTextLength(line);
@@ -44,6 +44,12 @@ internal partial class LineRenderer
         string color = IsValid ? _contentColor : _invalidColor;
         RenderInternal($"{color}{_contentPrefix}{line}");
         Stdout.ResetColor();
+    }
+
+    public void ClearCurrentLine()
+    {
+        Stdout.Write('\r');
+        Stdout.Write(new string(' ', _promptLength + _previousContentLength));
     }
 
     public void RenderLine(string text, bool resetColor = true)
@@ -91,7 +97,12 @@ internal partial class LineRenderer
         return false;
     }
 
-    public void Clear() => _line.Clear();
+    public string Clear()
+    {
+        string line = _line.ToString();
+        _line.Clear();
+        return line;
+    }
 
     public void Load(string s)
     {
@@ -112,6 +123,17 @@ internal partial class LineRenderer
             RemoveCount(1);
             return true;
         }
+        return false;
+    }
+
+    public bool TryPeekLastCharacter([NotNullWhen(true)] out char? c)
+    {
+        if (_line.Length > 0)
+        {
+            c = _line[^1];
+            return true;
+        }
+        c = null;
         return false;
     }
 
@@ -165,7 +187,7 @@ internal partial class LineRenderer
         }
     }
 
-    private static int GetRenderedTextLength(string text)
+    public int GetRenderedTextLength(string text)
     {
         Regex ansiColors = AnsiColorRegex();
         return ansiColors.Replace(text, string.Empty).Length;

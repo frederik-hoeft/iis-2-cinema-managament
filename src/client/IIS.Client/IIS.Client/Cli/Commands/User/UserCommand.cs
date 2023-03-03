@@ -16,7 +16,7 @@ internal class UserCommand : CommandBase<UserCommand, UserCommandHandler>
         Command command = new("customer", "Perform an operation as a cinema customer.");
         command.AddAlias("user");
         UserIdentity = new Option<string?>(new string[] { "--as-identity" , "-i" }, () => null, "Specifies the identity (email address) of the existing user with which to perform the operation.");
-        command.AddGlobalOption(UserIdentity);
+        command.AddOption(UserIdentity);
         return RegisterHandler(this, command);
     }
 }

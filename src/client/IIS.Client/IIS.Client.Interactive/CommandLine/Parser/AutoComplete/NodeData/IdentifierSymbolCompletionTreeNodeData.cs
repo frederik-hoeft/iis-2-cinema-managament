@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Completions;
+using System.Linq;
 
 namespace IIS.Client.Interactive.CommandLine.Parser.AutoComplete.NodeData;
 
@@ -23,4 +24,6 @@ internal class IdentifierSymbolCompletionTreeNodeData : ICompletionTreeNodeData
 
     public IEnumerable<CompletionItem> GetCompletions() =>
         _identifierSymbol.GetCompletions().Concat(_additionalCompletionItems);
+
+    public bool Matches(string input) => Aliases.Contains(input, default(AliasEqualityComparer));
 }

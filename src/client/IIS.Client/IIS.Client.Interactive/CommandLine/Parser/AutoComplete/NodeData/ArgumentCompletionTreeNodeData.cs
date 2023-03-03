@@ -3,14 +3,14 @@ using System.CommandLine.Completions;
 
 namespace IIS.Client.Interactive.CommandLine.Parser.AutoComplete.NodeData;
 
-internal class SymbolCompletionTreeNodeData : ICompletionTreeNodeData
+internal class ArgumentCompletionTreeNodeData : ICompletionTreeNodeData
 {
-    private readonly Symbol _symbol;
+    private readonly Argument _symbol;
     private readonly IReadOnlyCollection<string> _aliases;
 
     private readonly List<CompletionItem> _additionalCompletionItems = new();
 
-    public SymbolCompletionTreeNodeData(Symbol symbol)
+    public ArgumentCompletionTreeNodeData(Argument symbol)
     {
         _symbol = symbol;
         _aliases = new List<string>()
@@ -28,4 +28,6 @@ internal class SymbolCompletionTreeNodeData : ICompletionTreeNodeData
 
     public IEnumerable<CompletionItem> GetCompletions() =>
         _symbol.GetCompletions().Concat(_additionalCompletionItems);
+
+    public bool Matches(string input) => Aliases.Contains(input, default(AliasEqualityComparer));
 }
