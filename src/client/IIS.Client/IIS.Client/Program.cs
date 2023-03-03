@@ -34,7 +34,8 @@ public class Program
         {
             Stdout.WriteLine($"Welcome to the IIS cinema client v{Version}!");
         }
-        Command rootCommand = BuildCommandTree();
+        RuntimeConfig config = LoadConfig();
+        Command rootCommand = BuildCommandTree(config);
         return rootCommand.Invoke(args);
     }
 
@@ -52,10 +53,8 @@ public class Program
         return config with { IsSlave = isSlave };
     }
 
-    public static Command BuildCommandTree()
+    public static Command BuildCommandTree(RuntimeConfig config)
     {
-        RuntimeConfig config = LoadConfig();
-
         ApiContext apiContext = RemoteApi.CreateApiContext(config);
 
         RootCommand rootCommand = new($"The IIS cinema client v{Version}");

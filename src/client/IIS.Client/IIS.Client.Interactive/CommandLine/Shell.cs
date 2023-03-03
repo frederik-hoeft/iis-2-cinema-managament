@@ -25,12 +25,15 @@ internal class Shell
         _slaveConfig = slaveConfig;
     }
 
-    public static Shell Create(Command rootCommand)
+    public static Shell Create(Command rootCommand, RuntimeConfig slaveConfig)
     {
         CommandCompletionService completionService = CommandCompletionService.CreateFor(rootCommand);
-        RuntimeConfig slaveConfig = SlaveProgram.LoadConfig();
         string slaveName = slaveConfig.ProcessName;
-        string remoteEndpoint = new Uri(slaveConfig.ApiEndpoint).Authority;
+        string remoteEndpoint = "???";
+        if (Uri.IsWellFormedUriString(slaveConfig.ApiEndpoint, UriKind.Absolute))
+        {
+            remoteEndpoint = new Uri(slaveConfig.ApiEndpoint).Authority;
+        }
         string prompt = $"{LIGHT_CYAN}launch against {YELLOW}{remoteEndpoint}{RESET}> {LIGHT_BLACK}\"";
         LineRenderer renderer = new(prompt, contentPrefix: "cinema ", invalidColor: LIGHT_RED, contentColor: WHITE);
         Shell shell = new(completionService, renderer, slaveName, slaveConfig);

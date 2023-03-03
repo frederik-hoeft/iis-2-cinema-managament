@@ -1,8 +1,11 @@
-﻿using IIS.Client.Interactive.CommandLine;
+﻿using IIS.Client.ApiAccess;
+using IIS.Client.Interactive.CommandLine;
 using System.CommandLine;
 using SlaveProgram = IIS.Client.Program;
 
-Command rootCommand = SlaveProgram.BuildCommandTree();
+RuntimeConfig slaveConfig = SlaveProgram.LoadConfig() with { IsSlave = true };
 
-Shell shell = Shell.Create(rootCommand);
+Command rootCommand = SlaveProgram.BuildCommandTree(slaveConfig);
+
+Shell shell = Shell.Create(rootCommand, slaveConfig);
 shell.Start();

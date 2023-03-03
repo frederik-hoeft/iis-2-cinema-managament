@@ -16,9 +16,17 @@ internal static class RemoteApi
             CookieContainer = new CookieContainer(),
             UseCookies = true
         });
-        Uri apiBase = new(config.ApiEndpoint);
+        Uri? apiBase = null;
+        if (Uri.IsWellFormedUriString(config.ApiEndpoint, UriKind.Absolute))
+        {
+            apiBase = new Uri(config.ApiEndpoint);
+        }
+        else if (!config.IsSlave)
+        {
+            throw new FormatException($"Provided endpoint '{config.ApiEndpoint}' was not a valid absolute uri string!");
+        }
         _cfg = config;
-        return new ApiContext(httpClient, apiBase, config);
+        return new ApiContext(httpClient, apiBase!, config);
     }
 
     public static void Execute(RemoteOperation operation)
