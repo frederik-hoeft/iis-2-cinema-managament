@@ -76,12 +76,24 @@
         <property role="3_FBD6" value="available" />
         <ref role="3_FBDr" node="5H4ykBYMXkd" resolve="Boolean" />
       </node>
+      <node concept="2_wlaR" id="72fz1xCzIza" role="2_wlle">
+        <property role="3_FBD6" value="name" />
+        <ref role="3_FBDr" node="5H4ykBYMXjQ" resolve="String" />
+      </node>
     </node>
     <node concept="3_Gd56" id="6Kq672PYPBN" role="3_Gd4Z">
       <property role="TrG5h" value="SeatRow" />
+      <node concept="2_wlaR" id="72fz1xCzIz8" role="2_wlle">
+        <property role="3_FBD6" value="name" />
+        <ref role="3_FBDr" node="5H4ykBYMXjQ" resolve="String" />
+      </node>
     </node>
     <node concept="3_Gd56" id="6Kq672PYPCi" role="3_Gd4Z">
       <property role="TrG5h" value="Seat" />
+      <node concept="2_wlaR" id="72fz1xCzFx0" role="2_wlle">
+        <property role="3_FBD6" value="name" />
+        <ref role="3_FBDr" node="5H4ykBYMXjQ" resolve="String" />
+      </node>
     </node>
     <node concept="3_Gd56" id="6Kq672PYPCL" role="3_Gd4Z">
       <property role="TrG5h" value="BookingState" />
