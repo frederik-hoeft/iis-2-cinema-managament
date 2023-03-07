@@ -22,10 +22,14 @@ import IIS.Server.api.management.movie.responses.GetMoviesResponseEntry;
 import IIS.Server.api.management.movie_screening.requests.*;
 import IIS.Server.api.management.movie_screening.responses.*;
 import IIS.Server.utils.ObjectX;
+import generated.cinemaService.Booking;
+import generated.cinemaService.BookingState;
 import generated.cinemaService.CinemaHall;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.Movie;
 import generated.cinemaService.MovieScreening;
+import generated.cinemaService.Reservation;
+import generated.cinemaService.proxies.IMovieScreening;
 import generated.cinemaService.proxies.MovieScreeningProxy;
 
 @RestController
@@ -143,16 +147,25 @@ public class MovieScreeningController extends BaseController {
     {
         return scheduled(() -> 
         {
-            if (!CinemaService.getInstance().getMovieScreeningCache().containsKey(request.getId())) 
+            final var screening = CinemaService.getCacheOf(IMovieScreening.class).getOrDefault(request.getId(), null);
+            if (screening == null) 
             {
-                DeleteScreeningResponse response = new DeleteScreeningResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of("Could not find movie screening for id " + request.getId()));
-                return new ResponseEntity<DeleteScreeningResponse>(response, HttpStatus.BAD_REQUEST);
+                return Response.error(DeleteScreeningResponse.class, "Could not find seat row for id " + request.getId());
             }
             try 
             {
-                MovieScreening.delete(request.getId());
+                for (final BookingState booking : screening.getBookings())
+                {
+                    if (booking instanceof Booking)
+                    {
+                        Booking.delete(booking.getId());
+                    }
+                    else
+                    {
+                        Reservation.delete(booking.getId());
+                    }
+                }
+                MovieScreening.delete(screening.getId());
             }
             catch (Exception e) 
             {

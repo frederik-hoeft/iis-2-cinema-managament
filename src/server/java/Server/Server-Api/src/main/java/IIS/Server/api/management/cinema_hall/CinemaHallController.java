@@ -24,6 +24,7 @@ import generated.cinemaService.Booking;
 import generated.cinemaService.BookingState;
 import generated.cinemaService.CinemaHall;
 import generated.cinemaService.CinemaService;
+import generated.cinemaService.MovieScreening;
 import generated.cinemaService.Reservation;
 import generated.cinemaService.Seat;
 import generated.cinemaService.SeatRow;
@@ -139,6 +140,21 @@ public class CinemaHallController extends BaseController {
             }
             try 
             {
+                for (MovieScreening screening : cinemaHall.getScreenings())
+                {
+                    for (final BookingState booking : screening.getBookings())
+                    {
+                        if (booking instanceof Booking)
+                        {
+                            Booking.delete(booking.getId());
+                        }
+                        else
+                        {
+                            Reservation.delete(booking.getId());
+                        }
+                    }
+                    MovieScreening.delete(screening.getId());
+                }
                 for (final SeatRow seatRow : cinemaHall.getRows()) 
                 {
                     for (final Seat seat : seatRow.getSeats()) 
