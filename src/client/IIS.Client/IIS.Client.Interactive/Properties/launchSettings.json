@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "IIS.Client.Interactive": {
+      "commandName": "Project"
+    }
+  }
+}

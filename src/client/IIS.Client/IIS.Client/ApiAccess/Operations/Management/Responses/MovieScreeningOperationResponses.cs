@@ -1,9 +1,33 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Management.Responses;
+﻿using IIS.Client.ApiAccess.ModelValidation;
 
-internal record CreateScreeningResponse(bool Success);
+namespace IIS.Client.ApiAccess.Operations.Management.Responses;
 
-internal record DeleteScreeningResponse(bool Success);
+/// <summary>
+/// POST /management/movie-screening/create
+/// </summary>
+internal record CreateMovieScreeningResponse(bool Success, string? Error) : IApiResponse;
 
-internal record GetScreeningsResponse(bool Success);
+/// <summary>
+/// POST /management/movie-screening/delete
+/// </summary>
+internal record DeleteMovieScreeningResponse(bool Success, string? Error) : IApiResponse;
 
-internal record UpdateScreeningResponse(bool Success);
+internal record GetMovieScreeningsResponseEntry(int Id, string Name, string MovieTitle, bool Finished);
+
+/// <summary>
+/// GET /management/movie-screening/list
+/// </summary>
+internal record GetMovieScreeningsResponse(bool Success, string? Error, GetMovieScreeningsResponseEntry[] Screenings) : IApiResponse;
+
+internal record GetMovieScreeningsFullResponseEntry(int Id, string Name, GetMoviesResponseEntry Movie, GetCinemaHallsResponseEntry Hall, bool Finished);
+
+/// <summary>
+/// GET /management/movie-screening/list-full
+/// POST /user/booking/available-screenings
+/// </summary>
+internal record GetMovieScreeningsFullResponse(bool Success, string? Error, GetMovieScreeningsFullResponseEntry[] Screenings) : IApiResponse;
+
+/// <summary>
+/// POST /management/movie-screening/update
+/// </summary>
+internal record UpdateMovieScreeningResponse(bool Success, string? Error) : IApiResponse;

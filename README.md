@@ -28,8 +28,6 @@
 
 ## Rest API endpoints:
 
-- /management/{all the classes lol}/[create/update/delete/list]
-- /admin/[revenue]
-- /user/account/create (create new Customer)
-- /user/booking/[book/reserve/upgrade?/cancel/...]
-- /user/info/... (stuff für booking)
+- [global API constants](/docs/md/api-global.md)
+- [request model](/docs/md/api-requests.md)
+- [response model](/docs/md/api-responses.md)

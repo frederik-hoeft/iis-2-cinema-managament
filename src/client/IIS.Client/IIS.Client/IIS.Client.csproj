@@ -5,9 +5,13 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>cinema</AssemblyName>
-    <Version>0.1.1.0</Version>
+    <AssemblyName>cinema-client</AssemblyName>
+    <Version>1.1.2.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include=".publishing\publish.ps1" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />

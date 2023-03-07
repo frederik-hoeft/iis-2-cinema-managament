@@ -1,5 +1,4 @@
-﻿using IIS.Client.ApiAccess.Network;
-using System.CommandLine;
+﻿using System.CommandLine;
 
 namespace IIS.Client.Cli.Commands;
 

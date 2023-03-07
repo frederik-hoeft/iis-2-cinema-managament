@@ -2,19 +2,38 @@
 
 namespace IIS.Client.ApiAccess.Operations.User.Requests;
 
+/// <summary>
+/// POST /user/account/create
+/// </summary>
 internal record UserCreateAccountRequest
 (
+    [Required][EmailAddress] string Email,
     [Required] string FirstName,
-    [Required] string LastName,
-    [EmailAddress] string Email
+    [Required] string LastName
 );
 
+/// <summary>
+/// POST /user/account/delete
+/// </summary>
 internal record UserDeleteAccountRequest
 (
     [Required][EmailAddress] string Email
 );
 
-internal record UserShowAccountRequest
+/// <summary>
+/// POST /user/account/get
+/// </summary>
+internal record GetUserAccountRequest
 (
-    [EmailAddress] string? Email
+    [Required][EmailAddress] string Email
+);
+
+/// <summary>
+/// POST /user/account/update
+/// </summary>
+internal record UserUpdateAccountRequest
+(
+    [Required][EmailAddress] string Email,
+    [Required] string FirstName,
+    [Required] string LastName
 );

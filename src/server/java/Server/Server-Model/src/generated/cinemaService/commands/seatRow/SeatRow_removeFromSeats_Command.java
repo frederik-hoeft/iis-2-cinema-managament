@@ -1,11 +1,11 @@
-/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
+/**--- Generated at Wed Mar 08 00:30:18 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.seatRow;
 import generated.cinemaService.*;
 import commands.*;
 public class SeatRow_removeFromSeats_Command extends ObjectCommand<SeatRow, Boolean>{
-   private static final long serialVersionUID = -1942933465L;
+   private static final long serialVersionUID = 1302071691L;
    private Seat arg;
    public SeatRow_removeFromSeats_Command(SeatRow receiver, Seat arg){
       super(receiver);

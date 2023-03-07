@@ -4,7 +4,7 @@ public enum ManagementOperationTarget
 {
     Movies,
     Screenings,
-    Rooms,
+    Halls,
     Rows,
     Seats,
 }

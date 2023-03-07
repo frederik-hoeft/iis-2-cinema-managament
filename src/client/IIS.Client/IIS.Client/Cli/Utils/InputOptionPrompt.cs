@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.IO.Pipes;
-using System.Runtime;
 
 namespace IIS.Client.Cli.Utils;
 
@@ -10,7 +8,7 @@ internal readonly struct InputOptionPrompt<TOption> : IInputPrompt<TOption>
 
     private readonly string _prompt;
 
-    public InputOptionPrompt(IReadOnlyList<TOption> options, string? prompt)
+    public InputOptionPrompt(IReadOnlyList<TOption> options, string? prompt = null)
     {
         Options = options;
         _prompt = prompt ?? "Select one of the following options:";
@@ -44,7 +42,7 @@ internal readonly struct InputOptionPrompt<TOption> : IInputPrompt<TOption>
     {
         while (true)
         {
-            Console.Write("> ");
+            Console.Write(Program.SLAVE_PROMPT);
             string? input = Console.ReadLine();
             if (int.TryParse(input, out int i))
             {

@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 14:00:47 CET 2023 
+/**--- Generated at Wed Mar 08 00:30:17 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -17,7 +17,12 @@ import observation.Observable;
 import src.db.executer.PersistenceExecuterFactory;
 import src.db.executer.PersistenceDMLExecuter;
 import src.db.connection.DBConnectionData;
+
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+
 //20 ===== Editable : Your import section =========
 //30 ===== GENERATED: Main Section ================
 public class CinemaService extends Observable{
@@ -227,5 +232,39 @@ public class CinemaService extends Observable{
       PersistenceExecuterFactory.getConfiguredFactory().getDBDDLExecuter().closeConnection("CinemaService");
    }
    //80 ===== Editable : Your Operations =============
+   public static synchronized <T> Map<Integer, T> getCacheOf(Class<T> type)
+   {
+      if (_caches == null)
+      {
+         _caches = new HashMap<>();
+         _caches.put(IMovie.class, cinema -> cinema.getMovieCache());
+         _caches.put(IMovieScreening.class, cinema -> cinema.getMovieScreeningCache());
+         _caches.put(ICinemaHall.class, cinema -> cinema.getCinemaHallCache());
+         _caches.put(ISeatRow.class, cinema -> cinema.getSeatRowCache());
+         _caches.put(ISeat.class, cinema -> cinema.getSeatCache());
+         _caches.put(IBooking.class, cinema -> cinema.getBookingCache());
+         _caches.put(IReservation.class, cinema -> cinema.getReservationCache());
+         _caches.put(ICustomer.class, cinema -> cinema.getCustomerCache());
+         Function<CinemaService, Map> getBookingStateCache = cinema -> {
+            final var bookings = cinema.getBookingCache();
+            final var reservations = cinema.getReservationCache();
+            final Map<Integer, BookingStateProxy> results = new HashMap<>();
+            results.putAll(bookings);
+            results.putAll(reservations);
+            return results;
+         };
+         _caches.put(IBookingState.class, getBookingStateCache);
+      }
+      Function<CinemaService, Map> cacheFactory = _caches.getOrDefault(type, cinema -> null);
+      var result = cacheFactory.apply(CinemaService.getInstance());
+      return (Map<Integer, T>)result;
+   }
+
+   public static <T> Collection<T> getSetOf(Class<T> type)
+   {
+      return getCacheOf(type).values();
+   }
+
+   private static Map<Class, Function<CinemaService, Map>> _caches = null;
 //90 ===== GENERATED: End of Your Operations ======
 }

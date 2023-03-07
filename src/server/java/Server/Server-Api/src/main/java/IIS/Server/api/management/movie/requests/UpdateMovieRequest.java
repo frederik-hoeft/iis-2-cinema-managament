@@ -6,4 +6,5 @@ import lombok.Data;
 public class UpdateMovieRequest {
     Integer id;
     String title;
+    String description;
 }

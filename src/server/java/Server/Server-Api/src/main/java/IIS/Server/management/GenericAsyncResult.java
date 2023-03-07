@@ -3,10 +3,12 @@ package IIS.Server.management;
 public final class GenericAsyncResult<TResult> implements IGenericAsyncResult<TResult> {
     private final boolean isSuccess;
     private final TResult value;
+    private final Exception error;
 
-    public GenericAsyncResult(boolean isSuccess, TResult value) {
+    private GenericAsyncResult(boolean isSuccess, TResult value, Exception error) {
         this.isSuccess = isSuccess;
         this.value = value;
+        this.error = error;
     }
 
     /**
@@ -23,6 +25,19 @@ public final class GenericAsyncResult<TResult> implements IGenericAsyncResult<TR
     @Override
     public TResult getValue() {
         return value;
+    }
+
+    @Override
+    public Exception getError() {
+        return error;
+    }
+
+    public static <TResult> GenericAsyncResult<TResult> of(TResult result) {
+        return new GenericAsyncResult<TResult>(true, result, null);
+    }
+
+    public static <TResult> GenericAsyncResult<TResult> error(Exception error) {
+        return new GenericAsyncResult<TResult>(false, null, error);
     }
 
     /**

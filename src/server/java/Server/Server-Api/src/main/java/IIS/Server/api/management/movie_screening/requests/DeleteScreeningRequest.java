@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class DeleteScreeningRequest {
-    Integer screeningId;
+    Integer id;
 }

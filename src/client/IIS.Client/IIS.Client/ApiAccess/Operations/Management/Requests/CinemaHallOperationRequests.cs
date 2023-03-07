@@ -1,7 +1,18 @@
-﻿namespace IIS.Client.ApiAccess.Operations.Management.Requests;
+﻿using System.ComponentModel.DataAnnotations;
 
-internal record CreateCinemaHallRequest();
+namespace IIS.Client.ApiAccess.Operations.Management.Requests;
 
-internal record DeleteCinemaHallRequest(int CinemaHallId);
+/// <summary>
+/// POST /management/cinema-hall/create
+/// </summary>
+internal record CreateCinemaHallRequest([Required] string Name, [Required] bool Available);
 
-internal record UpdateCinemaHallRequest(int CinemaHallId);
+/// <summary>
+/// POST /management/cinema-hall/delete
+/// </summary>
+internal record DeleteCinemaHallRequest([Required][Range(1, int.MaxValue)] int Id);
+
+/// <summary>
+/// POST /management/cinema-hall/update
+/// </summary>
+internal record UpdateCinemaHallRequest([Required][Range(1, int.MaxValue)] int Id, [Required] string NewName, [Required] bool Available);

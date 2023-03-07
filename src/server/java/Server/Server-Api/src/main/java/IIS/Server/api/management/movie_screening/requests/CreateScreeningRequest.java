@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class CreateScreeningRequest {
     Integer movieId;
-    Integer cinemaHallId; 
+    Integer cinemaHallId;
+    String name;
+    Boolean hasExpired;
 }

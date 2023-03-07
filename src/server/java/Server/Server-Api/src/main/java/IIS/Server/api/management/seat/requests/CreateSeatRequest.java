@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class CreateSeatRequest {
-    Integer seatRowId;
+    Integer rowId;
+    String name;
 }

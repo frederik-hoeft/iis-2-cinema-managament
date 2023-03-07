@@ -2,7 +2,7 @@
   "profiles": {
     "IIS.Client": {
       "commandName": "Project",
-      "commandLineArgs": "user --as-identity notavalidemaillol account register"
+      "commandLineArgs": "management show screenings"
     }
   }
 }

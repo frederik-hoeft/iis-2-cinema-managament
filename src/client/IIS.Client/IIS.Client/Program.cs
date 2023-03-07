@@ -8,29 +8,64 @@ using System.Text.Json;
 using IIS.Client.ApiAccess.Network;
 using IIS.Client.ApiAccess;
 using IIS.Client.Cli.Commands;
+using IIS.Client.Cli.IO;
 
-Version? clientVersion = Assembly.GetExecutingAssembly().GetName().Version;
+namespace IIS.Client;
 
-Console.WriteLine($"Welcome to the IIS cinema client v{clientVersion}!");
-
-const string CFG_FILE_NAME = "config.json";
-
-Config? config;
-using (Stream configStream = File.OpenRead(CFG_FILE_NAME))
+public class Program
 {
-    config = JsonSerializer.Deserialize<Config>(configStream);
+    public static Version? Version { get; }
+
+    public const string SLAVE_ENVIRONMENT_VARIABLE = "SLAVE";
+
+    public const string SLAVE_PROMPT = "> ";
+
+    public const string CFG_FILE_NAME = "config.json";
+
+    static Program()
+    {
+        Version = Assembly.GetExecutingAssembly().GetName().Version;
+    }
+
+    public static int Main(string[] args)
+    {
+        bool isSlave = Environment.GetEnvironmentVariable(SLAVE_ENVIRONMENT_VARIABLE) is not null;
+        if (!isSlave)
+        {
+            Stdout.WriteLine($"Welcome to the IIS cinema client v{Version}!");
+        }
+        RuntimeConfig config = LoadConfig();
+        Command rootCommand = BuildCommandTree(config);
+        return rootCommand.Invoke(args);
+    }
+
+    public static RuntimeConfig LoadConfig()
+    {
+        bool isSlave = Environment.GetEnvironmentVariable(SLAVE_ENVIRONMENT_VARIABLE) is not null;
+
+        RuntimeConfig? config;
+        using (Stream configStream = File.OpenRead(CFG_FILE_NAME))
+        {
+            config = JsonSerializer.Deserialize<RuntimeConfig>(configStream);
+        }
+        _ = config ?? throw new FormatException($"'{CFG_FILE_NAME}' has an invalid format and could not be read!");
+
+        return config with { IsSlave = isSlave };
+    }
+
+    public static Command BuildCommandTree(RuntimeConfig config)
+    {
+        ApiContext apiContext = RemoteApi.CreateApiContext(config);
+
+        RootCommand rootCommand = new($"The IIS cinema client v{Version}");
+
+        ICliCommand management = new ManagementCommand(apiContext);
+        rootCommand.RegisterSubCommand(management);
+        ICliCommand user = new UserCommand(apiContext);
+        rootCommand.RegisterSubCommand(user);
+        ICliCommand admin = new AdminCommand(apiContext);
+        rootCommand.RegisterSubCommand(admin);
+
+        return rootCommand;
+    }
 }
-_ = config ?? throw new FormatException($"'{CFG_FILE_NAME}' has an invalid format and could not be read!");
-
-ApiContext apiContext = RemoteApi.CreateApiContext(config);
-
-RootCommand rootCommand = new($"The IIS cinema client v{clientVersion}");
-
-ICliCommand management = new ManagementCommand(apiContext);
-rootCommand.RegisterSubCommand(management);
-ICliCommand user = new UserCommand(apiContext);
-rootCommand.RegisterSubCommand(user);
-ICliCommand admin = new AdminCommand(apiContext);
-rootCommand.RegisterSubCommand(admin);
-
-return rootCommand.Invoke(args);

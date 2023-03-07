@@ -8,7 +8,8 @@ internal readonly struct InputStringPrompt : IInputPrompt<string>
 
     public string? RequestInput()
     {
-        Console.Write(_prompt);
+        Console.WriteLine(_prompt);
+        Console.Write(Program.SLAVE_PROMPT);
         return Console.ReadLine();
     }
 }

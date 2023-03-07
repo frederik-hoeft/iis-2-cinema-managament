@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class UpdateSeatRequest {
-    Integer seatId;
-    Integer seatRowId;
+    Integer id;
+    String name;
 }

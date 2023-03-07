@@ -1,11 +1,11 @@
-/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
+/**--- Generated at Wed Mar 08 00:30:18 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.cinemaHall;
 import generated.cinemaService.*;
 import commands.*;
 public class CinemaHall_delete_Command extends ObjectCommand<CinemaHall, Void>{
-   private static final long serialVersionUID = -431728984L;
+   private static final long serialVersionUID = 606016608L;
    public CinemaHall_delete_Command(CinemaHall receiver){
       super(receiver);
    }
