@@ -8,5 +8,5 @@ public class GetSeatRowsResponseEntry {
     Integer id;
     String name;
     Integer seatCount;
-    PriceCategory priceCategory;
+    PriceCategory price;
 }

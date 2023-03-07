@@ -11,6 +11,6 @@ public class GetSeatRowsFullResponseEntry {
     Integer id;
     String name;
     String cinemaHallName;
-    PriceCategory priceCategory;
+    PriceCategory price;
     Collection<GetSeatsResponseEntry> seats;
 }
