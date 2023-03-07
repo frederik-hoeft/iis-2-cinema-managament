@@ -136,13 +136,16 @@ public class UserBookingController extends BaseController
             }
             try 
             {
+                final var screening = reservation.getScreening();
+                final var seat = reservation.getSeat();
+                final var user = reservation.getCustomer();
                 Reservation.delete(reservation.getId());
-                Booking.createFresh(reservation.getScreening(), reservation.getSeat(), reservation.getCustomer());
+                Booking.createFresh(screening, seat, user);
             } catch (Exception e) {
                 return Response.error(UserUpgradeReservationResponse.class, e.toString());
             }
             UserUpgradeReservationResponse response = new UserUpgradeReservationResponse();
-            response.setSuccess(false);
+            response.setSuccess(true);
             return new ResponseEntity<UserUpgradeReservationResponse>(response, HttpStatus.OK);
         });
     }
@@ -184,9 +187,13 @@ public class UserBookingController extends BaseController
                     screening.setMovie(ObjectX.createFrom(screeningProxy.getMovie(), GetMoviesResponseEntry.class));
                     screening.setHall(ObjectX.createFrom(screeningProxy.getHall(), GetCinemaHallsResponseEntry.class));
                     result.setMovieScreening(screening);
-                    final var seatProxy = b.getSeat();
-                    final var seat = ObjectX.createFrom(seatProxy, GetSeatsFullResponseEntry.class);
-                    seat.setRow(ObjectX.createFrom(seatProxy, GetSeatRowsResponseEntry.class));
+                    final var s = b.getSeat();
+                    final var r = s.getRow();
+                    final var seat = ObjectX.createFrom(s, GetSeatsFullResponseEntry.class);
+                    final var row = ObjectX.createFrom(r, GetSeatRowsResponseEntry.class);
+                    row.setSeatCount(r.getSeats().size());
+                    row.setPrice(PriceCategoryEnum.from(r.getPrice()));
+                    seat.setRow(row);
                     result.setSeat(seat);
                     result.setUser(ObjectX.createFrom(b.getCustomer(), GetUserAccountsResponseEntry.class));
                     return result;
@@ -213,9 +220,13 @@ public class UserBookingController extends BaseController
                     screening.setMovie(ObjectX.createFrom(screeningProxy.getMovie(), GetMoviesResponseEntry.class));
                     screening.setHall(ObjectX.createFrom(screeningProxy.getHall(), GetCinemaHallsResponseEntry.class));
                     result.setMovieScreening(screening);
-                    final var seatProxy = b.getSeat();
-                    final var seat = ObjectX.createFrom(seatProxy, GetSeatsFullResponseEntry.class);
-                    seat.setRow(ObjectX.createFrom(seatProxy, GetSeatRowsResponseEntry.class));
+                    final var s = b.getSeat();
+                    final var r = s.getRow();
+                    final var seat = ObjectX.createFrom(s, GetSeatsFullResponseEntry.class);
+                    final var row = ObjectX.createFrom(r, GetSeatRowsResponseEntry.class);
+                    row.setSeatCount(r.getSeats().size());
+                    row.setPrice(PriceCategoryEnum.from(r.getPrice()));
+                    seat.setRow(row);
                     result.setSeat(seat);
                     result.setUser(ObjectX.createFrom(b.getCustomer(), GetUserAccountsResponseEntry.class));
                     return result;
@@ -243,9 +254,13 @@ public class UserBookingController extends BaseController
                     screening.setMovie(ObjectX.createFrom(screeningProxy.getMovie(), GetMoviesResponseEntry.class));
                     screening.setHall(ObjectX.createFrom(screeningProxy.getHall(), GetCinemaHallsResponseEntry.class));
                     result.setMovieScreening(screening);
-                    final var seatProxy = b.getSeat();
-                    final var seat = ObjectX.createFrom(seatProxy, GetSeatsFullResponseEntry.class);
-                    seat.setRow(ObjectX.createFrom(seatProxy, GetSeatRowsResponseEntry.class));
+                    final var s = b.getSeat();
+                    final var r = s.getRow();
+                    final var seat = ObjectX.createFrom(s, GetSeatsFullResponseEntry.class);
+                    final var row = ObjectX.createFrom(r, GetSeatRowsResponseEntry.class);
+                    row.setSeatCount(r.getSeats().size());
+                    row.setPrice(PriceCategoryEnum.from(r.getPrice()));
+                    seat.setRow(row);
                     result.setSeat(seat);
                     result.setUser(ObjectX.createFrom(b.getCustomer(), GetUserAccountsResponseEntry.class));
                     return result;
@@ -272,9 +287,13 @@ public class UserBookingController extends BaseController
                     screening.setMovie(ObjectX.createFrom(screeningProxy.getMovie(), GetMoviesResponseEntry.class));
                     screening.setHall(ObjectX.createFrom(screeningProxy.getHall(), GetCinemaHallsResponseEntry.class));
                     result.setMovieScreening(screening);
-                    final var seatProxy = b.getSeat();
-                    final var seat = ObjectX.createFrom(seatProxy, GetSeatsFullResponseEntry.class);
-                    seat.setRow(ObjectX.createFrom(seatProxy, GetSeatRowsResponseEntry.class));
+                    final var s = b.getSeat();
+                    final var r = s.getRow();
+                    final var seat = ObjectX.createFrom(s, GetSeatsFullResponseEntry.class);
+                    final var row = ObjectX.createFrom(r, GetSeatRowsResponseEntry.class);
+                    row.setSeatCount(r.getSeats().size());
+                    row.setPrice(PriceCategoryEnum.from(r.getPrice()));
+                    seat.setRow(row);
                     result.setSeat(seat);
                     result.setUser(ObjectX.createFrom(b.getCustomer(), GetUserAccountsResponseEntry.class));
                     return result;
@@ -353,7 +372,7 @@ public class UserBookingController extends BaseController
                 })
                 .collect(Collectors.toList());
             GetMovieScreeningsFullResponse response = new GetMovieScreeningsFullResponse();
-            response.setSuccess(false);
+            response.setSuccess(true);
             response.setScreenings(screenings);
             return new ResponseEntity<GetMovieScreeningsFullResponse>(response, HttpStatus.OK);
         });
