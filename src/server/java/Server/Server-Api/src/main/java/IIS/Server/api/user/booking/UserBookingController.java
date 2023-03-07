@@ -49,8 +49,35 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
+            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equals(request.getEmail()));
+            if (user == null) 
+            {
+                return Response.error(UserBookingResponse.class, "user does not exist!");
+            }
+            final Seat seat = CinemaService.getCacheOf(Seat.class).getOrDefault(request.getSeatId(), null);
+            if (seat == null) 
+            {
+                return Response.error(UserBookingResponse.class, "seat does not exist!");
+            }
+            final MovieScreening screening = CinemaService.getCacheOf(MovieScreening.class).getOrDefault(request.getScreeningId(), null);
+            if (screening == null) 
+            {
+                return Response.error(UserBookingResponse.class, "movie screening does not exist!");
+            }
+            if (Linq.of(screening.getBookings()).any(b -> b.getSeat().getId() == seat.getId()))
+            {
+                return Response.error(UserBookingResponse.class, "the specified seat is already occupied!");
+            }
+            try 
+            {
+                Booking.createFresh(null, null, user);
+            } 
+            catch (Exception e) 
+            {
+                return Response.error(e);
+            }
             UserBookingResponse response = new UserBookingResponse();
-            response.setSuccess(false);
+            response.setSuccess(true);
             return new ResponseEntity<UserBookingResponse>(response, HttpStatus.OK);
         });
     }
