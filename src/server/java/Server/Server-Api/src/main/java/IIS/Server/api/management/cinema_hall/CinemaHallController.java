@@ -1,6 +1,5 @@
 package IIS.Server.api.management.cinema_hall;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -16,15 +15,19 @@ import com.bestvike.linq.Linq;
 
 import IIS.Server.api.BaseController;
 import IIS.Server.api.PriceCategoryEnum;
+import IIS.Server.api.Response;
 import IIS.Server.api.management.cinema_hall.requests.*;
 import IIS.Server.api.management.cinema_hall.responses.*;
 import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponseEntry;
 import IIS.Server.utils.ObjectX;
-import exceptions.ConstraintViolation;
+import generated.cinemaService.Booking;
+import generated.cinemaService.BookingState;
 import generated.cinemaService.CinemaHall;
 import generated.cinemaService.CinemaService;
+import generated.cinemaService.Reservation;
+import generated.cinemaService.Seat;
+import generated.cinemaService.SeatRow;
 import generated.cinemaService.proxies.ICinemaHall;
-import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceException;
 
 @RestController
@@ -129,33 +132,37 @@ public class CinemaHallController extends BaseController {
 
         return scheduled(() -> 
         {
-            if (!CinemaService.getInstance().getCinemaHallCache().containsKey(request.getId())) {
-                DeleteCinemaHallResponse response = new DeleteCinemaHallResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of("Could not find cinema hall for id " + request.getId()));
-                return new ResponseEntity<DeleteCinemaHallResponse>(response, HttpStatus.BAD_REQUEST);
+            final var cinemaHall = CinemaService.getCacheOf(ICinemaHall.class).getOrDefault(request.getId(), null);
+            if (cinemaHall == null) 
+            {
+                return Response.error(DeleteCinemaHallResponse.class, "Could not find cinema for id " + request.getId());
             }
-
-            try {
-                CinemaHall.delete(request.getId());
+            try 
+            {
+                for (final SeatRow seatRow : cinemaHall.getRows()) 
+                {
+                    for (final Seat seat : seatRow.getSeats()) 
+                    {
+                        for (final BookingState booking : seat.getBookings())
+                        {
+                            if (booking instanceof Booking)
+                            {
+                                Booking.delete(booking.getId());
+                            }
+                            else
+                            {
+                                Reservation.delete(booking.getId());
+                            }
+                        }
+                        Seat.delete(seat.getId());
+                    }
+                    SeatRow.delete(seatRow.getId());
+                }
+                CinemaHall.delete(cinemaHall.getId());
             }
-            catch (ConstraintViolation e) {
-                DeleteCinemaHallResponse response = new DeleteCinemaHallResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of(e.getMessage()));
-                return new ResponseEntity<DeleteCinemaHallResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            catch (SQLException e) {
-                DeleteCinemaHallResponse response = new DeleteCinemaHallResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of(e.getMessage()));
-                return new ResponseEntity<DeleteCinemaHallResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            catch (NoConnectionException e) {
-                DeleteCinemaHallResponse response = new DeleteCinemaHallResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of(e.getMessage()));
-                return new ResponseEntity<DeleteCinemaHallResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            catch (Exception e) 
+            {
+                return Response.error(e);
             }
 
             DeleteCinemaHallResponse response = new DeleteCinemaHallResponse();
