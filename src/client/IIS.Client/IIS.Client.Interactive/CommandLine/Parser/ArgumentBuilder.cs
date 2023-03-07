@@ -131,6 +131,7 @@ internal class ArgumentBuilder
         _renderer.Append(' ');
         _arguments.Clear();
         _wordBuilder.Clear();
+        CompletionService.Reset();
         foreach (ArgumentStackFrame stackFrame in args.Arguments.Reverse())
         {
             _arguments.Push(stackFrame);

@@ -32,12 +32,12 @@ public class CommandCompletionService
             if (_current != null)
             {
                 _current.IsAllowed = true;
-            }
-            else if (ReferenceEquals(stackFrame.Node.Parent, _current))
-            {
-                // removing option
-                OptionCompletionTreeNodeData nodeData = (OptionCompletionTreeNodeData)stackFrame.Node.Data;
-                _blacklistedGlobalOptions.Remove(nodeData);
+                if (ReferenceEquals(stackFrame.Node.Parent, _current))
+                {
+                    // removing option
+                    OptionCompletionTreeNodeData nodeData = (OptionCompletionTreeNodeData)stackFrame.Node.Data;
+                    _blacklistedGlobalOptions.Remove(nodeData);
+                }
             }
             _current = stackFrame.Node;
             return true;
