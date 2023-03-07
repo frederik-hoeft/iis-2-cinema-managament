@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bestvike.linq.Linq;
+
 import IIS.Server.api.BaseController;
 import IIS.Server.api.Response;
 import IIS.Server.api.management.cinema_hall.responses.GetCinemaHallsResponseEntry;
@@ -30,6 +32,7 @@ import IIS.Server.api.user.booking.responses.*;
 import IIS.Server.utils.ObjectX;
 import generated.cinemaService.Booking;
 import generated.cinemaService.CinemaService;
+import generated.cinemaService.Customer;
 import generated.cinemaService.Movie;
 import generated.cinemaService.MovieScreening;
 import generated.cinemaService.Reservation;
@@ -57,6 +60,33 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
+            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equals(request.getEmail()));
+            if (user == null) 
+            {
+                return Response.error(UserReservationResponse.class, "user does not exist!");
+            }
+            final Seat seat = CinemaService.getCacheOf(Seat.class).getOrDefault(request.getSeatId(), null);
+            if (seat == null) 
+            {
+                return Response.error(UserReservationResponse.class, "seat does not exist!");
+            }
+            final MovieScreening screening = CinemaService.getCacheOf(MovieScreening.class).getOrDefault(request.getScreeningId(), null);
+            if (screening == null) 
+            {
+                return Response.error(UserReservationResponse.class, "movie screening does not exist!");
+            }
+            if (Linq.of(screening.getBookings()).any(b -> b.getSeat().getId() == seat.getId()))
+            {
+                return Response.error(UserReservationResponse.class, "the specified seat is already occupied!");
+            }
+            try 
+            {
+                Reservation.createFresh(null, null, user);
+            } 
+            catch (Exception e) 
+            {
+                return Response.error(e);
+            }
             UserReservationResponse response = new UserReservationResponse();
             response.setSuccess(false);
             return new ResponseEntity<UserReservationResponse>(response, HttpStatus.OK);
@@ -68,10 +98,10 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final var reservation = CinemaService.getInstance().getReservation(request.getReservationId());
-            if (!reservation.getCustomer().getEmail().equals(request.getEmail()))
+            final var reservation = CinemaService.getCacheOf(Reservation.class).getOrDefault(request.getReservationId(), null);
+            if (reservation == null || !reservation.getCustomer().getEmail().equals(request.getEmail()))
             {
-                return Response.error(UserUpgradeReservationResponse.class, "No such reservation");
+                return Response.error(UserUpgradeReservationResponse.class, "No such reservation for " + request.getEmail());
             }
             try 
             {
@@ -91,10 +121,10 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final var reservation = CinemaService.getInstance().getReservation(request.getReservationId());
-            if (!reservation.getCustomer().getEmail().equals(request.getEmail()))
+            final var reservation = CinemaService.getCacheOf(Reservation.class).getOrDefault(request.getReservationId(), null);
+            if (reservation == null || !reservation.getCustomer().getEmail().equals(request.getEmail()))
             {
-                return Response.error(UserCancelReservationResponse.class, "No such reservation");
+                return Response.error(UserCancelReservationResponse.class, "No such reservation for " + request.getEmail());
             }
             try 
             {
