@@ -18,6 +18,7 @@ import src.db.executer.PersistenceExecuterFactory;
 import src.db.executer.PersistenceDMLExecuter;
 import src.db.connection.DBConnectionData;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -256,6 +257,11 @@ public class CinemaService extends Observable{
       Function<CinemaService, Map> cacheFactory = _caches.getOrDefault(type, cinema -> null);
       var result = cacheFactory.apply(CinemaService.getInstance());
       return (Map<Integer, T>)result;
+   }
+
+   public static <T> Collection<T> getSetOf(Class<T> type)
+   {
+      return getCacheOf(type).values();
    }
 
    private static Map<Class, Function<CinemaService, Map>> _caches = null;
