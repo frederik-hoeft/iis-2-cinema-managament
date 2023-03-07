@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import IIS.Server.api.BaseController;
 import IIS.Server.api.management.cinema_hall.requests.*;
 import IIS.Server.api.management.cinema_hall.responses.*;
 import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponseEntry;
-import IIS.Server.management.AsyncWorkload;
-import IIS.Server.management.GenericAsyncResult;
-import IIS.Server.management.PersistencyService;
 import IIS.Server.utils.ObjectX;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.CinemaHall;
@@ -31,12 +29,12 @@ import src.db.executer.PersistenceException;
 @RestController
 @RequestMapping(path="/management/cinema-hall", produces="application/json")
 @CrossOrigin(origins="*")
-public class CinemaHallController {
+public class CinemaHallController extends BaseController {
     
     @GetMapping("/list")
-    public ResponseEntity<GetCinemaHallsResponse> listCinemaHalls() {
-        
-        AsyncWorkload<ResponseEntity<GetCinemaHallsResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+    public ResponseEntity<GetCinemaHallsResponse> listCinemaHalls() 
+    {
+        return scheduled(() ->
         {
             GetCinemaHallsResponse response = new GetCinemaHallsResponse();
             response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values(), GetCinemaHallsResponseEntry.class));
@@ -44,17 +42,14 @@ public class CinemaHallController {
             response.setError(Optional.empty());
             return new ResponseEntity<GetCinemaHallsResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<GetCinemaHallsResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     @GetMapping("/list-full")
-    public ResponseEntity<GetCinemaHallsFullResponse> listDetailedCinemaHalls() {
-
-        AsyncWorkload<ResponseEntity<GetCinemaHallsFullResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+    public ResponseEntity<GetCinemaHallsFullResponse> listDetailedCinemaHalls() 
+    {
+        return scheduled(() -> 
         {
             GetCinemaHallsFullResponse response = new GetCinemaHallsFullResponse();
-            response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values(), GetCinemaHallsFullResponseEntry.class));
             List<GetCinemaHallsFullResponseEntry> cinemaHalls = new ArrayList<GetCinemaHallsFullResponseEntry>();
             for (CinemaHallProxy ch : CinemaService.getInstance().getCinemaHallCache().values()) {
                 GetCinemaHallsFullResponseEntry entry = ObjectX.createFrom(ch, GetCinemaHallsFullResponseEntry.class);
@@ -63,17 +58,14 @@ public class CinemaHallController {
             }
             response.setCinemaHalls(cinemaHalls);
             response.setSuccess(true);
-            response.setError(Optional.empty());
             return new ResponseEntity<GetCinemaHallsFullResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<GetCinemaHallsFullResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     @PostMapping("/create")
     public ResponseEntity<CreateCinemaHallResponse> createCinemaHall(@RequestBody CreateCinemaHallRequest request) {
 
-        AsyncWorkload<ResponseEntity<CreateCinemaHallResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+        return scheduled(() -> 
         {
             try {
                 CinemaHall.createFresh(request.getAvailable(), request.getName());
@@ -90,14 +82,12 @@ public class CinemaHallController {
             response.setError(Optional.empty());
             return new ResponseEntity<CreateCinemaHallResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<CreateCinemaHallResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     @PostMapping("/update")
     public ResponseEntity<UpdateCinemaHallResponse> updateCinemaHall(@RequestBody UpdateCinemaHallRequest request) {
 
-        AsyncWorkload<ResponseEntity<UpdateCinemaHallResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+        return scheduled(() -> 
         {
             if (!CinemaService.getInstance().getCinemaHallCache().containsKey(request.getId())) {
                 UpdateCinemaHallResponse response = new UpdateCinemaHallResponse();
@@ -123,14 +113,12 @@ public class CinemaHallController {
             response.setError(Optional.empty());
             return new ResponseEntity<UpdateCinemaHallResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<UpdateCinemaHallResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     @PostMapping("/delete")
     public ResponseEntity<DeleteCinemaHallResponse> deleteCinemaHall(@RequestBody DeleteCinemaHallRequest request) {
 
-        AsyncWorkload<ResponseEntity<DeleteCinemaHallResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+        return scheduled(() -> 
         {
             if (!CinemaService.getInstance().getCinemaHallCache().containsKey(request.getId())) {
                 DeleteCinemaHallResponse response = new DeleteCinemaHallResponse();
@@ -166,7 +154,5 @@ public class CinemaHallController {
             response.setError(Optional.empty());
             return new ResponseEntity<DeleteCinemaHallResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<DeleteCinemaHallResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 }
