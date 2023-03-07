@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class GetAvailableSeatRowsResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
     Collection<GetAvailableSeatRowsResponseEntry> rows;
 }

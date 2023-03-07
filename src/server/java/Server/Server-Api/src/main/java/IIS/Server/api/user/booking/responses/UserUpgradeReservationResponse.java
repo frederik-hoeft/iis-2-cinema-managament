@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class UserUpgradeReservationResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
 }

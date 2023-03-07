@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class GetUserAccountsResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
     Collection<GetUserAccountsResponseEntry> accounts;
 }

@@ -34,7 +34,7 @@ public abstract class Response
     {
         final var result = new InternalServerErrorResponse();
         result.setSuccess(false);
-        result.setError(Optional.of(error.getMessage()));
+        result.setError(Optional.of(error.getClass().getSimpleName() + ": " + error.getMessage()));
         return new ResponseEntity(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
