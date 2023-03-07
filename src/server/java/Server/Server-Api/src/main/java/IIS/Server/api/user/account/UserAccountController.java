@@ -9,51 +9,67 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import IIS.Server.api.BaseController;
 import IIS.Server.api.user.account.requests.*;
 import IIS.Server.api.user.account.responses.*;
 
 @RestController
 @RequestMapping(path="/user/account", produces="application/json")
 @CrossOrigin(origins="*")
-public class UserAccountController {
-    
+public class UserAccountController extends BaseController 
+{
     @GetMapping("/list")
-    public ResponseEntity<GetUserAccountsResponse> listAccounts() {
-
-        GetUserAccountsResponse response = new GetUserAccountsResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<GetUserAccountsResponse>(response, HttpStatus.CREATED);
+    public ResponseEntity<GetUserAccountsResponse> listAccounts() 
+    {
+        return scheduled(() ->
+        {
+            GetUserAccountsResponse response = new GetUserAccountsResponse();
+            response.setSuccess(false);
+            return new ResponseEntity<GetUserAccountsResponse>(response, HttpStatus.CREATED);
+        });
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserCreateAccountResponse> createAccount(@RequestBody UserCreateAccountRequest request) {
-
-        UserCreateAccountResponse response = new UserCreateAccountResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<UserCreateAccountResponse>(response, HttpStatus.CREATED);
+    public ResponseEntity<UserCreateAccountResponse> createAccount(@RequestBody UserCreateAccountRequest request) 
+    {
+        return scheduled(() ->
+        {
+            UserCreateAccountResponse response = new UserCreateAccountResponse();
+            response.setSuccess(false);
+            return new ResponseEntity<UserCreateAccountResponse>(response, HttpStatus.CREATED);
+        });
     }
 
     @PostMapping("/get")
-    public ResponseEntity<GetUserAccountResponse> getAccount(@RequestBody GetUserAccountRequest request) {
-
-        GetUserAccountResponse response = new GetUserAccountResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<GetUserAccountResponse>(response, HttpStatus.CREATED);
+    public ResponseEntity<GetUserAccountResponse> getAccount(@RequestBody GetUserAccountRequest request) 
+    {
+        return scheduled(() ->
+        {
+            GetUserAccountResponse response = new GetUserAccountResponse();
+            response.setSuccess(false);
+            return new ResponseEntity<GetUserAccountResponse>(response, HttpStatus.CREATED);
+        });
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<UserDeleteAccountResponse> deleteAccount(@RequestBody UserDeleteAccountRequest request) {
-
-        UserDeleteAccountResponse response = new UserDeleteAccountResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<UserDeleteAccountResponse>(response, HttpStatus.CREATED);
+    public ResponseEntity<UserDeleteAccountResponse> deleteAccount(@RequestBody UserDeleteAccountRequest request) 
+    {
+        return scheduled(() ->
+        {
+            UserDeleteAccountResponse response = new UserDeleteAccountResponse();
+            response.setSuccess(false);
+            return new ResponseEntity<UserDeleteAccountResponse>(response, HttpStatus.CREATED);
+        });
     }
 
     @PostMapping("/update")
-    public ResponseEntity<UserUpdateAccountResponse> updateAccount(@RequestBody UserUpdateAccountRequest request) {
-
-        UserUpdateAccountResponse response = new UserUpdateAccountResponse();
-        response.setSuccess(false);
-        return new ResponseEntity<UserUpdateAccountResponse>(response, HttpStatus.CREATED);
+    public ResponseEntity<UserUpdateAccountResponse> updateAccount(@RequestBody UserUpdateAccountRequest request) 
+    {
+        return scheduled(() ->
+        {
+            UserUpdateAccountResponse response = new UserUpdateAccountResponse();
+            response.setSuccess(false);
+            return new ResponseEntity<UserUpdateAccountResponse>(response, HttpStatus.CREATED);
+        });
     }
 }
