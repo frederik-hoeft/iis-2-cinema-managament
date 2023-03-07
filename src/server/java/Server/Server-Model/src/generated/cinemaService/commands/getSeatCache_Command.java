@@ -1,11 +1,11 @@
-/**--- Generated at Tue Mar 07 22:26:21 CET 2023 
+/**--- Generated at Wed Mar 08 00:30:17 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands;
 import generated.cinemaService.*;
 import commands.*;
 public class getSeatCache_Command extends ServiceCommand<java.util.Map<Integer, generated.cinemaService.proxies.SeatProxy>>{
-   private static final long serialVersionUID = 1872469106L;
+   private static final long serialVersionUID = -1899397594L;
    public getSeatCache_Command(){
       super();
    }

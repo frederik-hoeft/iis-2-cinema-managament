@@ -1,11 +1,11 @@
-/**--- Generated at Tue Mar 07 22:26:22 CET 2023 
+/**--- Generated at Wed Mar 08 00:30:18 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.seatRow;
 import generated.cinemaService.*;
 import commands.*;
 public class SeatRow_setPrice_Command extends ObjectCommand<SeatRow, Void>{
-   private static final long serialVersionUID = 1361189870L;
+   private static final long serialVersionUID = -1948968315L;
    private PriceCategory arg;
    public SeatRow_setPrice_Command(SeatRow receiver, PriceCategory arg){
       super(receiver);

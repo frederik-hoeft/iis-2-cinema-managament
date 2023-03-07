@@ -24,6 +24,7 @@ import IIS.Server.api.management.movie_screening.responses.GetMovieScreeningsRes
 import IIS.Server.api.management.movie_screening.responses.GetScreeningsResponse;
 import IIS.Server.utils.ObjectX;
 import baseTypes.Rational;
+import generated.cinemaService.Booking;
 import generated.cinemaService.BookingState;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.MovieScreening;
@@ -50,7 +51,10 @@ public class AdminController extends BaseController
             {
                 for (BookingState booking : screening.getBookings()) 
                 {
-                    revenue = Rational.add(revenue, booking.getSeat().getRow().getPrice().getPrice().get());
+                    if (booking instanceof Booking)
+                    {
+                        revenue = Rational.add(revenue, booking.getSeat().getRow().getPrice().getPrice().get());
+                    }
                 }
             }
 
@@ -76,7 +80,10 @@ public class AdminController extends BaseController
             Rational revenue = new Rational(0);
             for (BookingState booking : screening.getBookings()) 
             {
-                revenue = Rational.add(revenue, booking.getSeat().getRow().getPrice().getPrice().get());
+                if (booking instanceof Booking)
+                {
+                    revenue = Rational.add(revenue, booking.getSeat().getRow().getPrice().getPrice().get());
+                }
             }
 
             Double total = revenue.getEnumerator().divide(revenue.getDenominator()).doubleValue();
@@ -94,7 +101,7 @@ public class AdminController extends BaseController
         return scheduled(() -> 
         {
             final var movies = Linq.of(CinemaService.getSetOf(IMovie.class))
-                .where(m -> Linq.of(m.getScreenings()).any(s -> s.getFinished()))
+                //.where(m -> Linq.of(m.getScreenings()).any(s -> s.getFinished()))
                 .select(m -> ObjectX.createFrom(m, GetMoviesResponseEntry.class))
                 .toList();
             GetMoviesResponse response = new GetMoviesResponse();
@@ -110,7 +117,7 @@ public class AdminController extends BaseController
         return scheduled(() -> 
         {
             final var screenings = Linq.of(CinemaService.getSetOf(IMovieScreening.class))
-                .where(s -> s.getFinished())
+                //.where(s -> s.getFinished())
                 .select(s -> 
                 {
                     final var screening = ObjectX.createFrom(s, GetMovieScreeningsResponseEntry.class);

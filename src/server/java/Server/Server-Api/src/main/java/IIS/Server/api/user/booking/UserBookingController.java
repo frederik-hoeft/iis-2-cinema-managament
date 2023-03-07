@@ -41,7 +41,6 @@ import generated.cinemaService.proxies.IMovieScreening;
 import generated.cinemaService.proxies.IReservation;
 import generated.cinemaService.proxies.ISeat;
 
-
 @RestController
 @RequestMapping(path="/user/booking", produces="application/json")
 @CrossOrigin(origins="*")
