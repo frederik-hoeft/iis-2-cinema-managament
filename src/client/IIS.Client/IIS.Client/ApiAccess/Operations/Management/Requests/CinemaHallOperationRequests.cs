@@ -15,4 +15,4 @@ internal record DeleteCinemaHallRequest([Required][Range(1, int.MaxValue)] int I
 /// <summary>
 /// POST /management/cinema-hall/update
 /// </summary>
-internal record UpdateCinemaHallRequest([Required][Range(1, int.MaxValue)] int Id, [Required] string NewName, [Required] bool IsAvailable);
+internal record UpdateCinemaHallRequest([Required][Range(1, int.MaxValue)] int Id, [Required] string NewName, [Required] bool Available);

@@ -13,7 +13,7 @@ internal record CreateSeatRowResponse(bool Success, string? Error) : IApiRespons
 /// </summary>
 internal record DeleteSeatRowResponse(bool Success, string? Error) : IApiResponse;
 
-internal record GetSeatRowsResponseEntry(int Id, string Name, int SeatCount, PriceCategory PriceCategory);
+internal record GetSeatRowsResponseEntry(int Id, string Name, int SeatCount, PriceCategory Price);
 
 /// <summary>
 /// POST /management/seat-row/list
@@ -21,7 +21,7 @@ internal record GetSeatRowsResponseEntry(int Id, string Name, int SeatCount, Pri
 /// </summary>
 internal record GetSeatRowsResponse(bool Success, string? Error, GetSeatRowsResponseEntry[] Rows) : IApiResponse;
 
-internal record GetSeatRowsFullResponseEntry(int Id, string Name, string CinemaHallName, PriceCategory PriceCategory, GetSeatsResponseEntry[] Seats);
+internal record GetSeatRowsFullResponseEntry(int Id, string Name, string CinemaHallName, PriceCategory Price, GetSeatsResponseEntry[] Seats);
 
 /// <summary>
 /// GET /management/seat-row/list-full

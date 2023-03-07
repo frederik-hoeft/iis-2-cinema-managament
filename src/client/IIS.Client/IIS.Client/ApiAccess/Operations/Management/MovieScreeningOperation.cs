@@ -6,6 +6,7 @@ using IIS.Client.ApiAccess.Operations.Management.Responses;
 using IIS.Client.Cli.Commands.Management;
 using IIS.Client.Cli.IO;
 using IIS.Client.Cli.Utils;
+using System.Net.Http.Json;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
@@ -45,6 +46,7 @@ internal class MovieScreeningOperation : ManagementOperationBase, IManagementOpe
         CreateMovieScreeningRequest request = new(movie.Id, hall.Id, screeningName!, hasExpired);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         CreateMovieScreeningResponse? response = responseMessage.Content.ReadFromJson<CreateMovieScreeningResponse>();
         response.AssertIsValid();
@@ -64,6 +66,7 @@ internal class MovieScreeningOperation : ManagementOperationBase, IManagementOpe
         }
         DeleteMovieScreeningRequest request = new(screening.Id);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("delete"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         DeleteMovieScreeningResponse? response = responseMessage.Content.ReadFromJson<DeleteMovieScreeningResponse>();
         response.AssertIsValid();
@@ -104,6 +107,7 @@ internal class MovieScreeningOperation : ManagementOperationBase, IManagementOpe
         UpdateMovieScreeningRequest request = new(screening.Id, name!, hasExpired);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         UpdateMovieScreeningResponse? response = responseMessage.Content.ReadFromJson<UpdateMovieScreeningResponse>();
         response.AssertIsValid();

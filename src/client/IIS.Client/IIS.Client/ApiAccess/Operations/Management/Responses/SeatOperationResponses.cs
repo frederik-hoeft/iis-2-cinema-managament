@@ -18,6 +18,11 @@ internal record GetSeatsResponseEntry(int Id, string Name);
 internal record GetSeatsFullResponseEntry(int Id, string Name, GetSeatRowsResponseEntry Row);
 
 /// <summary>
+/// GET /management/seat/list-full
+/// </summary>
+internal record GetSeatsFullResponse(bool Success, string? Error, GetSeatsFullResponseEntry[] Seats) : IApiResponse;
+
+/// <summary>
 /// POST /management/seat/list
 /// POST /user/booking/available-seats
 /// </summary>

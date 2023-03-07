@@ -64,7 +64,11 @@ internal class CinemaHallOperation : ManagementOperationBase, IManagementOperati
         Stdout.WriteLine("Ok. These are the cinema halls:", ConsoleColor.Green);
         foreach (GetCinemaHallsFullResponseEntry hall in halls)
         {
-            Stdout.WriteLine($"  {hall}", ConsoleColor.Green);
+            Stdout.WriteLine($"  {hall with { Rows = null! }}", ConsoleColor.Green);
+            foreach (GetSeatRowsResponseEntry row in hall.Rows)
+            {
+                Stdout.WriteLine($"    {row}", ConsoleColor.Green);
+            }
         }
     }
 
@@ -85,7 +89,7 @@ internal class CinemaHallOperation : ManagementOperationBase, IManagementOperati
         {
             name = hall.Name;
         }
-        bool isAvailable = InputProvider.RequestBoolFor("is the cinema hall available for booking?", hall.IsAvailable);
+        bool isAvailable = InputProvider.RequestBoolFor("is the cinema hall available for booking?", hall.Available);
         UpdateCinemaHallRequest request = new(hall.Id, name, isAvailable);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));

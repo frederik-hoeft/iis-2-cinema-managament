@@ -34,7 +34,7 @@ internal abstract class UserBookingOperationBase : UserOperationBase
         }
         GetMovieScreeningsRequest availableScreeningsRequest = new(movie.Id);
         using HttpRequestMessage availableScreeningsRequestMessage = new(HttpMethod.Post, Uri.CombineWith("available-screenings"));
-        availableMoviesRequestMessage.Content = JsonContent.Create(availableScreeningsRequest);
+        availableScreeningsRequestMessage.Content = JsonContent.Create(availableScreeningsRequest);
         using HttpResponseMessage availableScreeningsResponseMessage = ApiContext.HttpClient.Send(availableScreeningsRequestMessage);
         GetMovieScreeningsFullResponse? availableScreeningsResponse = availableScreeningsResponseMessage.Content.ReadFromJson<GetMovieScreeningsFullResponse>();
         GetMovieScreeningsFullResponseEntry[] availableScreenings = availableScreeningsResponse.AssertIsValid().Screenings;

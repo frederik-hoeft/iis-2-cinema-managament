@@ -19,7 +19,7 @@ internal record GetMovieScreeningsResponseEntry(int Id, string Name, string Movi
 /// </summary>
 internal record GetMovieScreeningsResponse(bool Success, string? Error, GetMovieScreeningsResponseEntry[] Screenings) : IApiResponse;
 
-internal record GetMovieScreeningsFullResponseEntry(int Id, string Name, GetMoviesResponseEntry Movie, GetCinemaHallsResponseEntry CinemaHall, bool HasExpired);
+internal record GetMovieScreeningsFullResponseEntry(int Id, string Name, GetMoviesResponseEntry Movie, GetCinemaHallsResponseEntry Hall, bool HasExpired);
 
 /// <summary>
 /// GET /management/movie-screening/list-full

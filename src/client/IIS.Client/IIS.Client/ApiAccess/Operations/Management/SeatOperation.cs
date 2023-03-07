@@ -31,6 +31,7 @@ internal class SeatOperation : ManagementOperationBase, IManagementOperation
         CreateSeatRequest request = new(rowId, name!);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         CreateSeatResponse? response = responseMessage.Content.ReadFromJson<CreateSeatResponse>();
         response.AssertIsValid();
@@ -56,6 +57,7 @@ internal class SeatOperation : ManagementOperationBase, IManagementOperation
         }
         DeleteSeatRequest request = new(seat.Id);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("delete"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         DeleteSeatResponse? response = responseMessage.Content.ReadFromJson<DeleteSeatResponse>();
         response.AssertIsValid();
@@ -64,12 +66,12 @@ internal class SeatOperation : ManagementOperationBase, IManagementOperation
 
     public void Read()
     {
-        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list"));
+        using HttpRequestMessage listRequestMessage = new(HttpMethod.Get, Uri.CombineWith("list-full"));
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
-        GetSeatsResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetSeatsResponse>();
-        GetSeatsResponseEntry[] seats = listResponse.AssertIsValid().Seats;
+        GetSeatsFullResponse? listResponse = listResponseMessage.Content.ReadFromJson<GetSeatsFullResponse>();
+        GetSeatsFullResponseEntry[] seats = listResponse.AssertIsValid().Seats;
         Stdout.WriteLine("Ok. These are the seats:", ConsoleColor.Green);
-        foreach (GetSeatsResponseEntry seat in seats)
+        foreach (GetSeatsFullResponseEntry seat in seats)
         {
             Stdout.WriteLine($"  {seat}", ConsoleColor.Green);
         }
@@ -101,6 +103,7 @@ internal class SeatOperation : ManagementOperationBase, IManagementOperation
         UpdateSeatRequest request = new(seat.Id, name!);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         UpdateSeatResponse? response = responseMessage.Content.ReadFromJson<UpdateSeatResponse>();
         response.AssertIsValid();
@@ -120,6 +123,7 @@ internal class SeatOperation : ManagementOperationBase, IManagementOperation
         }
         GetSeatRowsRequest availableRowsRequest = new(hall.Id);
         using HttpRequestMessage availableRowsRequestMessage = new(HttpMethod.Post, Uri.CombineWith("available-rows"));
+        availableRowsRequestMessage.Content = JsonContent.Create(availableRowsRequest);
         using HttpResponseMessage availableRowsResponseMessage = ApiContext.HttpClient.Send(availableRowsRequestMessage);
         GetSeatRowsResponse? availableRowsResponse = availableRowsResponseMessage.Content.ReadFromJson<GetSeatRowsResponse>();
         GetSeatRowsResponseEntry[] availableRows = availableRowsResponse.AssertIsValid().Rows;

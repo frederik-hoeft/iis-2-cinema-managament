@@ -6,6 +6,7 @@ using IIS.Client.ApiAccess.Operations.Management.Responses;
 using IIS.Client.Cli.Commands.Management;
 using IIS.Client.Cli.IO;
 using IIS.Client.Cli.Utils;
+using System;
 using System.Net.Http.Json;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
@@ -36,6 +37,7 @@ internal class SeatRowOperation : ManagementOperationBase, IManagementOperation
         CreateSeatRowRequest request = new(hall.Id, name!, priceCategory!.Value);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         CreateSeatRowResponse? response = responseMessage.Content.ReadFromJson<CreateSeatRowResponse>();
         response.AssertIsValid();
@@ -44,7 +46,7 @@ internal class SeatRowOperation : ManagementOperationBase, IManagementOperation
 
     public void Delete()
     {
-        if (GetHall("In which cinema hall should the new seat row be created?") is not GetCinemaHallsResponseEntry hall)
+        if (GetHall("In which cinema hall is the row you want to delete?") is not GetCinemaHallsResponseEntry hall)
         {
             return;
         }
@@ -61,6 +63,7 @@ internal class SeatRowOperation : ManagementOperationBase, IManagementOperation
         }
         DeleteSeatRowRequest request = new(row.Id);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("delete"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         DeleteSeatRowResponse? response = responseMessage.Content.ReadFromJson<DeleteSeatRowResponse>();
         response.AssertIsValid();
@@ -76,7 +79,11 @@ internal class SeatRowOperation : ManagementOperationBase, IManagementOperation
         Stdout.WriteLine("Ok. These are the seat rows:", ConsoleColor.Green);
         foreach (GetSeatRowsFullResponseEntry row in rows)
         {
-            Stdout.WriteLine($"  {row}", ConsoleColor.Green);
+            Stdout.WriteLine($"  {row with { Seats = null! }}", ConsoleColor.Green);
+            foreach (GetSeatsResponseEntry seat in row.Seats)
+            {
+                Stdout.WriteLine($"    {seat}", ConsoleColor.Green);
+            }
         }
     }
 
@@ -103,15 +110,16 @@ internal class SeatRowOperation : ManagementOperationBase, IManagementOperation
         {
             name = row.Name;
         }
-        InputOptionPrompt<PriceCategory?> priceCategoryPrompt = new(Enum.GetValues(typeof(PriceCategory)).Cast<PriceCategory?>().ToArray(), $"new seat row price category [{row.PriceCategory}]");
+        InputOptionPrompt<PriceCategory?> priceCategoryPrompt = new(Enum.GetValues(typeof(PriceCategory)).Cast<PriceCategory?>().ToArray(), $"new seat row price category [{row.Price}]");
         if (!priceCategoryPrompt.TryRequestInput(out PriceCategory? priceCategory))
         {
             return;
         }
-        priceCategory ??= row.PriceCategory;
+        priceCategory ??= row.Price;
         UpdateSeatRowRequest request = new(row.Id, name!, priceCategory!.Value);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         UpdateSeatRowResponse? response = responseMessage.Content.ReadFromJson<UpdateSeatRowResponse>();
         response.AssertIsValid();

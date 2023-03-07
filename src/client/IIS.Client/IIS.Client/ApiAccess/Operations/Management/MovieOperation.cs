@@ -6,6 +6,7 @@ using IIS.Client.ApiAccess.Operations.Management.Responses;
 using IIS.Client.Cli.Commands.Management;
 using IIS.Client.Cli.IO;
 using IIS.Client.Cli.Utils;
+using System.Net.Http.Json;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
@@ -27,6 +28,7 @@ internal class MovieOperation : ManagementOperationBase, IManagementOperation
         CreateMovieRequest request = new(title!, description!);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         CreateMovieResponse? response = responseMessage.Content.ReadFromJson<CreateMovieResponse>();
         response.AssertIsValid();
@@ -46,6 +48,7 @@ internal class MovieOperation : ManagementOperationBase, IManagementOperation
         }
         DeleteMovieRequest request = new(movie.Id);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("delete"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         DeleteMovieResponse? response = responseMessage.Content.ReadFromJson<DeleteMovieResponse>();
         response.AssertIsValid();
@@ -90,6 +93,7 @@ internal class MovieOperation : ManagementOperationBase, IManagementOperation
         UpdateMovieRequest request = new(movie.Id, title!, description!);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         UpdateMovieResponse? response = responseMessage.Content.ReadFromJson<UpdateMovieResponse>();
         response.AssertIsValid();
