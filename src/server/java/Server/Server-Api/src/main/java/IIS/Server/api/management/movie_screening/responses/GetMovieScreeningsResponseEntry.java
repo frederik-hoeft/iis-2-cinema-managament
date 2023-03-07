@@ -6,5 +6,6 @@ import lombok.Data;
 public class GetMovieScreeningsResponseEntry {
     Integer id;
     String name;
+    String movieTitle;
     Boolean finished;
 }

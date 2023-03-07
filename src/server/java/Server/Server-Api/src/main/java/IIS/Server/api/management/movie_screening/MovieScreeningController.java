@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bestvike.linq.Linq;
+
 import IIS.Server.api.BaseController;
 import IIS.Server.api.Response;
 import IIS.Server.api.management.cinema_hall.responses.GetCinemaHallsResponse;
@@ -42,10 +44,17 @@ public class MovieScreeningController extends BaseController {
     {
         return scheduled(() -> 
         {
+            final var screenings = Linq.of(CinemaService.getSetOf(IMovieScreening.class))
+                .select(s -> 
+                {
+                    final var screening = ObjectX.createFrom(s, GetMovieScreeningsResponseEntry.class);
+                    screening.setMovieTitle(s.getMovie().getTitle());
+                    return screening;
+                })
+                .toList();
             GetScreeningsResponse response = new GetScreeningsResponse();
-            response.setScreenings(ObjectX.createFromMany(CinemaService.getInstance().getMovieScreeningCache().values(), GetMovieScreeningsResponseEntry.class));
+            response.setScreenings(screenings);
             response.setSuccess(true);
-            response.setError(Optional.empty());
             return new ResponseEntity<GetScreeningsResponse>(response, HttpStatus.OK);
         });
     }
