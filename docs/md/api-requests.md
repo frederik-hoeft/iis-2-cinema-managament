@@ -173,9 +173,13 @@ internal record UpdateSeatRowRequest
 /// <summary>
 /// POST /management/seat-row/list
 /// POST /management/seat/available-rows
+/// </summary>
+internal record GetSeatRowsRequest([Required][Range(1, int.MaxValue)] int CinemaHallId);
+
+/// <summary>
 /// POST /user/booking/available-seat-rows
 /// </summary>
-internal record GetSeatRowRequest([Required][Range(1, int.MaxValue)] int CinemaHallId);
+internal record GetAvailableSeatRowsRequest([Required][Range(1, int.MaxValue)] int ScreeningId);
 
 // ============================================================
 //                      /user/account
