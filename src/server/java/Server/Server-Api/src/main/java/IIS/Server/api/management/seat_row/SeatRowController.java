@@ -74,21 +74,14 @@ public class SeatRowController {
         return result.getValue();
     }
 
-    @PostMapping("/list-full")
-    public ResponseEntity<GetSeatRowsFullResponse> listDetailedSeatRows(@RequestBody GetSeatRowRequest request) {
+    @GetMapping("/list-full")
+    public ResponseEntity<GetSeatRowsFullResponse> listDetailedSeatRows() {
         // TODO: validate this method works. i cant test it because response body is empty always :) 
         AsyncWorkload<ResponseEntity<GetSeatRowsFullResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
-            if (!CinemaService.getInstance().getCinemaHallCache().containsKey(request.getCinemaHallId())) {
-                GetSeatRowsFullResponse response = new GetSeatRowsFullResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of("Could not find cinema hall for id " + request.getCinemaHallId()));
-                return new ResponseEntity<GetSeatRowsFullResponse>(response, HttpStatus.BAD_REQUEST);
-            }
-
-            CinemaHall hall = CinemaService.getInstance().getCinemaHall(request.getCinemaHallId());
             GetSeatRowsFullResponse response = new GetSeatRowsFullResponse();
             List<GetSeatRowsFullResponseEntry> seatRows = new ArrayList<GetSeatRowsFullResponseEntry>();
+            for (CinemaHall hall : CinemaService.getSetOf(CinemaHall.class))
             for (SeatRow seatRow : hall.getRows()) {
                 GetSeatRowsFullResponseEntry entry = ObjectX.createFrom(seatRow, GetSeatRowsFullResponseEntry.class);
                 entry.setCinemaHallName(hall.getName());
