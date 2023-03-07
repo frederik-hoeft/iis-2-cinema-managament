@@ -24,13 +24,15 @@ import IIS.Server.api.management.seat_row.requests.GetSeatRowRequest;
 import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponse;
 import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponseEntry;
 import IIS.Server.utils.ObjectX;
+import generated.cinemaService.Booking;
+import generated.cinemaService.BookingState;
 import generated.cinemaService.CinemaService;
+import generated.cinemaService.Reservation;
 import generated.cinemaService.Seat;
 import generated.cinemaService.SeatRow;
 import generated.cinemaService.proxies.ICinemaHall;
 import generated.cinemaService.proxies.ISeat;
 import generated.cinemaService.proxies.ISeatRow;
-import src.db.executer.PersistenceException;
 
 @RestController
 @RequestMapping(path="/management/seat", produces="application/json")
@@ -108,21 +110,55 @@ public class SeatController extends BaseController
         });
     }
 
+    @GetMapping("/list-full")
+    public ResponseEntity<GetSeatsFullResponse> listDetailedSeats() 
+    {
+        return scheduled(() -> 
+        {
+            final var seats = Linq.of(CinemaService.getSetOf(ISeat.class))
+                .select(s ->
+                {
+                    final var seat = ObjectX.createFrom(s, GetSeatsFullResponseEntry.class);
+                    final var r = s.getRow();
+                    final var row = ObjectX.createFrom(r, GetSeatRowsResponseEntry.class);
+                    row.setPrice(PriceCategoryEnum.from(r.getPrice()));
+                    row.setSeatCount(r.getSeats().size());
+                    seat.setRow(row);
+                    return seat;
+                })
+                .toList();
+
+            GetSeatsFullResponse response = new GetSeatsFullResponse();
+            response.setSeats(seats);
+            response.setSuccess(true);
+            return new ResponseEntity<GetSeatsFullResponse>(response, HttpStatus.OK);
+        });
+    }
+
     @PostMapping("/delete")
     public ResponseEntity<DeleteSeatResponse> deleteSeat(@RequestBody DeleteSeatRequest request) 
     {
         return scheduled(() -> 
         {
-            if (!CinemaService.getInstance().getSeatCache().containsKey(request.getId())) {
-                DeleteSeatResponse response = new DeleteSeatResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of("Could not find seat for id " + request.getId()));
-                return new ResponseEntity<DeleteSeatResponse>(response, HttpStatus.BAD_REQUEST);
+            final var seat = CinemaService.getCacheOf(ISeat.class).getOrDefault(request.getId(), null);
+            if (seat == null) 
+            {
+                return Response.error(DeleteSeatResponse.class, "Could not find seat for id " + request.getId());
             }
-
             try 
             {
-                Seat.delete(request.getId());
+                for (final BookingState booking : seat.getBookings()) 
+                {
+                    if (booking instanceof Booking)
+                    {
+                        Booking.delete(booking.getId());
+                    }
+                    else
+                    {
+                        Reservation.delete(booking.getId());
+                    }
+                }
+                Seat.delete(seat.getId());
             }
             catch (Exception e) 
             {

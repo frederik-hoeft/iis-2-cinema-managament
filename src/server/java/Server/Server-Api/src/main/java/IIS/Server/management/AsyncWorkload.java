@@ -21,7 +21,11 @@ public class AsyncWorkload<TResult> extends ConcurrentWorkload {
                 cancel();
             }
         } catch (Exception e) {
-            future.complete(GenericAsyncResult.error(e));
+            synchronized (statusLock) {
+                future.complete(GenericAsyncResult.error(e));
+                status = SchedulingStatus.COMPLETED;
+                e.printStackTrace();
+            }
         }
     }
 

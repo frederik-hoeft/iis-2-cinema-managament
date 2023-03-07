@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import com.bestvike.linq.Linq;
+
 public abstract class ObjectX {
     private ObjectX() {
     }
@@ -29,13 +31,14 @@ public abstract class ObjectX {
                     }
                 })
                 .filter(Objects::nonNull)
+                .filter(m -> m.getSourceGetter().getReturnType() == Linq.of(m.getTargetSetter().getParameterTypes()).firstOrDefault())
                 .toList();
             
             if (!disableChecks)
             {
                 mappings.stream().filter(m -> m.getSourceGetter().getReturnType() != m.getTargetSetter().getParameterTypes()[0]).toList().forEach(m -> 
                 {
-                    System.err.println("My dude you're doing weird stuff: source " + m.getSourceGetter().getName() 
+                    System.out.println("My dude you're doing weird stuff: source " + m.getSourceGetter().getName() 
                         + " is of type " + m.getSourceGetter().getName() + " but target " + m.getTargetSetter().getName() 
                         + " is of type " + m.getTargetSetter().getParameterTypes()[0].getName());
                 });
@@ -48,6 +51,7 @@ public abstract class ObjectX {
             }
             return result;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

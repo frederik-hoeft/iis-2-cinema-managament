@@ -19,6 +19,6 @@ public abstract class BaseController
         {
             return result.getValue();
         }
-        return new ResponseEntity(result.getError(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return Response.error(result.getError());
     }
 }
