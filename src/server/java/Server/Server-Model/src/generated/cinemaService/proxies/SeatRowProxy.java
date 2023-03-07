@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
+/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -12,7 +12,8 @@ import java.util.Optional;
 import generated.cinemaService.PriceCategory;
 import generated.cinemaService.relationControl.SeatRow_PriceCategorySupervisor;
 import generated.cinemaService.Seat;
-import java.util.Set;
+import java.util.List;
+import exceptions.ConstraintViolation;
 import generated.cinemaService.CinemaHall;
 import generated.cinemaService.relationControl.CinemaHall_SeatRowSupervisor;
 public class SeatRowProxy implements ISeatRow{
@@ -58,13 +59,13 @@ public class SeatRowProxy implements ISeatRow{
    public void setPrice(PriceCategory newPrice)throws PersistenceException{
       this.getTheObject().setPrice(newPrice);
    }
-   public Set<Seat> getSeats() throws PersistenceException{
+   public List<Seat> getSeats() throws PersistenceException{
       return this.getTheObject().getSeats();
    }
-   public void addToSeats(Seat arg) throws PersistenceException{
+   public void addToSeats(Seat arg) throws ConstraintViolation, PersistenceException{
       this.getTheObject().addToSeats(arg);
    }
-   public boolean removeFromSeats(Seat arg) throws PersistenceException{
+   public boolean removeFromSeats(Seat arg) throws ConstraintViolation, PersistenceException{
       return this.getTheObject().removeFromSeats(arg);
    }
    public String getName() {

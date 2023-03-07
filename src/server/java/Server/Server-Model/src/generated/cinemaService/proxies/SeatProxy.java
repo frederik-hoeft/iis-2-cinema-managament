@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
+/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -10,7 +10,7 @@ import generated.cinemaService.Seat;
 import java.sql.ResultSet;
 import java.util.Optional;
 import generated.cinemaService.SeatRow;
-import generated.cinemaService.relationControl.Seat_SeatRowSupervisor;
+import generated.cinemaService.relationControl.SeatRow_SeatSupervisor;
 public class SeatProxy implements ISeat{
    private Integer id;
    private Optional<Seat> theObject;
@@ -42,21 +42,18 @@ public class SeatProxy implements ISeat{
       Optional<ResultSet> rs = Optional.empty();
       try {
          rs = CinemaService.getInstance().getDmlExecuter().selectIdSpecifiedCursorAleadyAtFirstRow("Seat", this.id);
-         SeatRow row = Seat_SeatRowSupervisor.getInstance().getRow(this).getTheObject();
          String name = rs.get().getString("name");
-         return Seat.instantiateRuntimeCopy(this, row, name);
+         SeatRow row = SeatRow_SeatSupervisor.getInstance().getRow(this).getTheObject();
+         return Seat.instantiateRuntimeCopy(this, name, row);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
-   }
-   public SeatRow getRow() throws PersistenceException{
-      return this.getTheObject().getRow();
-   }
-   public void setRow(SeatRow newRow)throws PersistenceException{
-      this.getTheObject().setRow(newRow);
    }
    public String getName() {
       return this.getTheObject().getName();
    }
    public void setName(String newName) throws PersistenceException{
       this.getTheObject().setName(newName);
+   }
+   public SeatRow getRow() throws PersistenceException{
+      return this.getTheObject().getRow();
    }
 }

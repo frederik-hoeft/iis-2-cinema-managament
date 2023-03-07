@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
+/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.HashSet;
 import generated.cinemaService.proxies.IPriceCategory;
 import generated.cinemaService.relationControl.SeatRow_PriceCategorySupervisor;
+import java.util.ArrayList;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
@@ -62,10 +63,9 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
       if(!CinemaService.getInstance().getSeatRowCache().containsKey(id))throw new ConstraintViolation("Deletion not possible: " + "id " + id + " does not exist!");
       SeatRow toBeDeleted = CinemaService.getInstance().getSeatRow(id);
       CinemaHall_SeatRowSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
-      List<ISeat> ownersInSeat_SeatRow = Seat_SeatRowSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
-      if(ownersInSeat_SeatRow.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association Seat_SeatRow");
-      Seat_SeatRowSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
       SeatRow_PriceCategorySupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
+      List<ISeat> targetsInSeatRow_Seat = SeatRow_SeatSupervisor.getInstance().getRelationData().getRelatedTargets(toBeDeleted);
+      if(targetsInSeatRow_Seat.size()>0) throw new ConstraintViolation(" Deletion not possible: Object still contains other objects in Association SeatRow_Seat");
       SeatRow_SeatSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getSeatRowCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("SeatRow", id);
@@ -98,15 +98,15 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
    public void setPrice(PriceCategory newPrice)throws PersistenceException{
       SeatRow_PriceCategorySupervisor.getInstance().change(this, this.getPrice(), newPrice);
    }
-   public Set<Seat> getSeats() throws PersistenceException{
-      Set<Seat> result = new HashSet<>();
+   public List<Seat> getSeats() throws PersistenceException{
+      List<Seat> result = new ArrayList<>();
       for (ISeat i : SeatRow_SeatSupervisor.getInstance().getSeats(this)) result.add(i.getTheObject());
       return result;
    }
-   public void addToSeats(Seat arg) throws PersistenceException{
+   public void addToSeats(Seat arg) throws ConstraintViolation, PersistenceException{
       SeatRow_SeatSupervisor.getInstance().add(this, arg);
    }
-   public boolean removeFromSeats(Seat arg) throws PersistenceException{
+   public boolean removeFromSeats(Seat arg) throws ConstraintViolation, PersistenceException{
       return SeatRow_SeatSupervisor.getInstance().remove(this, arg);
    }
    public String getName() {

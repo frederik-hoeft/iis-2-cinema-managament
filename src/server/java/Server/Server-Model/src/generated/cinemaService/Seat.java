@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
+/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -33,22 +33,22 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
    //40 ===== Editable : Your Attribute Section ======
    
    //50 ===== GENERATED:      Constructor ============
-   private Seat(Integer id, SeatRow row, String name, boolean objectOnly)
+   private Seat(Integer id, String name, SeatRow row, boolean objectOnly)
    throws PersistenceException{
       super();
       this.setId(id);
-      Seat_SeatRowSupervisor.getInstance().set(this, row);
       this.name = name;
       if(objectOnly) return;
+      try{SeatRow_SeatSupervisor.getInstance().add(row,this);}catch(ConstraintViolation cv){}// Ok, because consistency is guaranteed with this statement
    }
-   public static Seat createFresh(SeatRow row, String name)throws PersistenceException{
+   public static Seat createFresh(String name, SeatRow row)throws PersistenceException{
       src.db.executer.PersistenceDMLExecuter dmlExecuter = CinemaService.getInstance().getDmlExecuter();
       Integer id = dmlExecuter.getNextId();
       try{
          dmlExecuter.insertInto("Seat", "id, typeKey, name", 
          id.toString() + ", " + PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().getTypeKey("CinemaService", "Seat").toString() + ", " + "'" + name + "'");
       }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
-      Seat me = new Seat(id, row, name, false);
+      Seat me = new Seat(id, name, row, false);
       CinemaService.getInstance().addSeatProxy(new SeatProxy(me));
       return me;
    }
@@ -59,14 +59,13 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
       List<IBookingState> ownersInBookingState_Seat = BookingState_SeatSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
       if(ownersInBookingState_Seat.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association BookingState_Seat");
       BookingState_SeatSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
-      Seat_SeatRowSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getSeatCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("Seat", id);
    }
    /** Caution: A Call to this Method Requires to add any newly instantiated Object to its Cache! */
-   public static Seat instantiateRuntimeCopy(SeatProxy proxy, SeatRow row, String name)throws PersistenceException{
+   public static Seat instantiateRuntimeCopy(SeatProxy proxy, String name, SeatRow row)throws PersistenceException{
       if(proxy.isObjectPresent()) return proxy.getTheObject();
-      return new Seat(proxy.getId(), row, name, true);
+      return new Seat(proxy.getId(), name, row, true);
    }
    //60 ===== Editable : Your Constructors ===========
    
@@ -85,12 +84,6 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
       return ((ISeat)o).getId().equals(this.getId());
    }
    public int hashCode() {return this.getId().hashCode();}
-   public SeatRow getRow() throws PersistenceException{
-      return Seat_SeatRowSupervisor.getInstance().getRow(this).getTheObject();
-   }
-   public void setRow(SeatRow newRow)throws PersistenceException{
-      Seat_SeatRowSupervisor.getInstance().change(this, this.getRow(), newRow);
-   }
    public String getName() {
       return this.name;
    }
@@ -98,6 +91,9 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
       this.name = newName;
       try{CinemaService.getInstance().getDmlExecuter().update("Seat", "name", "'" + newName + "'", this.getId());
       }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
+   }
+   public SeatRow getRow() throws PersistenceException{
+      return SeatRow_SeatSupervisor.getInstance().getRow(this).getTheObject();
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======

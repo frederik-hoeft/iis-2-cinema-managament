@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:29:08 CET 2023 
+/**--- Generated at Tue Mar 07 13:35:40 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -12,6 +12,7 @@ import generated.cinemaService.proxies.*;
 import exceptions.ConstraintViolation;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.List;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
@@ -33,8 +34,8 @@ public class CinemaHall_SeatRowSupervisor
    public Relation<ICinemaHall, ISeatRow> getRelationData() {
       return this.elements;
    }
-   public Set<ISeatRow> getRows(ICinemaHall owner){
-      return this.elements.getRelatedTargets(owner).stream().collect(Collectors.toSet());
+   public List<ISeatRow> getRows(ICinemaHall owner){
+      return this.elements.getRelatedTargets(owner);
    }
    public void add(ICinemaHall owner, ISeatRow target) throws ConstraintViolation, PersistenceException{
       this.elements.willViolateInjectivity(owner, target);
@@ -46,12 +47,6 @@ public class CinemaHall_SeatRowSupervisor
       this.elements.addElementAlreadyPersistent(owner,target);
    }
    public boolean remove(ICinemaHall owner, ISeatRow target) throws ConstraintViolation, PersistenceException{
-      boolean loop = this.removeOnce(owner, target);
-      boolean result = loop;
-      while(loop) loop = this.removeOnce(owner, target);
-      return result;
-   }
-   private boolean removeOnce(ICinemaHall owner, ISeatRow target) throws ConstraintViolation, PersistenceException{
       this.elements.willViolateSurjectivity(owner, target);
       return this.elements.removeElement(owner,target);
    }

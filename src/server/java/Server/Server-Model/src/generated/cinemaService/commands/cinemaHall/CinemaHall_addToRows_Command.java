@@ -1,11 +1,11 @@
-/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
+/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.cinemaHall;
 import generated.cinemaService.*;
 import commands.*;
 public class CinemaHall_addToRows_Command extends ObjectCommand<CinemaHall, Void>{
-   private static final long serialVersionUID = 1066874205L;
+   private static final long serialVersionUID = 373115633L;
    private SeatRow arg;
    public CinemaHall_addToRows_Command(CinemaHall receiver, SeatRow arg){
       super(receiver);

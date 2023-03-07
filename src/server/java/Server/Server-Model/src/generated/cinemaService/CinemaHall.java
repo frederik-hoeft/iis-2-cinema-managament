@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
+/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -24,6 +24,7 @@ import generated.cinemaService.proxies.*;
 import src.db.executer.PersistenceException;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.ArrayList;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
@@ -100,8 +101,8 @@ public class CinemaHall extends Observable implements java.io.Serializable, ICin
    public boolean removeFromScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException{
       return CinemaHall_MovieScreeningSupervisor.getInstance().remove(this, arg);
    }
-   public Set<SeatRow> getRows() throws PersistenceException{
-      Set<SeatRow> result = new HashSet<>();
+   public List<SeatRow> getRows() throws PersistenceException{
+      List<SeatRow> result = new ArrayList<>();
       for (ISeatRow i : CinemaHall_SeatRowSupervisor.getInstance().getRows(this)) result.add(i.getTheObject());
       return result;
    }

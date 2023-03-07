@@ -208,7 +208,7 @@
       </node>
       <node concept="2zC27e" id="5FjOg5XXpFo" role="3_Fx_f">
         <property role="3_FBD6" value="rows" />
-        <property role="2zC27X" value="1axOPyL0vaw/Set" />
+        <property role="2zC27X" value="5H4ykBYL_dN/List" />
         <ref role="3_FBDr" node="6Kq672PYPBN" resolve="SeatRow" />
       </node>
     </node>
@@ -222,25 +222,19 @@
         <ref role="3_FBDr" node="6Kq672PYPGl" resolve="PriceCategory" />
       </node>
     </node>
-    <node concept="3_FBDc" id="3Kw_u$R$axt" role="3_Gd4Z">
+    <node concept="3_FBDc" id="5FjOg5XXpVQ" role="3_Gd4Z">
       <property role="TrG5h" value="SeatRow_Seat" />
-      <node concept="3_FwNw" id="3Kw_u$R$ayx" role="3_Fx_Q">
-        <ref role="3_FwNB" node="6Kq672PYPBN" resolve="SeatRow" />
+      <node concept="2zC0rd" id="5FjOg5XXpWW" role="3_Fx_Q">
+        <property role="2zC0rY" value="1axOPyL0tmr/Containment" />
+        <node concept="2zC6PY" id="5FjOg5XXpWY" role="2zC0rK">
+          <property role="3_FBD6" value="row" />
+          <ref role="2zC6PZ" node="6Kq672PYPBN" resolve="SeatRow" />
+        </node>
       </node>
-      <node concept="2zC27e" id="3Kw_u$R$ay$" role="3_Fx_f">
+      <node concept="2zC27e" id="5FjOg5XXpX2" role="3_Fx_f">
         <property role="3_FBD6" value="seats" />
-        <property role="2zC27X" value="1axOPyL0vaw/Set" />
+        <property role="2zC27X" value="5H4ykBYL_dN/List" />
         <ref role="3_FBDr" node="6Kq672PYPCi" resolve="Seat" />
-      </node>
-    </node>
-    <node concept="3_FBDc" id="3Kw_u$R$azB" role="3_Gd4Z">
-      <property role="TrG5h" value="Seat_SeatRow" />
-      <node concept="3_FwNw" id="3Kw_u$R$a$I" role="3_Fx_Q">
-        <ref role="3_FwNB" node="6Kq672PYPCi" resolve="Seat" />
-      </node>
-      <node concept="2zC27e" id="3Kw_u$R$a$L" role="3_Fx_f">
-        <property role="3_FBD6" value="row" />
-        <ref role="3_FBDr" node="6Kq672PYPBN" resolve="SeatRow" />
       </node>
     </node>
     <node concept="3_FBDc" id="3Kw_u$R$aCd" role="3_Gd4Z">

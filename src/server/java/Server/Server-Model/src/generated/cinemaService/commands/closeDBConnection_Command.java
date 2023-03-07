@@ -1,11 +1,11 @@
-/**--- Generated at Tue Mar 07 13:29:05 CET 2023 
+/**--- Generated at Tue Mar 07 13:35:37 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands;
 import generated.cinemaService.*;
 import commands.*;
 public class closeDBConnection_Command extends ServiceCommand<Void>{
-   private static final long serialVersionUID = -1621851500L;
+   private static final long serialVersionUID = -1728806688L;
    public closeDBConnection_Command(){
       super();
    }
