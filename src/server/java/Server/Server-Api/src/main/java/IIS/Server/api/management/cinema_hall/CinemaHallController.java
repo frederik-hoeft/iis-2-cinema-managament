@@ -108,7 +108,7 @@ public class CinemaHallController {
 
             try {
                 CinemaHall cinemaHall = CinemaService.getInstance().getCinemaHall(request.getId());
-                // TODO: name field is missing 
+                cinemaHall.setName(request.getNewName());
                 cinemaHall.setAvailable(request.getAvailable());
             }
             catch (PersistenceException e) {

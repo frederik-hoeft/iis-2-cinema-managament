@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class UpdateSeatRequest {
     Integer id;
-    Integer name;
+    String name;
 }

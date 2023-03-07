@@ -38,7 +38,7 @@ public class CinemaService extends Observable{
    private CinemaService(){
       PersistenceExecuterFactory.setUseDataBase();
       this.dmlExecuter = PersistenceExecuterFactory.getConfiguredFactory().getDBDMLExecuter("CinemaService");
-      try{PersistenceExecuterFactory.getConfiguredFactory().getDBDDLExecuter().openDBConnection(new DBConnectionData("jdbc:mysql://127.0.0.1:3306", "CinemaService", "root" , "example"));
+      try{PersistenceExecuterFactory.getConfiguredFactory().getDBDDLExecuter().openDBConnection(new DBConnectionData("jdbc:mysql://localhost:3306", "CinemaService", "root" , ""));
          PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().initializeFor("CinemaService");
          this.loadProxies();
          this.loadRelations();

@@ -103,7 +103,7 @@ public class SeatController {
 
             try {
                 Seat seat = CinemaService.getInstance().getSeat(request.getId());
-                // TODO: set name here
+                seat.setName(request.getName());
             }
             catch (PersistenceException e) {
                 UpdateSeatResponse response = new UpdateSeatResponse();
