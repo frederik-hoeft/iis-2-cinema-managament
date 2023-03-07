@@ -2,6 +2,7 @@ package IIS.Server.api;
 
 import java.util.function.Supplier;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import IIS.Server.management.AsyncWorkload;
@@ -14,6 +15,10 @@ public abstract class BaseController
     {
         final AsyncWorkload<ResponseEntity<T>> workload = PersistencyService.getInstance().schedule(requestAction);
         final GenericAsyncResult<ResponseEntity<T>> result = workload.getResultAsync().join();
-        return result.getValue();
+        if (result.isSuccess())
+        {
+            return result.getValue();
+        }
+        return new ResponseEntity(result.getError(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

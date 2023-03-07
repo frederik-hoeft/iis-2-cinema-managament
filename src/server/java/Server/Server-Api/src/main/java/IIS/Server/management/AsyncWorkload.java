@@ -13,18 +13,22 @@ public class AsyncWorkload<TResult> extends ConcurrentWorkload {
 
     @Override
     public void execute() {
-        TResult result = func.get();
-        if (compareExchangeStatusInterlocked(SchedulingStatus.EXECUTING, SchedulingStatus.COMPLETED)) {
-            future.complete(new GenericAsyncResult<TResult>(true, result));
-        } else {
-            cancel();
+        try {
+            TResult result = func.get();
+            if (compareExchangeStatusInterlocked(SchedulingStatus.EXECUTING, SchedulingStatus.COMPLETED)) {
+                future.complete(GenericAsyncResult.of(result));
+            } else {
+                cancel();
+            }
+        } catch (Exception e) {
+            future.complete(GenericAsyncResult.error(e));
         }
     }
 
     @Override
     public void cancel() {
         synchronized (statusLock) {
-            future.complete(new GenericAsyncResult<TResult>(false, null));
+            future.complete(GenericAsyncResult.of(null));
             status = SchedulingStatus.CANCELED;
         }
     }
