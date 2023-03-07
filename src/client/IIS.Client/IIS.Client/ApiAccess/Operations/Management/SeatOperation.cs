@@ -118,7 +118,7 @@ internal class SeatOperation : ManagementOperationBase, IManagementOperation
         {
             return null;
         }
-        GetSeatRowRequest availableRowsRequest = new(hall.Id);
+        GetSeatRowsRequest availableRowsRequest = new(hall.Id);
         using HttpRequestMessage availableRowsRequestMessage = new(HttpMethod.Post, Uri.CombineWith("available-rows"));
         using HttpResponseMessage availableRowsResponseMessage = ApiContext.HttpClient.Send(availableRowsRequestMessage);
         GetSeatRowsResponse? availableRowsResponse = availableRowsResponseMessage.Content.ReadFromJson<GetSeatRowsResponse>();

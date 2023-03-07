@@ -30,9 +30,17 @@ internal record UpdateSeatRequest
 
 /// <summary>
 /// POST /management/seat/list
-/// POST /user/booking/available-seats
 /// </summary>
 internal record GetSeatsRequest
 (
     [Required][Range(1, int.MaxValue)] int RowId
+);
+
+/// <summary>
+/// POST /user/booking/available-seats
+/// </summary>
+internal record GetAvailableSeatsRequest
+(
+    [Required][Range(1, int.MaxValue)] int RowId,
+    [Required][Range(1, int.MaxValue)] int ScreeningId
 );

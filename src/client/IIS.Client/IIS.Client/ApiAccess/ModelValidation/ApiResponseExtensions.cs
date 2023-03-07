@@ -9,6 +9,7 @@ internal static class ApiResponseExtensions
             return response;
         }
         string reason = response is null ? $"Response of type '{typeof(T).Name}' was null" : $"{typeof(T).Name}.Success was false";
-        throw new ApiResponseValidationException($"Failed to perform the requested operation. Reason: \"{reason}\"");
+        string? error = response?.Error;
+        throw new ApiResponseValidationException($"Failed to perform the requested operation. Reason: \"{reason}\". Details: \"{error}\"");
     }
 }

@@ -43,7 +43,7 @@ internal abstract class UserBookingOperationBase : UserOperationBase
         {
             return null;
         }
-        GetSeatRowRequest availableSeatRowsRequest = new(screening.CinemaHall.Id);
+        GetAvailableSeatRowsRequest availableSeatRowsRequest = new(screening.Id);
         using HttpRequestMessage availableSeatRowsRequestMessage = new(HttpMethod.Post, Uri.CombineWith("available-seat-rows"));
         availableSeatRowsRequestMessage.Content = JsonContent.Create(availableSeatRowsRequest);
         using HttpResponseMessage availableSeatRowsResponseMessage = ApiContext.HttpClient.Send(availableSeatRowsRequestMessage);
@@ -54,7 +54,7 @@ internal abstract class UserBookingOperationBase : UserOperationBase
         {
             return null;
         }
-        GetSeatsRequest availableSeatsRequest = new(seatRow.RowId);
+        GetAvailableSeatsRequest availableSeatsRequest = new(seatRow.RowId, screening.Id);
         using HttpRequestMessage availableSeatsRequestMessage = new(HttpMethod.Post, Uri.CombineWith("available-seats"));
         availableSeatsRequestMessage.Content = JsonContent.Create(availableSeatsRequest);
         using HttpResponseMessage availableSeatsResponseMessage = ApiContext.HttpClient.Send(availableSeatsRequestMessage);

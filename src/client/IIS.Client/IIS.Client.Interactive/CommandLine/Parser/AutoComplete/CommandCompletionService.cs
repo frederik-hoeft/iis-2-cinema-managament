@@ -33,7 +33,7 @@ public class CommandCompletionService
             {
                 _current.IsAllowed = true;
             }
-            if (ReferenceEquals(stackFrame.Node.Parent, _current))
+            else if (ReferenceEquals(stackFrame.Node.Parent, _current))
             {
                 // removing option
                 OptionCompletionTreeNodeData nodeData = (OptionCompletionTreeNodeData)stackFrame.Node.Data;

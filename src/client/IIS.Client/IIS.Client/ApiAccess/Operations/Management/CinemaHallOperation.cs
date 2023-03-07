@@ -6,6 +6,7 @@ using IIS.Client.ApiAccess.Operations.Management.Responses;
 using IIS.Client.Cli.Commands.Management;
 using IIS.Client.Cli.IO;
 using IIS.Client.Cli.Utils;
+using System.Net.Http.Json;
 
 namespace IIS.Client.ApiAccess.Operations.Management;
 
@@ -27,6 +28,7 @@ internal class CinemaHallOperation : ManagementOperationBase, IManagementOperati
         CreateCinemaHallRequest request = new(id!, isAvailable);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("create"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         CreateCinemaHallResponse? response = responseMessage.Content.ReadFromJson<CreateCinemaHallResponse>();
         response.AssertIsValid();
@@ -46,6 +48,7 @@ internal class CinemaHallOperation : ManagementOperationBase, IManagementOperati
         }
         DeleteCinemaHallRequest request = new(hall.Id);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("delete"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         DeleteCinemaHallResponse? response = responseMessage.Content.ReadFromJson<DeleteCinemaHallResponse>();
         response.AssertIsValid();
@@ -86,6 +89,7 @@ internal class CinemaHallOperation : ManagementOperationBase, IManagementOperati
         UpdateCinemaHallRequest request = new(hall.Id, name, isAvailable);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));
+        requestMessage.Content = JsonContent.Create(request);
         using HttpResponseMessage responseMessage = ApiContext.HttpClient.Send(requestMessage);
         UpdateCinemaHallResponse? response = responseMessage.Content.ReadFromJson<UpdateCinemaHallResponse>();
         response.AssertIsValid();

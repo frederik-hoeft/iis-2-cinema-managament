@@ -48,7 +48,7 @@ internal class SeatRowOperation : ManagementOperationBase, IManagementOperation
         {
             return;
         }
-        GetSeatRowRequest listRequest = new(hall.Id);
+        GetSeatRowsRequest listRequest = new(hall.Id);
         using HttpRequestMessage listRequestMessage = new(HttpMethod.Post, Uri.CombineWith("list"));
         listRequestMessage.Content = JsonContent.Create(listRequest);
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
@@ -86,7 +86,7 @@ internal class SeatRowOperation : ManagementOperationBase, IManagementOperation
         {
             return;
         }
-        GetSeatRowRequest listRequest = new(hall.Id);
+        GetSeatRowsRequest listRequest = new(hall.Id);
         using HttpRequestMessage listRequestMessage = new(HttpMethod.Post, Uri.CombineWith("list"));
         listRequestMessage.Content = JsonContent.Create(listRequest);
         using HttpResponseMessage listResponseMessage = ApiContext.HttpClient.Send(listRequestMessage);
