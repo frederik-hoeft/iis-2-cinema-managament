@@ -16,8 +16,11 @@ import IIS.Server.api.Response;
 import IIS.Server.api.user.account.requests.*;
 import IIS.Server.api.user.account.responses.*;
 import IIS.Server.utils.ObjectX;
+import generated.cinemaService.Booking;
+import generated.cinemaService.BookingState;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.Customer;
+import generated.cinemaService.Reservation;
 import generated.cinemaService.proxies.ICustomer;
 
 @RestController
@@ -83,6 +86,17 @@ public class UserAccountController extends BaseController
             }
             try 
             {
+                for (BookingState booking : user.getBookings())
+                {
+                    if (booking instanceof Booking)
+                    {
+                        Booking.delete(booking.getId());
+                    }
+                    else
+                    {
+                        Reservation.delete(booking.getId());
+                    }
+                }
                 Customer.delete(user.getId());
             } 
             catch (Exception e) 
