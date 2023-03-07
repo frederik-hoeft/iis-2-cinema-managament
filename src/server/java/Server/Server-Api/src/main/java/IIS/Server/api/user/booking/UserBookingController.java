@@ -20,6 +20,7 @@ import IIS.Server.api.management.movie_screening.responses.GetMovieScreeningsFul
 import IIS.Server.api.management.movie_screening.responses.GetMovieScreeningsFullResponseEntry;
 import IIS.Server.api.management.seat.requests.GetSeatsRequest;
 import IIS.Server.api.management.seat.responses.GetSeatsResponse;
+import IIS.Server.api.management.seat.responses.GetSeatsResponseEntry;
 import IIS.Server.api.management.seat_row.requests.GetSeatRowRequest;
 import IIS.Server.api.user.booking.requests.*;
 import IIS.Server.api.user.booking.responses.*;
@@ -27,6 +28,8 @@ import IIS.Server.utils.ObjectX;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.Movie;
 import generated.cinemaService.MovieScreening;
+import generated.cinemaService.Seat;
+import generated.cinemaService.SeatRow;
 
 
 @RestController
@@ -99,18 +102,42 @@ public class UserBookingController {
     }
 
     @PostMapping("/available-seats")
-    public ResponseEntity<GetSeatsResponse> getAvailableSeats(@RequestBody GetSeatsRequest request) {
-
+    public ResponseEntity<GetSeatsResponse> getAvailableSeats(@RequestBody GetAvailableSeatsRequest request) 
+    {
+        final var screening = CinemaService.getInstance().getMovieScreening(request.getScreeningId());
+        final var seats = CinemaService.getSetOf(Seat.class).stream()
+            // matching rows && any free seat
+            .filter(s -> s.getRow().getId() == request.getRowId() 
+                && !screening.getBookings().stream()
+                    .anyMatch(b -> b.getSeat().getId() == s.getId()))
+            .map(s -> ObjectX.createFrom(s, GetSeatsResponseEntry.class))
+            .collect(Collectors.toList());
         GetSeatsResponse response = new GetSeatsResponse();
-        response.setSuccess(false);
+        response.setSeats(seats);
+        response.setSuccess(true);
         return new ResponseEntity<GetSeatsResponse>(response, HttpStatus.OK);
     }
 
     @PostMapping("/available-seat-rows")
-    public ResponseEntity<GetAvailableSeatRowsResponse> getAvailableSeatRows(@RequestBody GetSeatRowRequest request) 
+    public ResponseEntity<GetAvailableSeatRowsResponse> getAvailableSeatRows(@RequestBody GetAvailableSeatRowsRequest request) 
     {
+        final var screening = CinemaService.getInstance().getMovieScreening(request.getScreeningId());
+        final var rows = screening.getHall().getRows().stream()
+            // filter by any free seat
+            .filter(r -> r.getSeats().stream().anyMatch(s -> !screening.getBookings().stream()
+                .anyMatch(b -> b.getSeat().getId() == s.getId())))
+            .map(r -> {
+                final var result = new GetAvailableSeatRowsResponseEntry();
+                result.setAvailableSeatCount(r.getSeats().size());
+                result.setName(r.getName());
+                result.setRowId(r.getId());
+                result.setPriceCategory(r.getPrice());
+                return result;
+            })
+            .collect(Collectors.toList());
         GetAvailableSeatRowsResponse response = new GetAvailableSeatRowsResponse();
-        response.setSuccess(false);
+        response.setRows(rows);
+        response.setSuccess(true);
         return new ResponseEntity<GetAvailableSeatRowsResponse>(response, HttpStatus.OK);
     }
 
