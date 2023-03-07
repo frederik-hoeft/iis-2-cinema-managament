@@ -1,19 +1,19 @@
-module generated.cinema {
+module generated.cinemaService {
     requires src;
     
     requires java.sql;
 
-    exports generated.cinema;
-    exports generated.cinema.commands;
-    exports generated.cinema.commands.booking;
-    exports generated.cinema.commands.bookingState;
-    exports generated.cinema.commands.cinemaHall;
-    exports generated.cinema.commands.customer;
-    exports generated.cinema.commands.movie;
-    exports generated.cinema.commands.movieScreening;
-    exports generated.cinema.commands.reservation;
-    exports generated.cinema.commands.seat;
-    exports generated.cinema.commands.seatRow;
-    exports generated.cinema.proxies;
-    exports generated.cinema.relationControl;
+    exports generated.cinemaService;
+    exports generated.cinemaService.commands;
+    exports generated.cinemaService.commands.booking;
+    exports generated.cinemaService.commands.bookingState;
+    exports generated.cinemaService.commands.cinemaHall;
+    exports generated.cinemaService.commands.customer;
+    exports generated.cinemaService.commands.movie;
+    exports generated.cinemaService.commands.movieScreening;
+    exports generated.cinemaService.commands.reservation;
+    exports generated.cinemaService.commands.seat;
+    exports generated.cinemaService.commands.seatRow;
+    exports generated.cinemaService.proxies;
+    exports generated.cinemaService.relationControl;
 }

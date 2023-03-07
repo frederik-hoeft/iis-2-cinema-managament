@@ -1,6 +1,6 @@
 protocolFileDirectory = /home/dev/projects/iis-2-cinema-managament/src/server/mps-model/mps-logs
-javaIDEProjectDirectory = /home/dev/projects/iis-2-cinema-managament/src/server/java/Server/Server-Model/
+javaIDEProjectDirectory = /home/dev/projects/iis-2-cinema-managament/src/server/java/Server/Server-Model
 database(Yes/No) = Yes
-databaseURL = jdbc:mysql://localhost:3306
+databaseURL = jdbc:mysql://127.0.0.1:3306
 databaseUser = root
-databasePassword = 
+databasePassword = example
