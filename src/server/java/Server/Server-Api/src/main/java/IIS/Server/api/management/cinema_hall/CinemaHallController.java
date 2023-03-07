@@ -1,8 +1,6 @@
 package IIS.Server.api.management.cinema_hall;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -14,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bestvike.linq.Linq;
+
 import IIS.Server.api.BaseController;
+import IIS.Server.api.PriceCategoryEnum;
 import IIS.Server.api.management.cinema_hall.requests.*;
 import IIS.Server.api.management.cinema_hall.responses.*;
 import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponseEntry;
@@ -22,7 +23,7 @@ import IIS.Server.utils.ObjectX;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.CinemaHall;
 import generated.cinemaService.CinemaService;
-import generated.cinemaService.proxies.CinemaHallProxy;
+import generated.cinemaService.proxies.ICinemaHall;
 import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceException;
 
@@ -49,14 +50,22 @@ public class CinemaHallController extends BaseController {
     {
         return scheduled(() -> 
         {
+            final var result = Linq.of(CinemaService.getSetOf(ICinemaHall.class))
+                .select(h -> 
+                {
+                    final var hall = ObjectX.createFrom(h, GetCinemaHallsFullResponseEntry.class);
+                    hall.setRows(Linq.of(h.getRows()).select(r -> 
+                    {
+                        final var row = ObjectX.createFrom(r, GetSeatRowsResponseEntry.class);
+                        row.setSeatCount(r.getSeats().size());
+                        row.setPrice(PriceCategoryEnum.from(r.getPrice()));
+                        return row;
+                    }).toList());
+                    return hall;
+                })
+                .toList();
             GetCinemaHallsFullResponse response = new GetCinemaHallsFullResponse();
-            List<GetCinemaHallsFullResponseEntry> cinemaHalls = new ArrayList<GetCinemaHallsFullResponseEntry>();
-            for (CinemaHallProxy ch : CinemaService.getInstance().getCinemaHallCache().values()) {
-                GetCinemaHallsFullResponseEntry entry = ObjectX.createFrom(ch, GetCinemaHallsFullResponseEntry.class);
-                entry.setRows(ObjectX.createFromMany(ch.getRows(), GetSeatRowsResponseEntry.class));
-                cinemaHalls.add(entry);
-            }
-            response.setCinemaHalls(cinemaHalls);
+            response.setCinemaHalls(result);
             response.setSuccess(true);
             return new ResponseEntity<GetCinemaHallsFullResponse>(response, HttpStatus.OK);
         });

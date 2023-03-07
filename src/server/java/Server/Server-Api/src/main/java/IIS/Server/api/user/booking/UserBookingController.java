@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bestvike.linq.Linq;
 
 import IIS.Server.api.BaseController;
+import IIS.Server.api.PriceCategoryEnum;
 import IIS.Server.api.Response;
 import IIS.Server.api.management.cinema_hall.responses.GetCinemaHallsResponseEntry;
 import IIS.Server.api.management.movie.responses.GetMoviesResponse;
@@ -322,7 +323,7 @@ public class UserBookingController extends BaseController
                     result.setAvailableSeatCount(r.getSeats().size());
                     result.setName(r.getName());
                     result.setRowId(r.getId());
-                    result.setPriceCategory(r.getPrice());
+                    result.setPriceCategory(PriceCategoryEnum.from(r.getPrice()));
                     return result;
                 })
                 .collect(Collectors.toList());

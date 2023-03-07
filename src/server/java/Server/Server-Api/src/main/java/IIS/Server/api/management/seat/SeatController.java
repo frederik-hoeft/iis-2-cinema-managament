@@ -1,6 +1,5 @@
 package IIS.Server.api.management.seat;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bestvike.linq.Linq;
+
+import IIS.Server.api.BaseController;
+import IIS.Server.api.PriceCategoryEnum;
+import IIS.Server.api.Response;
 import IIS.Server.api.management.cinema_hall.responses.GetCinemaHallsResponse;
 import IIS.Server.api.management.cinema_hall.responses.GetCinemaHallsResponseEntry;
 import IIS.Server.api.management.seat.requests.*;
@@ -19,26 +23,24 @@ import IIS.Server.api.management.seat.responses.*;
 import IIS.Server.api.management.seat_row.requests.GetSeatRowRequest;
 import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponse;
 import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponseEntry;
-import IIS.Server.management.AsyncWorkload;
-import IIS.Server.management.GenericAsyncResult;
-import IIS.Server.management.PersistencyService;
 import IIS.Server.utils.ObjectX;
-import exceptions.ConstraintViolation;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.Seat;
 import generated.cinemaService.SeatRow;
-import src.db.connection.NoConnectionException;
+import generated.cinemaService.proxies.ICinemaHall;
+import generated.cinemaService.proxies.ISeat;
+import generated.cinemaService.proxies.ISeatRow;
 import src.db.executer.PersistenceException;
 
 @RestController
 @RequestMapping(path="/management/seat", produces="application/json")
 @CrossOrigin(origins="*")
-public class SeatController {
-    
+public class SeatController extends BaseController 
+{    
     @PostMapping("/list")
-    public ResponseEntity<GetSeatsResponse> listSeats(@RequestBody GetSeatsRequest request) {
-
-        AsyncWorkload<ResponseEntity<GetSeatsResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+    public ResponseEntity<GetSeatsResponse> listSeats(@RequestBody GetSeatsRequest request) 
+    {
+        return scheduled(() -> 
         {
             if (!CinemaService.getInstance().getSeatRowCache().containsKey(request.getRowId())) {
                 GetSeatsResponse response = new GetSeatsResponse();
@@ -53,78 +55,63 @@ public class SeatController {
             response.setError(Optional.empty());
             return new ResponseEntity<GetSeatsResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<GetSeatsResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CreateSeatResponse> createSeat(@RequestBody CreateSeatRequest request) {
-
-        AsyncWorkload<ResponseEntity<CreateSeatResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+    public ResponseEntity<CreateSeatResponse> createSeat(@RequestBody CreateSeatRequest request) 
+    {
+        return scheduled(() -> 
         {
-            if (!CinemaService.getInstance().getSeatRowCache().containsKey(request.getRowId())) {
-                CreateSeatResponse response = new CreateSeatResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of("Could not find row for id " + request.getRowId()));
-                return new ResponseEntity<CreateSeatResponse>(response, HttpStatus.BAD_REQUEST);
+            final var seatRowProxy = CinemaService.getCacheOf(ISeatRow.class).getOrDefault(request.getRowId(), null);
+            if (seatRowProxy == null) 
+            {
+                return Response.error(CreateSeatResponse.class, "Could not find row for id " + request.getRowId());
             }
-
-            try {
-                SeatRow row = CinemaService.getInstance().getSeatRow(request.getRowId());
+            try 
+            {
+                final SeatRow row = seatRowProxy.getTheObject();
                 Seat.createFresh(request.getName(), row);
             }
-            catch (PersistenceException e) {
-                CreateSeatResponse response = new CreateSeatResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of(e.getMessage()));
-                return new ResponseEntity<CreateSeatResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            catch (Exception e) 
+            {
+                return Response.error(e);
             }
 
             CreateSeatResponse response = new CreateSeatResponse();
             response.setSuccess(true);
-            response.setError(Optional.empty());
             return new ResponseEntity<CreateSeatResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<CreateSeatResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     @PostMapping("/update")
-    public ResponseEntity<UpdateSeatResponse> updateSeat(@RequestBody UpdateSeatRequest request) {
-
-        AsyncWorkload<ResponseEntity<UpdateSeatResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+    public ResponseEntity<UpdateSeatResponse> updateSeat(@RequestBody UpdateSeatRequest request) 
+    {
+        return scheduled(() -> 
         {
-            if (!CinemaService.getInstance().getSeatCache().containsKey(request.getId())) {
-                UpdateSeatResponse response = new UpdateSeatResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of("Could not find seat for id " + request.getId()));
-                return new ResponseEntity<UpdateSeatResponse>(response, HttpStatus.BAD_REQUEST);
+            final var seatProxy = CinemaService.getCacheOf(ISeat.class).getOrDefault(request.getId(), null);
+            if (seatProxy == null) 
+            {
+                return Response.error(UpdateSeatResponse.class, "Could not find seat for id " + request.getId());
             }
-
-            try {
-                Seat seat = CinemaService.getInstance().getSeat(request.getId());
+            try 
+            {
+                final Seat seat = seatProxy.getTheObject();
                 seat.setName(request.getName());
             }
-            catch (PersistenceException e) {
-                UpdateSeatResponse response = new UpdateSeatResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of(e.getMessage()));
-                return new ResponseEntity<UpdateSeatResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            catch (Exception e) 
+            {
+                return Response.error(e);
             }
-
             UpdateSeatResponse response = new UpdateSeatResponse();
             response.setSuccess(true);
-            response.setError(Optional.empty());
             return new ResponseEntity<UpdateSeatResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<UpdateSeatResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<DeleteSeatResponse> deleteSeat(@RequestBody DeleteSeatRequest request) {
-
-        AsyncWorkload<ResponseEntity<DeleteSeatResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+    public ResponseEntity<DeleteSeatResponse> deleteSeat(@RequestBody DeleteSeatRequest request) 
+    {
+        return scheduled(() -> 
         {
             if (!CinemaService.getInstance().getSeatCache().containsKey(request.getId())) {
                 DeleteSeatResponse response = new DeleteSeatResponse();
@@ -133,35 +120,19 @@ public class SeatController {
                 return new ResponseEntity<DeleteSeatResponse>(response, HttpStatus.BAD_REQUEST);
             }
 
-            try {
+            try 
+            {
                 Seat.delete(request.getId());
             }
-            catch (ConstraintViolation e) {
-                DeleteSeatResponse response = new DeleteSeatResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of(e.getMessage()));
-                return new ResponseEntity<DeleteSeatResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            catch (SQLException e) {
-                DeleteSeatResponse response = new DeleteSeatResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of(e.getMessage()));
-                return new ResponseEntity<DeleteSeatResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            catch (NoConnectionException e) {
-                DeleteSeatResponse response = new DeleteSeatResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of(e.getMessage()));
-                return new ResponseEntity<DeleteSeatResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            catch (Exception e) 
+            {
+                return Response.error(e);
             }
 
             DeleteSeatResponse response = new DeleteSeatResponse();
             response.setSuccess(true);
-            response.setError(Optional.empty());
             return new ResponseEntity<DeleteSeatResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<DeleteSeatResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     /**
@@ -170,25 +141,30 @@ public class SeatController {
      * @return
      */
     @PostMapping("/available-rows")
-    public ResponseEntity<GetSeatRowsResponse> getAvailableRows(@RequestBody GetSeatRowRequest request) {
-
-        AsyncWorkload<ResponseEntity<GetSeatRowsResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+    public ResponseEntity<GetSeatRowsResponse> getAvailableRows(@RequestBody GetSeatRowRequest request) 
+    {
+        return scheduled(() -> 
         {
-            if (!CinemaService.getInstance().getCinemaHallCache().containsKey(request.getCinemaHallId())) {
-                GetSeatRowsResponse response = new GetSeatRowsResponse();
-                response.setSuccess(false);
-                response.setError(Optional.of("Could not find cinema hall for id " + request.getCinemaHallId()));
-                return new ResponseEntity<GetSeatRowsResponse>(response, HttpStatus.BAD_REQUEST);
+            final var hall = CinemaService.getCacheOf(ICinemaHall.class).getOrDefault(request.getCinemaHallId(), null);
+            if (hall == null)
+            {
+                return Response.error(GetSeatRowsResponse.class, "Could not find cinema hall for id " + request.getCinemaHallId());
             }
+            final var result = Linq.of(hall.getRows())
+                .select(r -> 
+                {
+                    final var row = ObjectX.createFrom(r, GetSeatRowsResponseEntry.class);
+                    row.setPrice(PriceCategoryEnum.from(r.getPrice()));
+                    row.setSeatCount(r.getSeats().size());
+                    return row;
+                })
+                .toList();
 
             GetSeatRowsResponse response = new GetSeatRowsResponse();
-            response.setRows(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHall(request.getCinemaHallId()).getRows(), GetSeatRowsResponseEntry.class));
-            response.setSuccess(false);
-            response.setError(Optional.empty());
+            response.setRows(result);
+            response.setSuccess(true);
             return new ResponseEntity<GetSeatRowsResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<GetSeatRowsResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 
     /**
@@ -196,17 +172,14 @@ public class SeatController {
      * @return
      */
     @GetMapping("/available-halls")
-    public ResponseEntity<GetCinemaHallsResponse> getAvailableHalls() {
-
-        AsyncWorkload<ResponseEntity<GetCinemaHallsResponse>> workload = PersistencyService.getInstance().schedule(() -> 
+    public ResponseEntity<GetCinemaHallsResponse> getAvailableHalls() 
+    {
+        return scheduled(() -> 
         {
             GetCinemaHallsResponse response = new GetCinemaHallsResponse();
-            response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values().stream().filter(c -> c.getAvailable()).toList(), GetCinemaHallsResponseEntry.class));
-            response.setSuccess(false);
-            response.setError(Optional.empty());
+            response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getSetOf(ICinemaHall.class), GetCinemaHallsResponseEntry.class));
+            response.setSuccess(true);
             return new ResponseEntity<GetCinemaHallsResponse>(response, HttpStatus.OK);
         });
-        GenericAsyncResult<ResponseEntity<GetCinemaHallsResponse>> result = workload.getResultAsync().join();
-        return result.getValue();
     }
 }
