@@ -76,8 +76,7 @@ public class CinemaHallController {
         AsyncWorkload<ResponseEntity<CreateCinemaHallResponse>> workload = PersistencyService.getInstance().schedule(() -> 
         {
             try {
-                // TODO: name field is missing
-                CinemaHall.createFresh(request.getAvailable());
+                CinemaHall.createFresh(request.getAvailable(), request.getName());
             }
             catch (PersistenceException e) {
                 CreateCinemaHallResponse response = new CreateCinemaHallResponse();

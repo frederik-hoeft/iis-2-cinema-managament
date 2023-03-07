@@ -25,7 +25,6 @@ import IIS.Server.management.PersistencyService;
 import IIS.Server.utils.ObjectX;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.CinemaService;
-import generated.cinemaService.Movie;
 import generated.cinemaService.Seat;
 import generated.cinemaService.SeatRow;
 import src.db.connection.NoConnectionException;
@@ -72,7 +71,7 @@ public class SeatController {
 
             try {
                 SeatRow row = CinemaService.getInstance().getSeatRow(request.getRowId());
-                Seat.createFresh(row);
+                Seat.createFresh(request.getName(), row);
             }
             catch (PersistenceException e) {
                 CreateSeatResponse response = new CreateSeatResponse();

@@ -3,7 +3,6 @@ package IIS.Server.api.management.seat_row;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import IIS.Server.api.management.movie.responses.GetMoviesFullResponseEntry;
-import IIS.Server.api.management.movie.responses.GetMoviesResponseEntry;
 import IIS.Server.api.management.seat_row.requests.*;
 import IIS.Server.api.management.seat_row.responses.*;
 import IIS.Server.api.user.account.responses.UpdateSeatRowResponse;
@@ -25,8 +22,6 @@ import IIS.Server.management.PersistencyService;
 import IIS.Server.utils.ObjectX;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.SeatRow;
-import generated.cinemaService.proxies.CinemaHallProxy;
-import generated.cinemaService.proxies.MovieProxy;
 
 @RestController
 @RequestMapping(path="/management/seat-row", produces="application/json")
@@ -69,7 +64,7 @@ public class SeatRowController {
 
             GetSeatRowsFullResponse response = new GetSeatRowsFullResponse();
             List<GetSeatRowsFullResponseEntry> seatRows = new ArrayList<GetSeatRowsFullResponseEntry>();
-            for (Set<SeatRow> sr : CinemaService.getInstance().getCinemaHallCache().values().stream().map(ch -> ch.getRows()).toList()) {
+            for (List<SeatRow> sr : CinemaService.getInstance().getCinemaHallCache().values().stream().map(ch -> ch.getRows()).toList()) {
                 // TODO: fix
                 GetSeatRowsFullResponseEntry entry = ObjectX.createFrom(sr, GetSeatRowsFullResponseEntry.class);
                 entry.setSeats(null);

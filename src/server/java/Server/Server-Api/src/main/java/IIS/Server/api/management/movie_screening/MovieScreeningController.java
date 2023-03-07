@@ -1,6 +1,5 @@
 package IIS.Server.api.management.movie_screening;
 
-import java.lang.StackWalker.Option;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +103,7 @@ public class MovieScreeningController {
             try {
                 Movie movie = CinemaService.getInstance().getMovie(request.getMovieId());
                 CinemaHall hall = CinemaService.getInstance().getCinemaHall(request.getCinemaHallId());
-                MovieScreening.createFresh(movie, hall, request.getHasExpired(), request.getName());
+                MovieScreening.createFresh(request.getHasExpired(), request.getName(), movie, hall);
             }
             catch (PersistenceException e) {
                 CreateScreeningResponse response = new CreateScreeningResponse();
