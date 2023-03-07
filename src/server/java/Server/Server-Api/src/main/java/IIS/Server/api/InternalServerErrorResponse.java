@@ -1,11 +1,11 @@
-package IIS.Server.api.user.account.responses;
+package IIS.Server.api;
 
 import java.util.Optional;
 
 import lombok.Data;
 
 @Data
-public class UserCreateAccountResponse {
+public class InternalServerErrorResponse {
     Boolean success;
     Optional<String> error;
 }

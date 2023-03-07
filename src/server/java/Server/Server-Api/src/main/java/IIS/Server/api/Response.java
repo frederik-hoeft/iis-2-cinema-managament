@@ -32,6 +32,9 @@ public abstract class Response
 
     public static <T> ResponseEntity<T> error(Exception error)
     {
-        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        final var result = new InternalServerErrorResponse();
+        result.setSuccess(false);
+        result.setError(Optional.of(error.getMessage()));
+        return new ResponseEntity(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -18,6 +18,7 @@ import IIS.Server.api.user.account.responses.*;
 import IIS.Server.utils.ObjectX;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.Customer;
+import generated.cinemaService.proxies.ICustomer;
 
 @RestController
 @RequestMapping(path="/user/account", produces="application/json")
@@ -29,7 +30,7 @@ public class UserAccountController extends BaseController
     {
         return scheduled(() ->
         {
-            final var users = ObjectX.createFromMany(CinemaService.getSetOf(Customer.class), GetUserAccountsResponseEntry.class);
+            final var users = ObjectX.createFromMany(CinemaService.getSetOf(ICustomer.class), GetUserAccountsResponseEntry.class);
             GetUserAccountsResponse response = new GetUserAccountsResponse();
             response.setSuccess(true);
             response.setAccounts(users);
@@ -42,7 +43,7 @@ public class UserAccountController extends BaseController
     {
         return scheduled(() ->
         {
-            if (Linq.of(CinemaService.getSetOf(Customer.class)).any(c -> c.getEmail().equalsIgnoreCase(request.getEmail())))
+            if (Linq.of(CinemaService.getSetOf(ICustomer.class)).any(c -> c.getEmail().equalsIgnoreCase(request.getEmail())))
             {
                 return Response.error(UserCreateAccountResponse.class, "The specified user already exists!");
             }
@@ -58,7 +59,7 @@ public class UserAccountController extends BaseController
     {
         return scheduled(() ->
         {
-            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
+            final ICustomer user = Linq.of(CinemaService.getSetOf(ICustomer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
             if (user == null)
             {
                 return Response.error(GetUserAccountResponse.class, "the specified user does not exist");
@@ -75,7 +76,7 @@ public class UserAccountController extends BaseController
     {
         return scheduled(() ->
         {
-            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
+            final ICustomer user = Linq.of(CinemaService.getSetOf(ICustomer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
             if (user == null)
             {
                 return Response.error(UserDeleteAccountResponse.class, "the specified user does not exist");
@@ -99,7 +100,7 @@ public class UserAccountController extends BaseController
     {
         return scheduled(() ->
         {
-            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
+            final ICustomer user = Linq.of(CinemaService.getSetOf(ICustomer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
             if (user == null)
             {
                 return Response.error(UserUpdateAccountResponse.class, "the specified user does not exist");

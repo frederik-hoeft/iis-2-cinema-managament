@@ -237,14 +237,14 @@ public class CinemaService extends Observable{
       if (_caches == null)
       {
          _caches = new HashMap<>();
-         _caches.put(Movie.class, cinema -> cinema.getMovieCache());
-         _caches.put(MovieScreening.class, cinema -> cinema.getMovieScreeningCache());
-         _caches.put(CinemaHall.class, cinema -> cinema.getCinemaHallCache());
-         _caches.put(SeatRow.class, cinema -> cinema.getSeatRowCache());
-         _caches.put(Seat.class, cinema -> cinema.getSeatCache());
-         _caches.put(Booking.class, cinema -> cinema.getBookingCache());
-         _caches.put(Reservation.class, cinema -> cinema.getReservationCache());
-         _caches.put(Customer.class, cinema -> cinema.getCustomerCache());
+         _caches.put(IMovie.class, cinema -> cinema.getMovieCache());
+         _caches.put(IMovieScreening.class, cinema -> cinema.getMovieScreeningCache());
+         _caches.put(ICinemaHall.class, cinema -> cinema.getCinemaHallCache());
+         _caches.put(ISeatRow.class, cinema -> cinema.getSeatRowCache());
+         _caches.put(ISeat.class, cinema -> cinema.getSeatCache());
+         _caches.put(IBooking.class, cinema -> cinema.getBookingCache());
+         _caches.put(IReservation.class, cinema -> cinema.getReservationCache());
+         _caches.put(ICustomer.class, cinema -> cinema.getCustomerCache());
          Function<CinemaService, Map> getBookingStateCache = cinema -> {
             final var bookings = cinema.getBookingCache();
             final var reservations = cinema.getReservationCache();
@@ -253,7 +253,7 @@ public class CinemaService extends Observable{
             results.putAll(reservations);
             return results;
          };
-         _caches.put(BookingState.class, getBookingStateCache);
+         _caches.put(IBookingState.class, getBookingStateCache);
       }
       Function<CinemaService, Map> cacheFactory = _caches.getOrDefault(type, cinema -> null);
       var result = cacheFactory.apply(CinemaService.getInstance());

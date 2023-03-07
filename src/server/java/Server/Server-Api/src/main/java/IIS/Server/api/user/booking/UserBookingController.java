@@ -32,11 +32,13 @@ import IIS.Server.api.user.booking.responses.*;
 import IIS.Server.utils.ObjectX;
 import generated.cinemaService.Booking;
 import generated.cinemaService.CinemaService;
-import generated.cinemaService.Customer;
 import generated.cinemaService.Movie;
-import generated.cinemaService.MovieScreening;
 import generated.cinemaService.Reservation;
-import generated.cinemaService.Seat;
+import generated.cinemaService.proxies.IBooking;
+import generated.cinemaService.proxies.ICustomer;
+import generated.cinemaService.proxies.IMovieScreening;
+import generated.cinemaService.proxies.IReservation;
+import generated.cinemaService.proxies.ISeat;
 
 
 @RestController
@@ -49,17 +51,18 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
+            CinemaService.getInstance().getCustomerCache();
+            final ICustomer user = Linq.of(CinemaService.getSetOf(ICustomer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
             if (user == null) 
             {
                 return Response.error(UserBookingResponse.class, "user does not exist!");
             }
-            final Seat seat = CinemaService.getCacheOf(Seat.class).getOrDefault(request.getSeatId(), null);
+            final ISeat seat = CinemaService.getCacheOf(ISeat.class).getOrDefault(request.getSeatId(), null);
             if (seat == null) 
             {
                 return Response.error(UserBookingResponse.class, "seat does not exist!");
             }
-            final MovieScreening screening = CinemaService.getCacheOf(MovieScreening.class).getOrDefault(request.getScreeningId(), null);
+            final IMovieScreening screening = CinemaService.getCacheOf(IMovieScreening.class).getOrDefault(request.getScreeningId(), null);
             if (screening == null) 
             {
                 return Response.error(UserBookingResponse.class, "movie screening does not exist!");
@@ -70,7 +73,7 @@ public class UserBookingController extends BaseController
             }
             try 
             {
-                Booking.createFresh(null, null, user);
+                Booking.createFresh(screening.getTheObject(), seat.getTheObject(), user.getTheObject());
             } 
             catch (Exception e) 
             {
@@ -87,17 +90,17 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
+            final ICustomer user = Linq.of(CinemaService.getSetOf(ICustomer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
             if (user == null) 
             {
                 return Response.error(UserReservationResponse.class, "user does not exist!");
             }
-            final Seat seat = CinemaService.getCacheOf(Seat.class).getOrDefault(request.getSeatId(), null);
+            final ISeat seat = CinemaService.getCacheOf(ISeat.class).getOrDefault(request.getSeatId(), null);
             if (seat == null) 
             {
                 return Response.error(UserReservationResponse.class, "seat does not exist!");
             }
-            final MovieScreening screening = CinemaService.getCacheOf(MovieScreening.class).getOrDefault(request.getScreeningId(), null);
+            final IMovieScreening screening = CinemaService.getCacheOf(IMovieScreening.class).getOrDefault(request.getScreeningId(), null);
             if (screening == null) 
             {
                 return Response.error(UserReservationResponse.class, "movie screening does not exist!");
@@ -108,14 +111,14 @@ public class UserBookingController extends BaseController
             }
             try 
             {
-                Reservation.createFresh(null, null, user);
+                Reservation.createFresh(screening.getTheObject(), seat.getTheObject(), user.getTheObject());
             } 
             catch (Exception e) 
             {
                 return Response.error(e);
             }
             UserReservationResponse response = new UserReservationResponse();
-            response.setSuccess(false);
+            response.setSuccess(true);
             return new ResponseEntity<UserReservationResponse>(response, HttpStatus.OK);
         });
     }
@@ -125,7 +128,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final var reservation = CinemaService.getCacheOf(Reservation.class).getOrDefault(request.getReservationId(), null);
+            final var reservation = CinemaService.getCacheOf(IReservation.class).getOrDefault(request.getReservationId(), null);
             if (reservation == null || !reservation.getCustomer().getEmail().equalsIgnoreCase(request.getEmail()))
             {
                 return Response.error(UserUpgradeReservationResponse.class, "No such reservation for " + request.getEmail());
@@ -148,7 +151,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final var reservation = CinemaService.getCacheOf(Reservation.class).getOrDefault(request.getReservationId(), null);
+            final var reservation = CinemaService.getCacheOf(IReservation.class).getOrDefault(request.getReservationId(), null);
             if (reservation == null || !reservation.getCustomer().getEmail().equalsIgnoreCase(request.getEmail()))
             {
                 return Response.error(UserCancelReservationResponse.class, "No such reservation for " + request.getEmail());
@@ -170,7 +173,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final var reservations = CinemaService.getSetOf(Booking.class).stream()
+            final var reservations = CinemaService.getSetOf(IReservation.class).stream()
                 .filter(b -> b.getCustomer().getEmail().equalsIgnoreCase(request.getEmail()))
                 .map(b -> 
                 {
@@ -200,7 +203,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final var reservations = CinemaService.getSetOf(Booking.class).stream()
+            final var reservations = CinemaService.getSetOf(IReservation.class).stream()
                 .map(b -> 
                 {
                     final var result = ObjectX.createFrom(b, GetUserReservationsResponseEntry.class);
@@ -229,7 +232,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final var bookings = CinemaService.getSetOf(Booking.class).stream()
+            final var bookings = CinemaService.getSetOf(IBooking.class).stream()
                 .filter(b -> b.getCustomer().getEmail().equalsIgnoreCase(request.getEmail()))
                 .map(b -> 
                 {
@@ -259,7 +262,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final var bookings = CinemaService.getSetOf(Booking.class).stream()
+            final var bookings = CinemaService.getSetOf(IBooking.class).stream()
                 .map(b -> 
                 {
                     final var result = ObjectX.createFrom(b, GetUserBookingsResponseEntry.class);
@@ -289,7 +292,7 @@ public class UserBookingController extends BaseController
         return scheduled(() -> 
         {
             final var screening = CinemaService.getInstance().getMovieScreening(request.getScreeningId());
-            final var seats = CinemaService.getSetOf(Seat.class).stream()
+            final var seats = CinemaService.getSetOf(ISeat.class).stream()
                 // matching rows && any free seat
                 .filter(s -> s.getRow().getId() == request.getRowId() 
                     && !screening.getBookings().stream()
@@ -335,7 +338,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final List<GetMovieScreeningsFullResponseEntry> screenings = CinemaService.getSetOf(MovieScreening.class).stream()
+            final List<GetMovieScreeningsFullResponseEntry> screenings = CinemaService.getSetOf(IMovieScreening.class).stream()
                 .filter(s -> !s.getFinished() && s.getMovie().getId() == request.getMovieId())
                 .map(s -> 
                 {
@@ -360,7 +363,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() ->
         {
-            final List<Movie> movieProxies = CinemaService.getSetOf(MovieScreening.class).stream()
+            final List<Movie> movieProxies = CinemaService.getSetOf(IMovieScreening.class).stream()
                 .filter(screening -> !screening.getFinished())
                 .map(screening -> screening.getMovie())
                 .collect(Collectors.toList());
