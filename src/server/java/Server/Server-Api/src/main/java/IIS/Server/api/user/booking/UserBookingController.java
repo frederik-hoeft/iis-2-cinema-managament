@@ -2,6 +2,8 @@ package IIS.Server.api.user.booking;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -13,18 +15,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysql.cj.xdevapi.Result;
+
+import IIS.Server.api.BaseController;
 import IIS.Server.api.management.cinema_hall.responses.GetCinemaHallsResponseEntry;
 import IIS.Server.api.management.movie.responses.GetMoviesResponse;
 import IIS.Server.api.management.movie.responses.GetMoviesResponseEntry;
 import IIS.Server.api.management.movie_screening.responses.GetMovieScreeningsFullResponse;
 import IIS.Server.api.management.movie_screening.responses.GetMovieScreeningsFullResponseEntry;
 import IIS.Server.api.management.seat.requests.GetSeatsRequest;
+import IIS.Server.api.management.seat.responses.GetSeatsFullResponseEntry;
 import IIS.Server.api.management.seat.responses.GetSeatsResponse;
 import IIS.Server.api.management.seat.responses.GetSeatsResponseEntry;
 import IIS.Server.api.management.seat_row.requests.GetSeatRowRequest;
+import IIS.Server.api.management.seat_row.responses.GetSeatRowsResponseEntry;
+import IIS.Server.api.user.account.responses.GetUserAccountsResponseEntry;
 import IIS.Server.api.user.booking.requests.*;
 import IIS.Server.api.user.booking.responses.*;
+import IIS.Server.management.AsyncWorkload;
+import IIS.Server.management.GenericAsyncResult;
+import IIS.Server.management.PersistencyService;
 import IIS.Server.utils.ObjectX;
+import generated.cinemaService.Booking;
 import generated.cinemaService.CinemaService;
 import generated.cinemaService.Movie;
 import generated.cinemaService.MovieScreening;
@@ -35,7 +47,7 @@ import generated.cinemaService.SeatRow;
 @RestController
 @RequestMapping(path="/user/booking", produces="application/json")
 @CrossOrigin(origins="*")
-public class UserBookingController {
+public class UserBookingController extends BaseController {
     
     @PostMapping("/book")
     public ResponseEntity<UserBookingResponse> book(@RequestBody UserBookingRequest request) {
@@ -62,7 +74,8 @@ public class UserBookingController {
     }
 
     @PostMapping("/cancel")
-    public ResponseEntity<UserCancelReservationResponse> cancelReservation(@RequestBody UserCancelReservationRequest request) {
+    public ResponseEntity<UserCancelReservationResponse> cancelReservation(@RequestBody UserCancelReservationRequest request) 
+    {
 
         UserCancelReservationResponse response = new UserCancelReservationResponse();
         response.setSuccess(false);
@@ -70,34 +83,108 @@ public class UserBookingController {
     }
 
     @PostMapping("/get-reservations")
-    public ResponseEntity<GetUserReservationsResponse> getReservations(@RequestBody GetUserReservationsRequest request) {
-
+    public ResponseEntity<GetUserReservationsResponse> getReservations(@RequestBody GetUserReservationsRequest request) 
+    {
+        final var reservations = CinemaService.getSetOf(Booking.class).stream()
+            .filter(b -> b.getCustomer().getEmail().equals(request.getEmail()))
+            .map(b -> 
+            {
+                final var result = ObjectX.createFrom(b, GetUserReservationsResponseEntry.class);
+                final var screeningProxy = b.getScreening();
+                final var screening = ObjectX.createFrom(screeningProxy, GetMovieScreeningsFullResponseEntry.class);
+                screening.setMovie(ObjectX.createFrom(screeningProxy.getMovie(), GetMoviesResponseEntry.class));
+                screening.setHall(ObjectX.createFrom(screeningProxy.getHall(), GetCinemaHallsResponseEntry.class));
+                result.setMovieScreening(screening);
+                final var seatProxy = b.getSeat();
+                final var seat = ObjectX.createFrom(seatProxy, GetSeatsFullResponseEntry.class);
+                seat.setRow(ObjectX.createFrom(seatProxy, GetSeatRowsResponseEntry.class));
+                result.setSeat(seat);
+                result.setUser(ObjectX.createFrom(b.getCustomer(), GetUserAccountsResponseEntry.class));
+                return result;
+            })
+            .collect(Collectors.toList());
         GetUserReservationsResponse response = new GetUserReservationsResponse();
-        response.setSuccess(false);
+        response.setSuccess(true);
+        response.setReservations(reservations);
         return new ResponseEntity<GetUserReservationsResponse>(response, HttpStatus.OK);
     }
 
     @GetMapping("/list-reservations")
-    public ResponseEntity<GetUserReservationsResponse> listReservations() {
-
+    public ResponseEntity<GetUserReservationsResponse> listReservations() 
+    {
+        final var reservations = CinemaService.getSetOf(Booking.class).stream()
+            .map(b -> 
+            {
+                final var result = ObjectX.createFrom(b, GetUserReservationsResponseEntry.class);
+                final var screeningProxy = b.getScreening();
+                final var screening = ObjectX.createFrom(screeningProxy, GetMovieScreeningsFullResponseEntry.class);
+                screening.setMovie(ObjectX.createFrom(screeningProxy.getMovie(), GetMoviesResponseEntry.class));
+                screening.setHall(ObjectX.createFrom(screeningProxy.getHall(), GetCinemaHallsResponseEntry.class));
+                result.setMovieScreening(screening);
+                final var seatProxy = b.getSeat();
+                final var seat = ObjectX.createFrom(seatProxy, GetSeatsFullResponseEntry.class);
+                seat.setRow(ObjectX.createFrom(seatProxy, GetSeatRowsResponseEntry.class));
+                result.setSeat(seat);
+                result.setUser(ObjectX.createFrom(b.getCustomer(), GetUserAccountsResponseEntry.class));
+                return result;
+            })
+            .collect(Collectors.toList());
         GetUserReservationsResponse response = new GetUserReservationsResponse();
-        response.setSuccess(false);
+        response.setSuccess(true);
+        response.setReservations(reservations);
         return new ResponseEntity<GetUserReservationsResponse>(response, HttpStatus.OK);
     }
 
     @PostMapping("/get-bookings")
-    public ResponseEntity<GetUserBookingsResponse> getBookings(@RequestBody GetUserBookingsRequest request) {
-
+    public ResponseEntity<GetUserBookingsResponse> getBookings(@RequestBody GetUserBookingsRequest request) 
+    {
+        final var bookings = CinemaService.getSetOf(Booking.class).stream()
+            .filter(b -> b.getCustomer().getEmail().equals(request.getEmail()))
+            .map(b -> 
+            {
+                final var result = ObjectX.createFrom(b, GetUserBookingsResponseEntry.class);
+                final var screeningProxy = b.getScreening();
+                final var screening = ObjectX.createFrom(screeningProxy, GetMovieScreeningsFullResponseEntry.class);
+                screening.setMovie(ObjectX.createFrom(screeningProxy.getMovie(), GetMoviesResponseEntry.class));
+                screening.setHall(ObjectX.createFrom(screeningProxy.getHall(), GetCinemaHallsResponseEntry.class));
+                result.setMovieScreening(screening);
+                final var seatProxy = b.getSeat();
+                final var seat = ObjectX.createFrom(seatProxy, GetSeatsFullResponseEntry.class);
+                seat.setRow(ObjectX.createFrom(seatProxy, GetSeatRowsResponseEntry.class));
+                result.setSeat(seat);
+                result.setUser(ObjectX.createFrom(b.getCustomer(), GetUserAccountsResponseEntry.class));
+                return result;
+            })
+            .collect(Collectors.toList());
         GetUserBookingsResponse response = new GetUserBookingsResponse();
-        response.setSuccess(false);
+        response.setSuccess(true);
+        response.setBookings(bookings);
         return new ResponseEntity<GetUserBookingsResponse>(response, HttpStatus.OK);
     }
 
     @GetMapping("/list-bookings")
-    public ResponseEntity<GetUserBookingsResponse> listBookings() {
-
+    public ResponseEntity<GetUserBookingsResponse> listBookings() 
+    {
+        final var bookings = CinemaService.getSetOf(Booking.class).stream()
+            .map(b -> 
+            {
+                final var result = ObjectX.createFrom(b, GetUserBookingsResponseEntry.class);
+                final var screeningProxy = b.getScreening();
+                final var screening = ObjectX.createFrom(screeningProxy, GetMovieScreeningsFullResponseEntry.class);
+                screening.setMovie(ObjectX.createFrom(screeningProxy.getMovie(), GetMoviesResponseEntry.class));
+                screening.setHall(ObjectX.createFrom(screeningProxy.getHall(), GetCinemaHallsResponseEntry.class));
+                result.setMovieScreening(screening);
+                final var seatProxy = b.getSeat();
+                final var seat = ObjectX.createFrom(seatProxy, GetSeatsFullResponseEntry.class);
+                seat.setRow(ObjectX.createFrom(seatProxy, GetSeatRowsResponseEntry.class));
+                result.setSeat(seat);
+                result.setUser(ObjectX.createFrom(b.getCustomer(), GetUserAccountsResponseEntry.class));
+                return result;
+            })
+            .collect(Collectors.toList());
         GetUserBookingsResponse response = new GetUserBookingsResponse();
-        response.setSuccess(false);
+        response.setSuccess(true);
+        response.setBookings(bookings);
         return new ResponseEntity<GetUserBookingsResponse>(response, HttpStatus.OK);
     }
 
@@ -126,7 +213,8 @@ public class UserBookingController {
             // filter by any free seat
             .filter(r -> r.getSeats().stream().anyMatch(s -> !screening.getBookings().stream()
                 .anyMatch(b -> b.getSeat().getId() == s.getId())))
-            .map(r -> {
+            .map(r -> 
+            {
                 final var result = new GetAvailableSeatRowsResponseEntry();
                 result.setAvailableSeatCount(r.getSeats().size());
                 result.setName(r.getName());
@@ -146,7 +234,8 @@ public class UserBookingController {
     {
         final List<GetMovieScreeningsFullResponseEntry> screenings = CinemaService.getSetOf(MovieScreening.class).stream()
             .filter(s -> !s.getFinished() && s.getMovie().getId() == request.getMovieId())
-            .map(s -> {
+            .map(s -> 
+            {
                 final GetMovieScreeningsFullResponseEntry result = new GetMovieScreeningsFullResponseEntry();
                 result.setFinished(s.getFinished());
                 result.setMovie(ObjectX.createFrom(s.getMovie(), GetMoviesResponseEntry.class));
@@ -165,14 +254,17 @@ public class UserBookingController {
     @GetMapping("/available-movies")
     public ResponseEntity<GetMoviesResponse> getAvailableMovies() 
     {
-        final List<Movie> movieProxies = CinemaService.getSetOf(MovieScreening.class).stream()
-            .filter(screening -> !screening.getFinished())
-            .map(screening -> screening.getMovie())
-            .collect(Collectors.toList());
-        final Collection<GetMoviesResponseEntry> movies = ObjectX.createFromMany(movieProxies, GetMoviesResponseEntry.class);
-        GetMoviesResponse response = new GetMoviesResponse();
-        response.setSuccess(true);
-        response.setMovies(movies);
-        return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
+        return scheduled(() ->
+        {
+            final List<Movie> movieProxies = CinemaService.getSetOf(MovieScreening.class).stream()
+                .filter(screening -> !screening.getFinished())
+                .map(screening -> screening.getMovie())
+                .collect(Collectors.toList());
+            final Collection<GetMoviesResponseEntry> movies = ObjectX.createFromMany(movieProxies, GetMoviesResponseEntry.class);
+            GetMoviesResponse response = new GetMoviesResponse();
+            response.setSuccess(true);
+            response.setMovies(movies);
+            return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
+        });
     }
 }
