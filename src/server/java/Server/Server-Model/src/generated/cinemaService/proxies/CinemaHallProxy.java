@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -9,8 +9,10 @@ import src.db.executer.*;
 import generated.cinemaService.CinemaHall;
 import java.sql.ResultSet;
 import java.util.Optional;
-import generated.cinemaService.SeatRow;
+import generated.cinemaService.MovieScreening;
 import java.util.Set;
+import exceptions.ConstraintViolation;
+import generated.cinemaService.SeatRow;
 public class CinemaHallProxy implements ICinemaHall{
    private Integer id;
    private Optional<CinemaHall> theObject;
@@ -43,8 +45,18 @@ public class CinemaHallProxy implements ICinemaHall{
       try {
          rs = CinemaService.getInstance().getDmlExecuter().selectIdSpecifiedCursorAleadyAtFirstRow("CinemaHall", this.id);
          Boolean available = rs.get().getBoolean("available");
-         return CinemaHall.instantiateRuntimeCopy(this, available);
+         String name = rs.get().getString("name");
+         return CinemaHall.instantiateRuntimeCopy(this, available, name);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
+   }
+   public Set<MovieScreening> getScreenings() throws PersistenceException{
+      return this.getTheObject().getScreenings();
+   }
+   public void addToScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException{
+      this.getTheObject().addToScreenings(arg);
+   }
+   public boolean removeFromScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException{
+      return this.getTheObject().removeFromScreenings(arg);
    }
    public Set<SeatRow> getRows() throws PersistenceException{
       return this.getTheObject().getRows();
@@ -60,5 +72,11 @@ public class CinemaHallProxy implements ICinemaHall{
    }
    public void setAvailable(Boolean newAvailable) throws PersistenceException{
       this.getTheObject().setAvailable(newAvailable);
+   }
+   public String getName() {
+      return this.getTheObject().getName();
+   }
+   public void setName(String newName) throws PersistenceException{
+      this.getTheObject().setName(newName);
    }
 }

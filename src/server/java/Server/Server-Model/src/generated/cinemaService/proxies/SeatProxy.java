@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -43,7 +43,8 @@ public class SeatProxy implements ISeat{
       try {
          rs = CinemaService.getInstance().getDmlExecuter().selectIdSpecifiedCursorAleadyAtFirstRow("Seat", this.id);
          SeatRow row = Seat_SeatRowSupervisor.getInstance().getRow(this).getTheObject();
-         return Seat.instantiateRuntimeCopy(this, row);
+         String name = rs.get().getString("name");
+         return Seat.instantiateRuntimeCopy(this, row, name);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
    }
    public SeatRow getRow() throws PersistenceException{
@@ -51,5 +52,11 @@ public class SeatProxy implements ISeat{
    }
    public void setRow(SeatRow newRow)throws PersistenceException{
       this.getTheObject().setRow(newRow);
+   }
+   public String getName() {
+      return this.getTheObject().getName();
+   }
+   public void setName(String newName) throws PersistenceException{
+      this.getTheObject().setName(newName);
    }
 }

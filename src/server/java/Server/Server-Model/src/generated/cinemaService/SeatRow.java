@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -33,25 +33,27 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
 {
    //30 ===== GENERATED:      Attribute Section ======
    private Integer id;
+   private String name;
    //40 ===== Editable : Your Attribute Section ======
    
    //50 ===== GENERATED:      Constructor ============
-   private SeatRow(Integer id, CinemaHall hall, PriceCategory price, boolean objectOnly)
+   private SeatRow(Integer id, CinemaHall hall, PriceCategory price, String name, boolean objectOnly)
    throws PersistenceException{
       super();
       this.setId(id);
       SeatRow_CinemaHallSupervisor.getInstance().set(this, hall);
       SeatRow_PriceCategorySupervisor.getInstance().set(this, price);
+      this.name = name;
       if(objectOnly) return;
    }
-   public static SeatRow createFresh(CinemaHall hall, PriceCategory price)throws PersistenceException{
+   public static SeatRow createFresh(CinemaHall hall, PriceCategory price, String name)throws PersistenceException{
       src.db.executer.PersistenceDMLExecuter dmlExecuter = CinemaService.getInstance().getDmlExecuter();
       Integer id = dmlExecuter.getNextId();
       try{
-         dmlExecuter.insertInto("SeatRow", "id, typeKey", 
-         id.toString() + ", " + PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().getTypeKey("CinemaService", "SeatRow").toString());
+         dmlExecuter.insertInto("SeatRow", "id, typeKey, name", 
+         id.toString() + ", " + PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().getTypeKey("CinemaService", "SeatRow").toString() + ", " + "'" + name + "'");
       }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
-      SeatRow me = new SeatRow(id, hall, price, false);
+      SeatRow me = new SeatRow(id, hall, price, name, false);
       CinemaService.getInstance().addSeatRowProxy(new SeatRowProxy(me));
       return me;
    }
@@ -69,9 +71,9 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
       CinemaService.getInstance().getDmlExecuter().delete("SeatRow", id);
    }
    /** Caution: A Call to this Method Requires to add any newly instantiated Object to its Cache! */
-   public static SeatRow instantiateRuntimeCopy(SeatRowProxy proxy, CinemaHall hall, PriceCategory price)throws PersistenceException{
+   public static SeatRow instantiateRuntimeCopy(SeatRowProxy proxy, CinemaHall hall, PriceCategory price, String name)throws PersistenceException{
       if(proxy.isObjectPresent()) return proxy.getTheObject();
-      return new SeatRow(proxy.getId(), hall, price, true);
+      return new SeatRow(proxy.getId(), hall, price, name, true);
    }
    //60 ===== Editable : Your Constructors ===========
    
@@ -112,6 +114,14 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
    }
    public boolean removeFromSeats(Seat arg) throws PersistenceException{
       return SeatRow_SeatSupervisor.getInstance().remove(this, arg);
+   }
+   public String getName() {
+      return this.name;
+   }
+   public void setName(String newName) throws PersistenceException{
+      this.name = newName;
+      try{CinemaService.getInstance().getDmlExecuter().update("SeatRow", "name", "'" + newName + "'", this.getId());
+      }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======

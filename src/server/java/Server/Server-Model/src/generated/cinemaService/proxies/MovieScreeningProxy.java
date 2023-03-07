@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -9,12 +9,13 @@ import src.db.executer.*;
 import generated.cinemaService.MovieScreening;
 import java.sql.ResultSet;
 import java.util.Optional;
-import generated.cinemaService.Movie;
-import generated.cinemaService.relationControl.MovieScreeninig_MovieSupervisor;
 import generated.cinemaService.BookingState;
 import java.util.Set;
+import generated.cinemaService.Movie;
+import generated.cinemaService.relationControl.Movie_MovieScreeningSupervisor;
 import generated.cinemaService.CinemaHall;
-import generated.cinemaService.relationControl.MovieScreening_CinemaHallSupervisor;
+import java.util.List;
+import generated.cinemaService.relationControl.CinemaHall_MovieScreeningSupervisor;
 public class MovieScreeningProxy implements IMovieScreening{
    private Integer id;
    private Optional<MovieScreening> theObject;
@@ -46,18 +47,12 @@ public class MovieScreeningProxy implements IMovieScreening{
       Optional<ResultSet> rs = Optional.empty();
       try {
          rs = CinemaService.getInstance().getDmlExecuter().selectIdSpecifiedCursorAleadyAtFirstRow("MovieScreening", this.id);
-         Movie movie = MovieScreeninig_MovieSupervisor.getInstance().getMovie(this).getTheObject();
-         CinemaHall hall = MovieScreening_CinemaHallSupervisor.getInstance().getHall(this).getTheObject();
          Boolean finished = rs.get().getBoolean("finished");
-         String Name = rs.get().getString("Name");
-         return MovieScreening.instantiateRuntimeCopy(this, movie, hall, finished, Name);
+         String name = rs.get().getString("name");
+         Movie movie = Movie_MovieScreeningSupervisor.getInstance().getMovie(this).getTheObject();
+         CinemaHall hall = CinemaHall_MovieScreeningSupervisor.getInstance().getHall(this).get(0).getTheObject();
+         return MovieScreening.instantiateRuntimeCopy(this, finished, name, movie, hall);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
-   }
-   public Movie getMovie() throws PersistenceException{
-      return this.getTheObject().getMovie();
-   }
-   public void setMovie(Movie newMovie)throws PersistenceException{
-      this.getTheObject().setMovie(newMovie);
    }
    public Set<BookingState> getBookingStates() throws PersistenceException{
       return this.getTheObject().getBookingStates();
@@ -67,12 +62,6 @@ public class MovieScreeningProxy implements IMovieScreening{
    }
    public boolean removeFromBookingStates(BookingState arg) throws PersistenceException{
       return this.getTheObject().removeFromBookingStates(arg);
-   }
-   public CinemaHall getHall() throws PersistenceException{
-      return this.getTheObject().getHall();
-   }
-   public void setHall(CinemaHall newHall)throws PersistenceException{
-      this.getTheObject().setHall(newHall);
    }
    public Boolean getFinished() {
       return this.getTheObject().getFinished();
@@ -85,5 +74,11 @@ public class MovieScreeningProxy implements IMovieScreening{
    }
    public void setName(String newName) throws PersistenceException{
       this.getTheObject().setName(newName);
+   }
+   public Movie getMovie() throws PersistenceException{
+      return this.getTheObject().getMovie();
+   }
+   public List<CinemaHall> getHall() throws PersistenceException{
+      return this.getTheObject().getHall();
    }
 }

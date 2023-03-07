@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -48,7 +48,8 @@ public class SeatRowProxy implements ISeatRow{
          rs = CinemaService.getInstance().getDmlExecuter().selectIdSpecifiedCursorAleadyAtFirstRow("SeatRow", this.id);
          CinemaHall hall = SeatRow_CinemaHallSupervisor.getInstance().getHall(this).getTheObject();
          PriceCategory price = SeatRow_PriceCategorySupervisor.getInstance().getPrice(this).getTheObject();
-         return SeatRow.instantiateRuntimeCopy(this, hall, price);
+         String name = rs.get().getString("name");
+         return SeatRow.instantiateRuntimeCopy(this, hall, price, name);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
    }
    public CinemaHall getHall() throws PersistenceException{
@@ -71,5 +72,11 @@ public class SeatRowProxy implements ISeatRow{
    }
    public boolean removeFromSeats(Seat arg) throws PersistenceException{
       return this.getTheObject().removeFromSeats(arg);
+   }
+   public String getName() {
+      return this.getTheObject().getName();
+   }
+   public void setName(String newName) throws PersistenceException{
+      this.getTheObject().setName(newName);
    }
 }

@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:02 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -34,7 +34,7 @@ public class CinemaService extends Observable{
    private CinemaService(){
       PersistenceExecuterFactory.setUseDataBase();
       this.dmlExecuter = PersistenceExecuterFactory.getConfiguredFactory().getDBDMLExecuter("CinemaService");
-      try{PersistenceExecuterFactory.getConfiguredFactory().getDBDDLExecuter().openDBConnection(new DBConnectionData("jdbc:mysql://localhost:3306", "CinemaService", "root" , ""));
+      try{PersistenceExecuterFactory.getConfiguredFactory().getDBDDLExecuter().openDBConnection(new DBConnectionData("jdbc:mysql://127.0.0.1:3306", "CinemaService", "root" , "example"));
          PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().initializeFor("CinemaService");
          this.loadProxies();
          this.loadRelations();
@@ -59,10 +59,10 @@ public class CinemaService extends Observable{
          String className2 = this.dmlExecuter.getNameOfConcreteType(pair.getP2(), "MovieScreening");
          try{this.addMovie_MovieScreeningElement(pair.getP1(), className1, pair.getP2(), className2);}catch(ConstraintViolation cv){throw new PersistenceException(cv.getMessage());}
       }
-      for(IntegerPair pair : new InitialRelationLoader("MovieScreeninig_Movie").perform(this.dmlExecuter).values()){
-         String className1 = this.dmlExecuter.getNameOfConcreteType(pair.getP1(), "MovieScreening");
-         String className2 = this.dmlExecuter.getNameOfConcreteType(pair.getP2(), "Movie");
-         try{this.addMovieScreeninig_MovieElement(pair.getP1(), className1, pair.getP2(), className2);}catch(ConstraintViolation cv){throw new PersistenceException(cv.getMessage());}
+      for(IntegerPair pair : new InitialRelationLoader("CinemaHall_MovieScreening").perform(this.dmlExecuter).values()){
+         String className1 = this.dmlExecuter.getNameOfConcreteType(pair.getP1(), "CinemaHall");
+         String className2 = this.dmlExecuter.getNameOfConcreteType(pair.getP2(), "MovieScreening");
+         try{this.addCinemaHall_MovieScreeningElement(pair.getP1(), className1, pair.getP2(), className2);}catch(ConstraintViolation cv){throw new PersistenceException(cv.getMessage());}
       }
       for(IntegerPair pair : new InitialRelationLoader("MovieScreening_BookingState").perform(this.dmlExecuter).values()){
          String className1 = this.dmlExecuter.getNameOfConcreteType(pair.getP1(), "MovieScreening");
@@ -73,11 +73,6 @@ public class CinemaService extends Observable{
          String className1 = this.dmlExecuter.getNameOfConcreteType(pair.getP1(), "BookingState");
          String className2 = this.dmlExecuter.getNameOfConcreteType(pair.getP2(), "MovieScreening");
          try{this.addBookingState_MovieScreeningElement(pair.getP1(), className1, pair.getP2(), className2);}catch(ConstraintViolation cv){throw new PersistenceException(cv.getMessage());}
-      }
-      for(IntegerPair pair : new InitialRelationLoader("MovieScreening_CinemaHall").perform(this.dmlExecuter).values()){
-         String className1 = this.dmlExecuter.getNameOfConcreteType(pair.getP1(), "MovieScreening");
-         String className2 = this.dmlExecuter.getNameOfConcreteType(pair.getP2(), "CinemaHall");
-         try{this.addMovieScreening_CinemaHallElement(pair.getP1(), className1, pair.getP2(), className2);}catch(ConstraintViolation cv){throw new PersistenceException(cv.getMessage());}
       }
       for(IntegerPair pair : new InitialRelationLoader("CinemaHall_SeatRow").perform(this.dmlExecuter).values()){
          String className1 = this.dmlExecuter.getNameOfConcreteType(pair.getP1(), "CinemaHall");
@@ -126,11 +121,11 @@ public class CinemaService extends Observable{
       if(className2.equals("MovieScreening"))  proxy2 = this.movieScreeningCache.get(id2);
       Movie_MovieScreeningSupervisor.getInstance().addAlreadyPersistent(proxy1, proxy2);
    }
-   private void addMovieScreeninig_MovieElement(Integer id1, String className1, Integer id2, String className2) throws ConstraintViolation, PersistenceException{
-      IMovieScreening proxy1 = null; IMovie proxy2 = null; 
-      if(className2.equals("Movie"))  proxy2 = this.movieCache.get(id2);
-      if(className1.equals("MovieScreening"))  proxy1 = this.movieScreeningCache.get(id1);
-      MovieScreeninig_MovieSupervisor.getInstance().setAlreadyPersistent(proxy1, proxy2);
+   private void addCinemaHall_MovieScreeningElement(Integer id1, String className1, Integer id2, String className2) throws ConstraintViolation, PersistenceException{
+      ICinemaHall proxy1 = null; IMovieScreening proxy2 = null; 
+      if(className2.equals("MovieScreening"))  proxy2 = this.movieScreeningCache.get(id2);
+      if(className1.equals("CinemaHall"))  proxy1 = this.cinemaHallCache.get(id1);
+      CinemaHall_MovieScreeningSupervisor.getInstance().addAlreadyPersistent(proxy1, proxy2);
    }
    private void addMovieScreening_BookingStateElement(Integer id1, String className1, Integer id2, String className2) throws ConstraintViolation, PersistenceException{
       IMovieScreening proxy1 = null; IBookingState proxy2 = null; 
@@ -145,12 +140,6 @@ public class CinemaService extends Observable{
       if(className1.equals("Booking"))  proxy1 = this.bookingCache.get(id1);
       if(className1.equals("Reservation"))  proxy1 = this.reservationCache.get(id1);
       BookingState_MovieScreeningSupervisor.getInstance().setAlreadyPersistent(proxy1, proxy2);
-   }
-   private void addMovieScreening_CinemaHallElement(Integer id1, String className1, Integer id2, String className2) throws ConstraintViolation, PersistenceException{
-      IMovieScreening proxy1 = null; ICinemaHall proxy2 = null; 
-      if(className1.equals("MovieScreening"))  proxy1 = this.movieScreeningCache.get(id1);
-      if(className2.equals("CinemaHall"))  proxy2 = this.cinemaHallCache.get(id2);
-      MovieScreening_CinemaHallSupervisor.getInstance().setAlreadyPersistent(proxy1, proxy2);
    }
    private void addCinemaHall_SeatRowElement(Integer id1, String className1, Integer id2, String className2) throws ConstraintViolation, PersistenceException{
       ICinemaHall proxy1 = null; ISeatRow proxy2 = null; 

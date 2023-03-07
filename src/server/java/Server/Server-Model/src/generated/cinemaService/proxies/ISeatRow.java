@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -19,4 +19,6 @@ public interface ISeatRow extends Identifiable{
    public Set<Seat> getSeats() throws PersistenceException;
    public void addToSeats(Seat arg) throws PersistenceException;
    public boolean removeFromSeats(Seat arg) throws PersistenceException;
+   public String getName() ;
+   public void setName(String newName) throws PersistenceException;
 }

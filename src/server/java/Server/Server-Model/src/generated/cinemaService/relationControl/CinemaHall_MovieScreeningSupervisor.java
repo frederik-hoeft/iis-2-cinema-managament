@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:05 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:04 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -9,47 +9,55 @@ package generated.cinemaService.relationControl;
 import relationManagement.Relation;
 import src.db.executer.PersistenceException;
 import generated.cinemaService.proxies.*;
+import exceptions.ConstraintViolation;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.List;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
-public class MovieScreening_BookingStateSupervisor
+public class CinemaHall_MovieScreeningSupervisor
 {
    //30 ===== GENERATED:      Attribute Section ======
-   private static MovieScreening_BookingStateSupervisor theInstance = new MovieScreening_BookingStateSupervisor();
-   private Relation<IMovieScreening, IBookingState> elements;
+   private static CinemaHall_MovieScreeningSupervisor theInstance = new CinemaHall_MovieScreeningSupervisor();
+   private Relation<ICinemaHall, IMovieScreening> elements;
    //40 ===== Editable : Your Attribute Section ======
    
    //50 ===== GENERATED:      Constructor ============
-   private MovieScreening_BookingStateSupervisor(){
-      this.elements = new Relation<>("MovieScreening_BookingState", "CinemaService");
+   private CinemaHall_MovieScreeningSupervisor(){
+      this.elements = new Relation<>("CinemaHall_MovieScreening", "CinemaService");
    }
    //60 ===== Editable : Your Constructors ===========
    
    //70 ===== GENERATED:      Feature Access =========
-   public static MovieScreening_BookingStateSupervisor getInstance(){return theInstance;}
-   public Relation<IMovieScreening, IBookingState> getRelationData() {
+   public static CinemaHall_MovieScreeningSupervisor getInstance(){return theInstance;}
+   public Relation<ICinemaHall, IMovieScreening> getRelationData() {
       return this.elements;
    }
-   public Set<IBookingState> getBookingStates(IMovieScreening owner){
+   public Set<IMovieScreening> getScreenings(ICinemaHall owner){
       return this.elements.getRelatedTargets(owner).stream().collect(Collectors.toSet());
    }
-   public void add(IMovieScreening owner, IBookingState target) throws PersistenceException{
+   public void add(ICinemaHall owner, IMovieScreening target) throws ConstraintViolation, PersistenceException{
+      this.elements.willViolateSurjectivity(owner, null);
       this.elements.addElement(owner,target);
    }
    /** Used only by service class !! **/
-   public void addAlreadyPersistent(IMovieScreening owner, IBookingState target) throws PersistenceException{
+   public void addAlreadyPersistent(ICinemaHall owner, IMovieScreening target) throws ConstraintViolation, PersistenceException{
+      this.elements.willViolateSurjectivity(owner, null);
       this.elements.addElementAlreadyPersistent(owner,target);
    }
-   public boolean remove(IMovieScreening owner, IBookingState target) throws PersistenceException{
+   public boolean remove(ICinemaHall owner, IMovieScreening target) throws ConstraintViolation, PersistenceException{
       boolean loop = this.removeOnce(owner, target);
       boolean result = loop;
       while(loop) loop = this.removeOnce(owner, target);
       return result;
    }
-   private boolean removeOnce(IMovieScreening owner, IBookingState target) throws PersistenceException{
+   private boolean removeOnce(ICinemaHall owner, IMovieScreening target) throws ConstraintViolation, PersistenceException{
+      this.elements.willViolateSurjectivity(owner, target);
       return this.elements.removeElement(owner,target);
+   }
+   public List<ICinemaHall> getHall(IMovieScreening target){
+      return this.elements.getRelatedSources(target);
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======

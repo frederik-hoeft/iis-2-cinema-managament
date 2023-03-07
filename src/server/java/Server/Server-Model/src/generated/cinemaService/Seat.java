@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -29,24 +29,26 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
 {
    //30 ===== GENERATED:      Attribute Section ======
    private Integer id;
+   private String name;
    //40 ===== Editable : Your Attribute Section ======
    
    //50 ===== GENERATED:      Constructor ============
-   private Seat(Integer id, SeatRow row, boolean objectOnly)
+   private Seat(Integer id, SeatRow row, String name, boolean objectOnly)
    throws PersistenceException{
       super();
       this.setId(id);
       Seat_SeatRowSupervisor.getInstance().set(this, row);
+      this.name = name;
       if(objectOnly) return;
    }
-   public static Seat createFresh(SeatRow row)throws PersistenceException{
+   public static Seat createFresh(SeatRow row, String name)throws PersistenceException{
       src.db.executer.PersistenceDMLExecuter dmlExecuter = CinemaService.getInstance().getDmlExecuter();
       Integer id = dmlExecuter.getNextId();
       try{
-         dmlExecuter.insertInto("Seat", "id, typeKey", 
-         id.toString() + ", " + PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().getTypeKey("CinemaService", "Seat").toString());
+         dmlExecuter.insertInto("Seat", "id, typeKey, name", 
+         id.toString() + ", " + PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().getTypeKey("CinemaService", "Seat").toString() + ", " + "'" + name + "'");
       }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
-      Seat me = new Seat(id, row, false);
+      Seat me = new Seat(id, row, name, false);
       CinemaService.getInstance().addSeatProxy(new SeatProxy(me));
       return me;
    }
@@ -62,9 +64,9 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
       CinemaService.getInstance().getDmlExecuter().delete("Seat", id);
    }
    /** Caution: A Call to this Method Requires to add any newly instantiated Object to its Cache! */
-   public static Seat instantiateRuntimeCopy(SeatProxy proxy, SeatRow row)throws PersistenceException{
+   public static Seat instantiateRuntimeCopy(SeatProxy proxy, SeatRow row, String name)throws PersistenceException{
       if(proxy.isObjectPresent()) return proxy.getTheObject();
-      return new Seat(proxy.getId(), row, true);
+      return new Seat(proxy.getId(), row, name, true);
    }
    //60 ===== Editable : Your Constructors ===========
    
@@ -88,6 +90,14 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
    }
    public void setRow(SeatRow newRow)throws PersistenceException{
       Seat_SeatRowSupervisor.getInstance().change(this, this.getRow(), newRow);
+   }
+   public String getName() {
+      return this.name;
+   }
+   public void setName(String newName) throws PersistenceException{
+      this.name = newName;
+      try{CinemaService.getInstance().getDmlExecuter().update("Seat", "name", "'" + newName + "'", this.getId());
+      }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======

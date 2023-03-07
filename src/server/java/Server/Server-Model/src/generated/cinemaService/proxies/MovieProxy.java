@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:02 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.util.Optional;
 import generated.cinemaService.MovieScreening;
 import java.util.Set;
+import exceptions.ConstraintViolation;
 public class MovieProxy implements IMovie{
    private Integer id;
    private Optional<Movie> theObject;
@@ -50,10 +51,10 @@ public class MovieProxy implements IMovie{
    public Set<MovieScreening> getScreenings() throws PersistenceException{
       return this.getTheObject().getScreenings();
    }
-   public void addToScreenings(MovieScreening arg) throws PersistenceException{
+   public void addToScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException{
       this.getTheObject().addToScreenings(arg);
    }
-   public boolean removeFromScreenings(MovieScreening arg) throws PersistenceException{
+   public boolean removeFromScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException{
       return this.getTheObject().removeFromScreenings(arg);
    }
    public String getTitle() {

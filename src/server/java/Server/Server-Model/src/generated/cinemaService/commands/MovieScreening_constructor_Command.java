@@ -1,29 +1,29 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands;
 import generated.cinemaService.*;
 import commands.*;
 public class MovieScreening_constructor_Command extends ServiceCommand<MovieScreening>{
-   private static final long serialVersionUID = 2037339136L;
-   private Movie movie;
-   private CinemaHall hall;
+   private static final long serialVersionUID = -1816110956L;
    private Boolean  finished;
-   private String  Name;
-   public MovieScreening_constructor_Command(Movie movie, CinemaHall hall, Boolean  finished, String  Name){
+   private String  name;
+   private Movie  movie;
+   private CinemaHall  hall;
+   public MovieScreening_constructor_Command(Boolean  finished, String  name, Movie  movie, CinemaHall  hall){
       super();
+      this.finished = finished;
+      this.name = name;
       this.movie = movie;
       this.hall = hall;
-      this.finished = finished;
-      this.Name = Name;
    }
    public void execute(){
-      try{this.result = MovieScreening.createFresh(movie, hall, finished, Name);
+      try{this.result = MovieScreening.createFresh(finished, name, movie, hall);
       }catch(Exception e){this.e = e;
       }finally{CinemaService.getInstance().notifyObservers(this);}
    }
-   public Movie movie(){return movie;}
-   public CinemaHall hall(){return hall;}
    public Boolean  finished(){return finished;}
-   public String  Name(){return Name;}
+   public String  name(){return name;}
+   public Movie  movie(){return movie;}
+   public CinemaHall  hall(){return hall;}
 }

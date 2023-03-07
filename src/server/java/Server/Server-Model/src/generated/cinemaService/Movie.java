@@ -1,4 +1,4 @@
-/**--- Generated at Fri Mar 03 01:26:11 CET 2023 
+/**--- Generated at Tue Mar 07 13:02:02 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -57,9 +57,8 @@ public class Movie extends Observable implements java.io.Serializable, IMovie
    public static void delete(Integer id) throws ConstraintViolation, SQLException, NoConnectionException {
       if(!CinemaService.getInstance().getMovieCache().containsKey(id))throw new ConstraintViolation("Deletion not possible: " + "id " + id + " does not exist!");
       Movie toBeDeleted = CinemaService.getInstance().getMovie(id);
-      List<IMovieScreening> ownersInMovieScreeninig_Movie = MovieScreeninig_MovieSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
-      if(ownersInMovieScreeninig_Movie.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association MovieScreeninig_Movie");
-      MovieScreeninig_MovieSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
+      List<IMovieScreening> targetsInMovie_MovieScreening = Movie_MovieScreeningSupervisor.getInstance().getRelationData().getRelatedTargets(toBeDeleted);
+      if(targetsInMovie_MovieScreening.size()>0) throw new ConstraintViolation(" Deletion not possible: Object still contains other objects in Association Movie_MovieScreening");
       Movie_MovieScreeningSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getMovieCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("Movie", id);
@@ -91,10 +90,10 @@ public class Movie extends Observable implements java.io.Serializable, IMovie
       for (IMovieScreening i : Movie_MovieScreeningSupervisor.getInstance().getScreenings(this)) result.add(i.getTheObject());
       return result;
    }
-   public void addToScreenings(MovieScreening arg) throws PersistenceException{
+   public void addToScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException{
       Movie_MovieScreeningSupervisor.getInstance().add(this, arg);
    }
-   public boolean removeFromScreenings(MovieScreening arg) throws PersistenceException{
+   public boolean removeFromScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException{
       return Movie_MovieScreeningSupervisor.getInstance().remove(this, arg);
    }
    public String getTitle() {

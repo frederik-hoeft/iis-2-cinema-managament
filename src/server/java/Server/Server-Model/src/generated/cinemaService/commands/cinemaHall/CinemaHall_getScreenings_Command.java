@@ -4,13 +4,14 @@
 package generated.cinemaService.commands.cinemaHall;
 import generated.cinemaService.*;
 import commands.*;
-public class CinemaHall_delete_Command extends ObjectCommand<CinemaHall, Void>{
-   private static final long serialVersionUID = -967784163L;
-   public CinemaHall_delete_Command(CinemaHall receiver){
+import java.util.Collection;
+public class CinemaHall_getScreenings_Command extends ObjectCommand<CinemaHall, Collection<MovieScreening>>{
+   private static final long serialVersionUID = 827299192L;
+   public CinemaHall_getScreenings_Command(CinemaHall receiver){
       super(receiver);
    }
    public void execute(){
-      try{CinemaHall.delete(receiver.getId());
+      try{this.result = this.receiver.getScreenings();
       }catch(Exception e){this.e = e;
       }finally{this.receiver.notifyObservers(this);}
    }
