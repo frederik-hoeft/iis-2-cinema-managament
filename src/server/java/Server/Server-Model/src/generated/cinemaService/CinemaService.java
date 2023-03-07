@@ -17,7 +17,10 @@ import observation.Observable;
 import src.db.executer.PersistenceExecuterFactory;
 import src.db.executer.PersistenceDMLExecuter;
 import src.db.connection.DBConnectionData;
+
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 //20 ===== Editable : Your import section =========
 //30 ===== GENERATED: Main Section ================
 public class CinemaService extends Observable{
@@ -227,5 +230,34 @@ public class CinemaService extends Observable{
       PersistenceExecuterFactory.getConfiguredFactory().getDBDDLExecuter().closeConnection("CinemaService");
    }
    //80 ===== Editable : Your Operations =============
+   public static synchronized <T> Map<Integer, T> getCacheOf(Class<T> type)
+   {
+      if (_caches == null)
+      {
+         _caches = new HashMap<>();
+         _caches.put(Movie.class, cinema -> cinema.getMovieCache());
+         _caches.put(MovieScreening.class, cinema -> cinema.getMovieScreeningCache());
+         _caches.put(CinemaHall.class, cinema -> cinema.getCinemaHallCache());
+         _caches.put(SeatRow.class, cinema -> cinema.getSeatRowCache());
+         _caches.put(Seat.class, cinema -> cinema.getSeatCache());
+         _caches.put(Booking.class, cinema -> cinema.getBookingCache());
+         _caches.put(Reservation.class, cinema -> cinema.getReservationCache());
+         _caches.put(Customer.class, cinema -> cinema.getCustomerCache());
+         Function<CinemaService, Map> getBookingStateCache = cinema -> {
+            final var bookings = cinema.getBookingCache();
+            final var reservations = cinema.getReservationCache();
+            final Map<Integer, BookingStateProxy> results = new HashMap<>();
+            results.putAll(bookings);
+            results.putAll(reservations);
+            return results;
+         };
+         _caches.put(BookingState.class, getBookingStateCache);
+      }
+      Function<CinemaService, Map> cacheFactory = _caches.getOrDefault(type, cinema -> null);
+      var result = cacheFactory.apply(CinemaService.getInstance());
+      return (Map<Integer, T>)result;
+   }
+
+   private static Map<Class, Function<CinemaService, Map>> _caches = null;
 //90 ===== GENERATED: End of Your Operations ======
 }

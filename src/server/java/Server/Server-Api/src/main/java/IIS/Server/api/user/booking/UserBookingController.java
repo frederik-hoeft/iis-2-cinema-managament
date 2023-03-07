@@ -16,6 +16,8 @@ import IIS.Server.api.management.seat.responses.GetSeatsResponse;
 import IIS.Server.api.management.seat_row.requests.GetSeatRowRequest;
 import IIS.Server.api.user.booking.requests.*;
 import IIS.Server.api.user.booking.responses.*;
+import generated.cinemaService.CinemaService;
+import generated.cinemaService.Movie;
 
 
 @RestController
@@ -111,10 +113,9 @@ public class UserBookingController {
         return new ResponseEntity<GetMovieScreeningsFullResponse>(response, HttpStatus.OK);
     }
 
-    // TODO: is this one used?
     @GetMapping("/available-movies")
-    public ResponseEntity<GetMoviesResponse> getAvailableScreenings() {
-
+    public ResponseEntity<GetMoviesResponse> getAvailableScreenings() 
+    {
         GetMoviesResponse response = new GetMoviesResponse();
         response.setSuccess(false);
         return new ResponseEntity<GetMoviesResponse>(response, HttpStatus.OK);
