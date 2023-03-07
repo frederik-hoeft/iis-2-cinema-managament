@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class GetMoviesResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
     Collection<GetMoviesResponseEntry> movies;
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class GetSeatsResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
     Collection<GetSeatsResponseEntry> seats;
 }

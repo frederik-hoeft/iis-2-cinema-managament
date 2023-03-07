@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class GetScreeningsResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
     Collection<GetMovieScreeningsResponseEntry> screenings;
 }

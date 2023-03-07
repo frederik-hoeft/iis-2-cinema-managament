@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class UpdateScreeningResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class GetScreeningRevenueResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
     Double totalRevenue;
 }

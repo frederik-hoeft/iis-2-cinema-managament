@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class CreateMovieResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
 }

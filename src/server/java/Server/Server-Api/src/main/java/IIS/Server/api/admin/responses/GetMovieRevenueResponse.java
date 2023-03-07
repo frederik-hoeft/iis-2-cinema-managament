@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class GetMovieRevenueResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
     Double totalRevenue;
 }

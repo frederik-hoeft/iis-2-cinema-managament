@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class DeleteSeatRowResponse {
-    boolean success;
+    Boolean success;
     Optional<String> error;
 }
