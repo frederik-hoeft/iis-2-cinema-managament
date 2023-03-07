@@ -1,18 +1,18 @@
-/**--- Generated at Tue Mar 07 13:35:37 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:47 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.movieScreening;
 import generated.cinemaService.*;
 import commands.*;
-public class MovieScreening_removeFromBookingStates_Command extends ObjectCommand<MovieScreening, Boolean>{
-   private static final long serialVersionUID = 1314404221L;
+public class MovieScreening_addToBookings_Command extends ObjectCommand<MovieScreening, Void>{
+   private static final long serialVersionUID = -1871431827L;
    private BookingState arg;
-   public MovieScreening_removeFromBookingStates_Command(MovieScreening receiver, BookingState arg){
+   public MovieScreening_addToBookings_Command(MovieScreening receiver, BookingState arg){
       super(receiver);
       this.arg = arg;
    }
    public void execute(){
-      try{this.result = this.receiver.removeFromBookingStates(arg);
+      try{this.receiver.addToBookings(arg);
       }catch(Exception e){this.e = e;
       }finally{this.receiver.notifyObservers(this);}
    }

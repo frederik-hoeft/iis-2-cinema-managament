@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -12,7 +12,6 @@ import src.db.executer.PersistenceExecuterFactory;
 import observation.Observable;
 import generated.cinemaService.proxies.IBookingState;
 import generated.cinemaService.relationControl.*;
-import generated.cinemaService.proxies.*;
 import src.db.executer.PersistenceException;
 import exceptions.ConstraintViolation;
 //20 ===== Editable : Your Import Section =========
@@ -29,10 +28,10 @@ public abstract class BookingState extends Observable implements java.io.Seriali
    throws PersistenceException{
       super();
       this.setId(id);
-      BookingState_MovieScreeningSupervisor.getInstance().set(this, screening);
-      BookingState_SeatSupervisor.getInstance().set(this, seat);
-      BookingState_CustomerSupervisor.getInstance().set(this, customer);
       if(objectOnly) return;
+      try{MovieScreening_BookingStateSupervisor.getInstance().add(screening,this);}catch(ConstraintViolation cv){}// Ok, because consistency is guaranteed with this statement
+      try{Seat_BookingStateSupervisor.getInstance().add(seat,this);}catch(ConstraintViolation cv){}// Ok, because consistency is guaranteed with this statement
+      try{Customer_BookingStateSupervisor.getInstance().add(customer,this);}catch(ConstraintViolation cv){}// Ok, because consistency is guaranteed with this statement
    }
    //60 ===== Editable : Your Constructors ===========
    
@@ -52,22 +51,13 @@ public abstract class BookingState extends Observable implements java.io.Seriali
    }
    public int hashCode() {return this.getId().hashCode();}
    public MovieScreening getScreening() throws PersistenceException{
-      return BookingState_MovieScreeningSupervisor.getInstance().getScreening(this).getTheObject();
-   }
-   public void setScreening(MovieScreening newScreening)throws PersistenceException{
-      BookingState_MovieScreeningSupervisor.getInstance().change(this, this.getScreening(), newScreening);
+      return MovieScreening_BookingStateSupervisor.getInstance().getScreening(this).getTheObject();
    }
    public Seat getSeat() throws PersistenceException{
-      return BookingState_SeatSupervisor.getInstance().getSeat(this).getTheObject();
-   }
-   public void setSeat(Seat newSeat)throws PersistenceException{
-      BookingState_SeatSupervisor.getInstance().change(this, this.getSeat(), newSeat);
+      return Seat_BookingStateSupervisor.getInstance().getSeat(this).getTheObject();
    }
    public Customer getCustomer() throws PersistenceException{
-      return BookingState_CustomerSupervisor.getInstance().getCustomer(this).getTheObject();
-   }
-   public void setCustomer(Customer newCustomer)throws PersistenceException{
-      BookingState_CustomerSupervisor.getInstance().change(this, this.getCustomer(), newCustomer);
+      return Customer_BookingStateSupervisor.getInstance().getCustomer(this).getTheObject();
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======

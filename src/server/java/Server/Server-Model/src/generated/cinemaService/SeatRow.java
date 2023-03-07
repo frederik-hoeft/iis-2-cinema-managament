@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -11,10 +11,9 @@ import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceExecuterFactory;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.relationControl.CinemaHall_SeatRowSupervisor;
-import generated.cinemaService.relationControl.PriceCategory_SeatRowSupervisor;
+import generated.cinemaService.relationControl.SeatRow_PriceCategorySupervisor;
 import java.util.List;
 import generated.cinemaService.proxies.ISeat;
-import generated.cinemaService.relationControl.Seat_SeatRowSupervisor;
 import generated.cinemaService.relationControl.SeatRow_SeatSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.SeatRowProxy;
@@ -23,10 +22,6 @@ import generated.cinemaService.proxies.ISeatRow;
 import generated.cinemaService.relationControl.*;
 import generated.cinemaService.proxies.*;
 import src.db.executer.PersistenceException;
-import java.util.Set;
-import java.util.HashSet;
-import generated.cinemaService.proxies.IPriceCategory;
-import generated.cinemaService.relationControl.SeatRow_PriceCategorySupervisor;
 import java.util.ArrayList;
 //20 ===== Editable : Your Import Section =========
 

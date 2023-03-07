@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -12,7 +12,6 @@ import src.db.executer.PersistenceExecuterFactory;
 import exceptions.ConstraintViolation;
 import java.util.List;
 import generated.cinemaService.proxies.IBookingState;
-import generated.cinemaService.relationControl.BookingState_CustomerSupervisor;
 import generated.cinemaService.relationControl.Customer_BookingStateSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.CustomerProxy;
@@ -59,9 +58,8 @@ public class Customer extends Observable implements java.io.Serializable, ICusto
    public static void delete(Integer id) throws ConstraintViolation, SQLException, NoConnectionException {
       if(!CinemaService.getInstance().getCustomerCache().containsKey(id))throw new ConstraintViolation("Deletion not possible: " + "id " + id + " does not exist!");
       Customer toBeDeleted = CinemaService.getInstance().getCustomer(id);
-      List<IBookingState> ownersInBookingState_Customer = BookingState_CustomerSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
-      if(ownersInBookingState_Customer.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association BookingState_Customer");
-      BookingState_CustomerSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
+      List<IBookingState> targetsInCustomer_BookingState = Customer_BookingStateSupervisor.getInstance().getRelationData().getRelatedTargets(toBeDeleted);
+      if(targetsInCustomer_BookingState.size()>0) throw new ConstraintViolation(" Deletion not possible: Object still contains other objects in Association Customer_BookingState");
       Customer_BookingStateSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getCustomerCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("Customer", id);
@@ -93,10 +91,10 @@ public class Customer extends Observable implements java.io.Serializable, ICusto
       for (IBookingState i : Customer_BookingStateSupervisor.getInstance().getBookings(this)) result.add(i.getTheObject());
       return result;
    }
-   public void addToBookings(BookingState arg) throws PersistenceException{
+   public void addToBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
       Customer_BookingStateSupervisor.getInstance().add(this, arg);
    }
-   public boolean removeFromBookings(BookingState arg) throws PersistenceException{
+   public boolean removeFromBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
       return Customer_BookingStateSupervisor.getInstance().remove(this, arg);
    }
    public String getFirstName() {

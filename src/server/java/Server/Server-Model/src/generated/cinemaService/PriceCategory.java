@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:39 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -11,13 +11,9 @@ import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceExecuterFactory;
 import observation.Observable;
 import generated.cinemaService.proxies.IPriceCategory;
-import generated.cinemaService.relationControl.*;
-import generated.cinemaService.proxies.*;
-import src.db.executer.PersistenceException;
-import java.util.Set;
-import java.util.HashSet;
-import exceptions.ConstraintViolation;
 import java.util.Optional;
+import src.db.executer.PersistenceException;
+import exceptions.ConstraintViolation;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========

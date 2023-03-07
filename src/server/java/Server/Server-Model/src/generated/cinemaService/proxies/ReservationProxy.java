@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -10,11 +10,11 @@ import generated.cinemaService.Reservation;
 import java.sql.ResultSet;
 import java.util.Optional;
 import generated.cinemaService.MovieScreening;
-import generated.cinemaService.relationControl.BookingState_MovieScreeningSupervisor;
+import generated.cinemaService.relationControl.MovieScreening_BookingStateSupervisor;
 import generated.cinemaService.Seat;
-import generated.cinemaService.relationControl.BookingState_SeatSupervisor;
+import generated.cinemaService.relationControl.Seat_BookingStateSupervisor;
 import generated.cinemaService.Customer;
-import generated.cinemaService.relationControl.BookingState_CustomerSupervisor;
+import generated.cinemaService.relationControl.Customer_BookingStateSupervisor;
 public class ReservationProxy extends BookingStateProxy implements IReservation{
    private Integer id;
    private Optional<Reservation> theObject;
@@ -46,9 +46,9 @@ public class ReservationProxy extends BookingStateProxy implements IReservation{
       Optional<ResultSet> rs = Optional.empty();
       try {
          rs = CinemaService.getInstance().getDmlExecuter().selectIdSpecifiedCursorAleadyAtFirstRow("BookingState", this.id);
-         MovieScreening screening = BookingState_MovieScreeningSupervisor.getInstance().getScreening(this).getTheObject();
-         Seat seat = BookingState_SeatSupervisor.getInstance().getSeat(this).getTheObject();
-         Customer customer = BookingState_CustomerSupervisor.getInstance().getCustomer(this).getTheObject();
+         MovieScreening screening = MovieScreening_BookingStateSupervisor.getInstance().getScreening(this).getTheObject();
+         Seat seat = Seat_BookingStateSupervisor.getInstance().getSeat(this).getTheObject();
+         Customer customer = Customer_BookingStateSupervisor.getInstance().getCustomer(this).getTheObject();
          return Reservation.instantiateRuntimeCopy(this, screening, seat, customer);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
    }

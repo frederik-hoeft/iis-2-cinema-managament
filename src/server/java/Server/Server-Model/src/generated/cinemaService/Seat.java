@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -13,8 +13,7 @@ import exceptions.ConstraintViolation;
 import generated.cinemaService.relationControl.SeatRow_SeatSupervisor;
 import java.util.List;
 import generated.cinemaService.proxies.IBookingState;
-import generated.cinemaService.relationControl.BookingState_SeatSupervisor;
-import generated.cinemaService.relationControl.Seat_SeatRowSupervisor;
+import generated.cinemaService.relationControl.Seat_BookingStateSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.SeatProxy;
 import observation.Observable;
@@ -22,6 +21,8 @@ import generated.cinemaService.proxies.ISeat;
 import generated.cinemaService.relationControl.*;
 import generated.cinemaService.proxies.*;
 import src.db.executer.PersistenceException;
+import java.util.Set;
+import java.util.HashSet;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
@@ -56,9 +57,9 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
       if(!CinemaService.getInstance().getSeatCache().containsKey(id))throw new ConstraintViolation("Deletion not possible: " + "id " + id + " does not exist!");
       Seat toBeDeleted = CinemaService.getInstance().getSeat(id);
       SeatRow_SeatSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
-      List<IBookingState> ownersInBookingState_Seat = BookingState_SeatSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
-      if(ownersInBookingState_Seat.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association BookingState_Seat");
-      BookingState_SeatSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
+      List<IBookingState> targetsInSeat_BookingState = Seat_BookingStateSupervisor.getInstance().getRelationData().getRelatedTargets(toBeDeleted);
+      if(targetsInSeat_BookingState.size()>0) throw new ConstraintViolation(" Deletion not possible: Object still contains other objects in Association Seat_BookingState");
+      Seat_BookingStateSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getSeatCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("Seat", id);
    }
@@ -84,6 +85,17 @@ public class Seat extends Observable implements java.io.Serializable, ISeat
       return ((ISeat)o).getId().equals(this.getId());
    }
    public int hashCode() {return this.getId().hashCode();}
+   public Set<BookingState> getBookings() throws PersistenceException{
+      Set<BookingState> result = new HashSet<>();
+      for (IBookingState i : Seat_BookingStateSupervisor.getInstance().getBookings(this)) result.add(i.getTheObject());
+      return result;
+   }
+   public void addToBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
+      Seat_BookingStateSupervisor.getInstance().add(this, arg);
+   }
+   public boolean removeFromBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
+      return Seat_BookingStateSupervisor.getInstance().remove(this, arg);
+   }
    public String getName() {
       return this.name;
    }

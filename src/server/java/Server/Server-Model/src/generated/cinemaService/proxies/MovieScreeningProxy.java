@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:37 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:47 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.util.Optional;
 import generated.cinemaService.BookingState;
 import java.util.Set;
+import exceptions.ConstraintViolation;
 import generated.cinemaService.Movie;
 import generated.cinemaService.relationControl.Movie_MovieScreeningSupervisor;
 import generated.cinemaService.CinemaHall;
@@ -53,14 +54,14 @@ public class MovieScreeningProxy implements IMovieScreening{
          return MovieScreening.instantiateRuntimeCopy(this, finished, name, movie, hall);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
    }
-   public Set<BookingState> getBookingStates() throws PersistenceException{
-      return this.getTheObject().getBookingStates();
+   public Set<BookingState> getBookings() throws PersistenceException{
+      return this.getTheObject().getBookings();
    }
-   public void addToBookingStates(BookingState arg) throws PersistenceException{
-      this.getTheObject().addToBookingStates(arg);
+   public void addToBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
+      this.getTheObject().addToBookings(arg);
    }
-   public boolean removeFromBookingStates(BookingState arg) throws PersistenceException{
-      return this.getTheObject().removeFromBookingStates(arg);
+   public boolean removeFromBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
+      return this.getTheObject().removeFromBookings(arg);
    }
    public Boolean getFinished() {
       return this.getTheObject().getFinished();

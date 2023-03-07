@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:37 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:47 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -14,7 +14,6 @@ import generated.cinemaService.relationControl.Movie_MovieScreeningSupervisor;
 import generated.cinemaService.relationControl.CinemaHall_MovieScreeningSupervisor;
 import java.util.List;
 import generated.cinemaService.proxies.IBookingState;
-import generated.cinemaService.relationControl.BookingState_MovieScreeningSupervisor;
 import generated.cinemaService.relationControl.MovieScreening_BookingStateSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.MovieScreeningProxy;
@@ -63,9 +62,8 @@ public class MovieScreening extends Observable implements java.io.Serializable, 
       MovieScreening toBeDeleted = CinemaService.getInstance().getMovieScreening(id);
       Movie_MovieScreeningSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
       CinemaHall_MovieScreeningSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
-      List<IBookingState> ownersInBookingState_MovieScreening = BookingState_MovieScreeningSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
-      if(ownersInBookingState_MovieScreening.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association BookingState_MovieScreening");
-      BookingState_MovieScreeningSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
+      List<IBookingState> targetsInMovieScreening_BookingState = MovieScreening_BookingStateSupervisor.getInstance().getRelationData().getRelatedTargets(toBeDeleted);
+      if(targetsInMovieScreening_BookingState.size()>0) throw new ConstraintViolation(" Deletion not possible: Object still contains other objects in Association MovieScreening_BookingState");
       MovieScreening_BookingStateSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getMovieScreeningCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("MovieScreening", id);
@@ -92,15 +90,15 @@ public class MovieScreening extends Observable implements java.io.Serializable, 
       return ((IMovieScreening)o).getId().equals(this.getId());
    }
    public int hashCode() {return this.getId().hashCode();}
-   public Set<BookingState> getBookingStates() throws PersistenceException{
+   public Set<BookingState> getBookings() throws PersistenceException{
       Set<BookingState> result = new HashSet<>();
-      for (IBookingState i : MovieScreening_BookingStateSupervisor.getInstance().getBookingStates(this)) result.add(i.getTheObject());
+      for (IBookingState i : MovieScreening_BookingStateSupervisor.getInstance().getBookings(this)) result.add(i.getTheObject());
       return result;
    }
-   public void addToBookingStates(BookingState arg) throws PersistenceException{
+   public void addToBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
       MovieScreening_BookingStateSupervisor.getInstance().add(this, arg);
    }
-   public boolean removeFromBookingStates(BookingState arg) throws PersistenceException{
+   public boolean removeFromBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
       return MovieScreening_BookingStateSupervisor.getInstance().remove(this, arg);
    }
    public Boolean getFinished() {

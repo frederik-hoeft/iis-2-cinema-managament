@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.util.Optional;
 import generated.cinemaService.BookingState;
 import java.util.Set;
+import exceptions.ConstraintViolation;
 public class CustomerProxy implements ICustomer{
    private Integer id;
    private Optional<Customer> theObject;
@@ -51,10 +52,10 @@ public class CustomerProxy implements ICustomer{
    public Set<BookingState> getBookings() throws PersistenceException{
       return this.getTheObject().getBookings();
    }
-   public void addToBookings(BookingState arg) throws PersistenceException{
+   public void addToBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
       this.getTheObject().addToBookings(arg);
    }
-   public boolean removeFromBookings(BookingState arg) throws PersistenceException{
+   public boolean removeFromBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
       return this.getTheObject().removeFromBookings(arg);
    }
    public String getFirstName() {

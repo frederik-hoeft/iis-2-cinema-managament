@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -11,10 +11,8 @@ import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceExecuterFactory;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.relationControl.MovieScreening_BookingStateSupervisor;
+import generated.cinemaService.relationControl.Seat_BookingStateSupervisor;
 import generated.cinemaService.relationControl.Customer_BookingStateSupervisor;
-import generated.cinemaService.relationControl.BookingState_MovieScreeningSupervisor;
-import generated.cinemaService.relationControl.BookingState_SeatSupervisor;
-import generated.cinemaService.relationControl.BookingState_CustomerSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.BookingProxy;
 import generated.cinemaService.proxies.IBooking;
@@ -48,10 +46,8 @@ public class Booking extends BookingState implements java.io.Serializable, IBook
       if(!CinemaService.getInstance().getBookingCache().containsKey(id))throw new ConstraintViolation("Deletion not possible: " + "id " + id + " does not exist!");
       Booking toBeDeleted = CinemaService.getInstance().getBooking(id);
       MovieScreening_BookingStateSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
+      Seat_BookingStateSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
       Customer_BookingStateSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
-      BookingState_MovieScreeningSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
-      BookingState_SeatSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
-      BookingState_CustomerSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getBookingCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("BookingState", id);
    }

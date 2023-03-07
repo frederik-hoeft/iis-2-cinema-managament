@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -9,6 +9,9 @@ import src.db.executer.*;
 import generated.cinemaService.Seat;
 import java.sql.ResultSet;
 import java.util.Optional;
+import generated.cinemaService.BookingState;
+import java.util.Set;
+import exceptions.ConstraintViolation;
 import generated.cinemaService.SeatRow;
 import generated.cinemaService.relationControl.SeatRow_SeatSupervisor;
 public class SeatProxy implements ISeat{
@@ -46,6 +49,15 @@ public class SeatProxy implements ISeat{
          SeatRow row = SeatRow_SeatSupervisor.getInstance().getRow(this).getTheObject();
          return Seat.instantiateRuntimeCopy(this, name, row);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
+   }
+   public Set<BookingState> getBookings() throws PersistenceException{
+      return this.getTheObject().getBookings();
+   }
+   public void addToBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
+      this.getTheObject().addToBookings(arg);
+   }
+   public boolean removeFromBookings(BookingState arg) throws ConstraintViolation, PersistenceException{
+      return this.getTheObject().removeFromBookings(arg);
    }
    public String getName() {
       return this.getTheObject().getName();

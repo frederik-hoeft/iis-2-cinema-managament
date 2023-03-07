@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:41 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:50 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -9,8 +9,6 @@ package generated.cinemaService.relationControl;
 import relationManagement.Relation;
 import src.db.executer.PersistenceException;
 import generated.cinemaService.proxies.*;
-import java.util.Set;
-import java.util.stream.Collectors;
 import exceptions.ConstraintViolation;
 import java.util.List;
 //20 ===== Editable : Your Import Section =========

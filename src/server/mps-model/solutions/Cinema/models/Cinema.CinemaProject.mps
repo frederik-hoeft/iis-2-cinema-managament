@@ -176,25 +176,19 @@
         <ref role="3_FBDr" node="6Kq672PYPBh" resolve="MovieScreening" />
       </node>
     </node>
-    <node concept="3_FBDc" id="3Kw_u$R$amv" role="3_Gd4Z">
+    <node concept="3_FBDc" id="5FjOg5XXq1O" role="3_Gd4Z">
       <property role="TrG5h" value="MovieScreening_BookingState" />
-      <node concept="3_FwNw" id="3Kw_u$R$anh" role="3_Fx_Q">
-        <ref role="3_FwNB" node="6Kq672PYPBh" resolve="MovieScreening" />
+      <node concept="2zC0rd" id="5FjOg5XXq2S" role="3_Fx_Q">
+        <property role="2zC0rY" value="1axOPyL0tmr/Containment" />
+        <node concept="2zC6PY" id="5FjOg5XXq2U" role="2zC0rK">
+          <property role="3_FBD6" value="screening" />
+          <ref role="2zC6PZ" node="6Kq672PYPBh" resolve="MovieScreening" />
+        </node>
       </node>
-      <node concept="2zC27e" id="3Kw_u$R$ank" role="3_Fx_f">
-        <property role="3_FBD6" value="bookingStates" />
+      <node concept="2zC27e" id="5FjOg5XXq2Y" role="3_Fx_f">
+        <property role="3_FBD6" value="bookings" />
         <property role="2zC27X" value="1axOPyL0vaw/Set" />
         <ref role="3_FBDr" node="6Kq672PYPCL" resolve="BookingState" />
-      </node>
-    </node>
-    <node concept="3_FBDc" id="3Kw_u$R$ao5" role="3_Gd4Z">
-      <property role="TrG5h" value="BookingState_MovieScreening" />
-      <node concept="3_FwNw" id="3Kw_u$R$aoU" role="3_Fx_Q">
-        <ref role="3_FwNB" node="6Kq672PYPCL" resolve="BookingState" />
-      </node>
-      <node concept="2zC27e" id="3Kw_u$R$aoX" role="3_Fx_f">
-        <property role="3_FBD6" value="screening" />
-        <ref role="3_FBDr" node="6Kq672PYPBh" resolve="MovieScreening" />
       </node>
     </node>
     <node concept="3_FBDc" id="5FjOg5XXpEa" role="3_Gd4Z">
@@ -237,32 +231,31 @@
         <ref role="3_FBDr" node="6Kq672PYPCi" resolve="Seat" />
       </node>
     </node>
-    <node concept="3_FBDc" id="3Kw_u$R$aCd" role="3_Gd4Z">
-      <property role="TrG5h" value="BookingState_Seat" />
-      <node concept="3_FwNw" id="3Kw_u$R$aDq" role="3_Fx_Q">
-        <ref role="3_FwNB" node="6Kq672PYPCL" resolve="BookingState" />
+    <node concept="3_FBDc" id="5FjOg5XXq8J" role="3_Gd4Z">
+      <property role="TrG5h" value="Seat_BookingState" />
+      <node concept="2zC0rd" id="5FjOg5XXq9L" role="3_Fx_Q">
+        <property role="2zC0rY" value="1axOPyL0tmr/Containment" />
+        <node concept="2zC6PY" id="5FjOg5XXq9N" role="2zC0rK">
+          <property role="3_FBD6" value="seat" />
+          <ref role="2zC6PZ" node="6Kq672PYPCi" resolve="Seat" />
+        </node>
       </node>
-      <node concept="2zC27e" id="3Kw_u$R$aDt" role="3_Fx_f">
-        <property role="3_FBD6" value="seat" />
-        <ref role="3_FBDr" node="6Kq672PYPCi" resolve="Seat" />
-      </node>
-    </node>
-    <node concept="3_FBDc" id="3Kw_u$R$aED" role="3_Gd4Z">
-      <property role="TrG5h" value="BookingState_Customer" />
-      <node concept="3_FwNw" id="3Kw_u$R$aFT" role="3_Fx_Q">
-        <ref role="3_FwNB" node="6Kq672PYPCL" resolve="BookingState" />
-      </node>
-      <node concept="2zC27e" id="3Kw_u$R$aFW" role="3_Fx_f">
-        <property role="3_FBD6" value="customer" />
-        <ref role="3_FBDr" node="6Kq672PYPFj" resolve="Customer" />
+      <node concept="2zC27e" id="5FjOg5XXq9R" role="3_Fx_f">
+        <property role="3_FBD6" value="bookings" />
+        <property role="2zC27X" value="1axOPyL0vaw/Set" />
+        <ref role="3_FBDr" node="6Kq672PYPCL" resolve="BookingState" />
       </node>
     </node>
-    <node concept="3_FBDc" id="3Kw_u$R$aHb" role="3_Gd4Z">
+    <node concept="3_FBDc" id="5FjOg5XXqbK" role="3_Gd4Z">
       <property role="TrG5h" value="Customer_BookingState" />
-      <node concept="3_FwNw" id="3Kw_u$R$aIu" role="3_Fx_Q">
-        <ref role="3_FwNB" node="6Kq672PYPFj" resolve="Customer" />
+      <node concept="2zC0rd" id="5FjOg5XXqcN" role="3_Fx_Q">
+        <property role="2zC0rY" value="1axOPyL0tmr/Containment" />
+        <node concept="2zC6PY" id="5FjOg5XXqcP" role="2zC0rK">
+          <property role="3_FBD6" value="customer" />
+          <ref role="2zC6PZ" node="6Kq672PYPFj" resolve="Customer" />
+        </node>
       </node>
-      <node concept="2zC27e" id="3Kw_u$R$aIx" role="3_Fx_f">
+      <node concept="2zC27e" id="5FjOg5XXqcT" role="3_Fx_f">
         <property role="3_FBD6" value="bookings" />
         <property role="2zC27X" value="1axOPyL0vaw/Set" />
         <ref role="3_FBDr" node="6Kq672PYPCL" resolve="BookingState" />

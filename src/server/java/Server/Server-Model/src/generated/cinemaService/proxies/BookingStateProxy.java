@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:35:38 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:48 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -17,19 +17,10 @@ public abstract class BookingStateProxy implements IBookingState{
    public MovieScreening getScreening() throws PersistenceException{
       return this.getTheObject().getScreening();
    }
-   public void setScreening(MovieScreening newScreening)throws PersistenceException{
-      this.getTheObject().setScreening(newScreening);
-   }
    public Seat getSeat() throws PersistenceException{
       return this.getTheObject().getSeat();
    }
-   public void setSeat(Seat newSeat)throws PersistenceException{
-      this.getTheObject().setSeat(newSeat);
-   }
    public Customer getCustomer() throws PersistenceException{
       return this.getTheObject().getCustomer();
-   }
-   public void setCustomer(Customer newCustomer)throws PersistenceException{
-      this.getTheObject().setCustomer(newCustomer);
    }
 }

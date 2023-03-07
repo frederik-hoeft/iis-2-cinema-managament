@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:26:06 CET 2023 
+/**--- Generated at Tue Mar 07 14:00:50 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -15,45 +15,48 @@ import java.util.stream.Collectors;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
-public class PriceCategory_SeatRowSupervisor
+public class Seat_BookingStateSupervisor
 {
    //30 ===== GENERATED:      Attribute Section ======
-   private static PriceCategory_SeatRowSupervisor theInstance = new PriceCategory_SeatRowSupervisor();
-   private Relation<IPriceCategory, ISeatRow> elements;
+   private static Seat_BookingStateSupervisor theInstance = new Seat_BookingStateSupervisor();
+   private Relation<ISeat, IBookingState> elements;
    //40 ===== Editable : Your Attribute Section ======
    
    //50 ===== GENERATED:      Constructor ============
-   private PriceCategory_SeatRowSupervisor(){
-      this.elements = new Relation<>("PriceCategory_SeatRow", "CinemaService");
+   private Seat_BookingStateSupervisor(){
+      this.elements = new Relation<>("Seat_BookingState", "CinemaService");
    }
    //60 ===== Editable : Your Constructors ===========
    
    //70 ===== GENERATED:      Feature Access =========
-   public static PriceCategory_SeatRowSupervisor getInstance(){return theInstance;}
-   public Relation<IPriceCategory, ISeatRow> getRelationData() {
+   public static Seat_BookingStateSupervisor getInstance(){return theInstance;}
+   public Relation<ISeat, IBookingState> getRelationData() {
       return this.elements;
    }
-   public Set<ISeatRow> getRows(IPriceCategory owner){
+   public Set<IBookingState> getBookings(ISeat owner){
       return this.elements.getRelatedTargets(owner).stream().collect(Collectors.toSet());
    }
-   public void add(IPriceCategory owner, ISeatRow target) throws PersistenceException{
+   public void add(ISeat owner, IBookingState target) throws ConstraintViolation, PersistenceException{
+      this.elements.willViolateInjectivity(owner, target);
       this.elements.addElement(owner,target);
    }
    /** Used only by service class !! **/
-   public void addAlreadyPersistent(IPriceCategory owner, ISeatRow target) throws PersistenceException{
+   public void addAlreadyPersistent(ISeat owner, IBookingState target) throws ConstraintViolation, PersistenceException{
+      this.elements.willViolateInjectivity(owner, target);
       this.elements.addElementAlreadyPersistent(owner,target);
    }
-   public boolean remove(IPriceCategory owner, ISeatRow target) throws PersistenceException{
+   public boolean remove(ISeat owner, IBookingState target) throws ConstraintViolation, PersistenceException{
       boolean loop = this.removeOnce(owner, target);
       boolean result = loop;
       while(loop) loop = this.removeOnce(owner, target);
       return result;
    }
-   private boolean removeOnce(IPriceCategory owner, ISeatRow target) throws PersistenceException{
+   private boolean removeOnce(ISeat owner, IBookingState target) throws ConstraintViolation, PersistenceException{
+      this.elements.willViolateSurjectivity(owner, target);
       return this.elements.removeElement(owner,target);
    }
-   public Set<IPriceCategory> getPrice(ISeatRow target){
-      return this.elements.getRelatedSources(target).stream().collect(Collectors.toSet());
+   public ISeat getSeat(IBookingState target){
+      return this.elements.getRelatedSources(target).get(0);
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======
