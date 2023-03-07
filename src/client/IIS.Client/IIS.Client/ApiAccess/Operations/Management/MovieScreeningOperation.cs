@@ -103,7 +103,7 @@ internal class MovieScreeningOperation : ManagementOperationBase, IManagementOpe
         {
             name = screening.Name;
         }
-        bool hasExpired = InputProvider.RequestBoolFor("did this movie screening already take place?", screening.HasExpired);
+        bool hasExpired = InputProvider.RequestBoolFor("did this movie screening already take place?", screening.Finished);
         UpdateMovieScreeningRequest request = new(screening.Id, name!, hasExpired);
         ValidationService.AssertIsValid(request);
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, Uri.CombineWith("update"));
