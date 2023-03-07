@@ -49,7 +49,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equals(request.getEmail()));
+            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
             if (user == null) 
             {
                 return Response.error(UserBookingResponse.class, "user does not exist!");
@@ -87,7 +87,7 @@ public class UserBookingController extends BaseController
     {
         return scheduled(() -> 
         {
-            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equals(request.getEmail()));
+            final Customer user = Linq.of(CinemaService.getSetOf(Customer.class)).firstOrDefault(c -> c.getEmail().equalsIgnoreCase(request.getEmail()));
             if (user == null) 
             {
                 return Response.error(UserReservationResponse.class, "user does not exist!");
@@ -126,7 +126,7 @@ public class UserBookingController extends BaseController
         return scheduled(() -> 
         {
             final var reservation = CinemaService.getCacheOf(Reservation.class).getOrDefault(request.getReservationId(), null);
-            if (reservation == null || !reservation.getCustomer().getEmail().equals(request.getEmail()))
+            if (reservation == null || !reservation.getCustomer().getEmail().equalsIgnoreCase(request.getEmail()))
             {
                 return Response.error(UserUpgradeReservationResponse.class, "No such reservation for " + request.getEmail());
             }
@@ -149,7 +149,7 @@ public class UserBookingController extends BaseController
         return scheduled(() -> 
         {
             final var reservation = CinemaService.getCacheOf(Reservation.class).getOrDefault(request.getReservationId(), null);
-            if (reservation == null || !reservation.getCustomer().getEmail().equals(request.getEmail()))
+            if (reservation == null || !reservation.getCustomer().getEmail().equalsIgnoreCase(request.getEmail()))
             {
                 return Response.error(UserCancelReservationResponse.class, "No such reservation for " + request.getEmail());
             }
@@ -171,7 +171,7 @@ public class UserBookingController extends BaseController
         return scheduled(() -> 
         {
             final var reservations = CinemaService.getSetOf(Booking.class).stream()
-                .filter(b -> b.getCustomer().getEmail().equals(request.getEmail()))
+                .filter(b -> b.getCustomer().getEmail().equalsIgnoreCase(request.getEmail()))
                 .map(b -> 
                 {
                     final var result = ObjectX.createFrom(b, GetUserReservationsResponseEntry.class);
@@ -230,7 +230,7 @@ public class UserBookingController extends BaseController
         return scheduled(() -> 
         {
             final var bookings = CinemaService.getSetOf(Booking.class).stream()
-                .filter(b -> b.getCustomer().getEmail().equals(request.getEmail()))
+                .filter(b -> b.getCustomer().getEmail().equalsIgnoreCase(request.getEmail()))
                 .map(b -> 
                 {
                     final var result = ObjectX.createFrom(b, GetUserBookingsResponseEntry.class);
