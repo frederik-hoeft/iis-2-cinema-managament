@@ -26,7 +26,12 @@ public abstract class Response
         } 
         catch (Exception e) 
         {
-            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return error(e);
         }
+    }
+
+    public static <T> ResponseEntity<T> error(Exception error)
+    {
+        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

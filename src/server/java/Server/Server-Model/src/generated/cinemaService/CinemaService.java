@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
 //20 ===== Editable : Your import section =========
 //30 ===== GENERATED: Main Section ================
 public class CinemaService extends Observable{
