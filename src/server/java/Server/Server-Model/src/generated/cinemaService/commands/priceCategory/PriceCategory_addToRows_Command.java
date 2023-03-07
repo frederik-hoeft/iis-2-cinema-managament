@@ -1,13 +1,13 @@
-/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
+/**--- Generated at Tue Mar 07 13:26:04 CET 2023 
  * --- No Change Allowed!  
  */
-package generated.cinemaService.commands.cinemaHall;
+package generated.cinemaService.commands.priceCategory;
 import generated.cinemaService.*;
 import commands.*;
-public class CinemaHall_addToRows_Command extends ObjectCommand<CinemaHall, Void>{
-   private static final long serialVersionUID = 1066874205L;
+public class PriceCategory_addToRows_Command extends ObjectCommand<PriceCategory, Void>{
+   private static final long serialVersionUID = -1026598646L;
    private SeatRow arg;
-   public CinemaHall_addToRows_Command(CinemaHall receiver, SeatRow arg){
+   public PriceCategory_addToRows_Command(PriceCategory receiver, SeatRow arg){
       super(receiver);
       this.arg = arg;
    }

@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:02 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:05 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -79,11 +79,6 @@ public class CinemaService extends Observable{
          String className2 = this.dmlExecuter.getNameOfConcreteType(pair.getP2(), "SeatRow");
          try{this.addCinemaHall_SeatRowElement(pair.getP1(), className1, pair.getP2(), className2);}catch(ConstraintViolation cv){throw new PersistenceException(cv.getMessage());}
       }
-      for(IntegerPair pair : new InitialRelationLoader("SeatRow_CinemaHall").perform(this.dmlExecuter).values()){
-         String className1 = this.dmlExecuter.getNameOfConcreteType(pair.getP1(), "SeatRow");
-         String className2 = this.dmlExecuter.getNameOfConcreteType(pair.getP2(), "CinemaHall");
-         try{this.addSeatRow_CinemaHallElement(pair.getP1(), className1, pair.getP2(), className2);}catch(ConstraintViolation cv){throw new PersistenceException(cv.getMessage());}
-      }
       for(IntegerPair pair : new InitialRelationLoader("SeatRow_PriceCategory").perform(this.dmlExecuter).values()){
          String className1 = this.dmlExecuter.getNameOfConcreteType(pair.getP1(), "SeatRow");
          String className2 = this.dmlExecuter.getNameOfConcreteType(pair.getP2(), "PriceCategory");
@@ -146,12 +141,6 @@ public class CinemaService extends Observable{
       if(className1.equals("CinemaHall"))  proxy1 = this.cinemaHallCache.get(id1);
       if(className2.equals("SeatRow"))  proxy2 = this.seatRowCache.get(id2);
       CinemaHall_SeatRowSupervisor.getInstance().addAlreadyPersistent(proxy1, proxy2);
-   }
-   private void addSeatRow_CinemaHallElement(Integer id1, String className1, Integer id2, String className2) throws ConstraintViolation, PersistenceException{
-      ISeatRow proxy1 = null; ICinemaHall proxy2 = null; 
-      if(className2.equals("CinemaHall"))  proxy2 = this.cinemaHallCache.get(id2);
-      if(className1.equals("SeatRow"))  proxy1 = this.seatRowCache.get(id1);
-      SeatRow_CinemaHallSupervisor.getInstance().setAlreadyPersistent(proxy1, proxy2);
    }
    private void addSeatRow_PriceCategoryElement(Integer id1, String className1, Integer id2, String className2) throws ConstraintViolation, PersistenceException{
       ISeatRow proxy1 = null; IPriceCategory proxy2 = null; 

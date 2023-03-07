@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:05 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -9,7 +9,6 @@ import generated.cinemaService.BookingState;
 import java.util.Set;
 import generated.cinemaService.Movie;
 import generated.cinemaService.CinemaHall;
-import java.util.List;
 public interface IMovieScreening extends Identifiable{
    public MovieScreening getTheObject();
    public Integer getId();
@@ -21,5 +20,5 @@ public interface IMovieScreening extends Identifiable{
    public String getName() ;
    public void setName(String newName) throws PersistenceException;
    public Movie getMovie() throws PersistenceException;
-   public List<CinemaHall> getHall() throws PersistenceException;
+   public CinemaHall getHall() throws PersistenceException;
 }

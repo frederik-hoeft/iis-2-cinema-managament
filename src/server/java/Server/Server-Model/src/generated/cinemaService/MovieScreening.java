@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:05 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -11,12 +11,11 @@ import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceExecuterFactory;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.relationControl.Movie_MovieScreeningSupervisor;
+import generated.cinemaService.relationControl.CinemaHall_MovieScreeningSupervisor;
 import java.util.List;
 import generated.cinemaService.proxies.IBookingState;
 import generated.cinemaService.relationControl.BookingState_MovieScreeningSupervisor;
-import generated.cinemaService.relationControl.MovieScreeninig_MovieSupervisor;
 import generated.cinemaService.relationControl.MovieScreening_BookingStateSupervisor;
-import generated.cinemaService.relationControl.MovieScreening_CinemaHallSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.MovieScreeningProxy;
 import observation.Observable;
@@ -26,9 +25,6 @@ import generated.cinemaService.proxies.*;
 import src.db.executer.PersistenceException;
 import java.util.Set;
 import java.util.HashSet;
-import generated.cinemaService.relationControl.CinemaHall_MovieScreeningSupervisor;
-import java.util.ArrayList;
-import generated.cinemaService.proxies.ICinemaHall;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
@@ -126,10 +122,8 @@ public class MovieScreening extends Observable implements java.io.Serializable, 
    public Movie getMovie() throws PersistenceException{
       return Movie_MovieScreeningSupervisor.getInstance().getMovie(this).getTheObject();
    }
-   public List<CinemaHall> getHall() throws PersistenceException{
-      List<CinemaHall> result = new ArrayList<>();
-      for (ICinemaHall i : CinemaHall_MovieScreeningSupervisor.getInstance().getHall(this)) result.add(i.getTheObject());
-      return result;
+   public CinemaHall getHall() throws PersistenceException{
+      return CinemaHall_MovieScreeningSupervisor.getInstance().getHall(this).getTheObject();
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======

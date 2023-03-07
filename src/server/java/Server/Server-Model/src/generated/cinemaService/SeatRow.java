@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -11,11 +11,10 @@ import src.db.connection.NoConnectionException;
 import src.db.executer.PersistenceExecuterFactory;
 import exceptions.ConstraintViolation;
 import generated.cinemaService.relationControl.CinemaHall_SeatRowSupervisor;
+import generated.cinemaService.relationControl.PriceCategory_SeatRowSupervisor;
 import java.util.List;
 import generated.cinemaService.proxies.ISeat;
 import generated.cinemaService.relationControl.Seat_SeatRowSupervisor;
-import generated.cinemaService.relationControl.SeatRow_CinemaHallSupervisor;
-import generated.cinemaService.relationControl.SeatRow_PriceCategorySupervisor;
 import generated.cinemaService.relationControl.SeatRow_SeatSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.SeatRowProxy;
@@ -26,6 +25,8 @@ import generated.cinemaService.proxies.*;
 import src.db.executer.PersistenceException;
 import java.util.Set;
 import java.util.HashSet;
+import generated.cinemaService.proxies.IPriceCategory;
+import generated.cinemaService.relationControl.SeatRow_PriceCategorySupervisor;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
@@ -37,23 +38,23 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
    //40 ===== Editable : Your Attribute Section ======
    
    //50 ===== GENERATED:      Constructor ============
-   private SeatRow(Integer id, CinemaHall hall, PriceCategory price, String name, boolean objectOnly)
+   private SeatRow(Integer id, PriceCategory price, String name, CinemaHall hall, boolean objectOnly)
    throws PersistenceException{
       super();
       this.setId(id);
-      SeatRow_CinemaHallSupervisor.getInstance().set(this, hall);
       SeatRow_PriceCategorySupervisor.getInstance().set(this, price);
       this.name = name;
       if(objectOnly) return;
+      try{CinemaHall_SeatRowSupervisor.getInstance().add(hall,this);}catch(ConstraintViolation cv){}// Ok, because consistency is guaranteed with this statement
    }
-   public static SeatRow createFresh(CinemaHall hall, PriceCategory price, String name)throws PersistenceException{
+   public static SeatRow createFresh(PriceCategory price, String name, CinemaHall hall)throws PersistenceException{
       src.db.executer.PersistenceDMLExecuter dmlExecuter = CinemaService.getInstance().getDmlExecuter();
       Integer id = dmlExecuter.getNextId();
       try{
          dmlExecuter.insertInto("SeatRow", "id, typeKey, name", 
          id.toString() + ", " + PersistenceExecuterFactory.getConfiguredFactory().getTypeKeyManager().getTypeKey("CinemaService", "SeatRow").toString() + ", " + "'" + name + "'");
       }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
-      SeatRow me = new SeatRow(id, hall, price, name, false);
+      SeatRow me = new SeatRow(id, price, name, hall, false);
       CinemaService.getInstance().addSeatRowProxy(new SeatRowProxy(me));
       return me;
    }
@@ -64,16 +65,15 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
       List<ISeat> ownersInSeat_SeatRow = Seat_SeatRowSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
       if(ownersInSeat_SeatRow.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association Seat_SeatRow");
       Seat_SeatRowSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
-      SeatRow_CinemaHallSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       SeatRow_PriceCategorySupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       SeatRow_SeatSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getSeatRowCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("SeatRow", id);
    }
    /** Caution: A Call to this Method Requires to add any newly instantiated Object to its Cache! */
-   public static SeatRow instantiateRuntimeCopy(SeatRowProxy proxy, CinemaHall hall, PriceCategory price, String name)throws PersistenceException{
+   public static SeatRow instantiateRuntimeCopy(SeatRowProxy proxy, PriceCategory price, String name, CinemaHall hall)throws PersistenceException{
       if(proxy.isObjectPresent()) return proxy.getTheObject();
-      return new SeatRow(proxy.getId(), hall, price, name, true);
+      return new SeatRow(proxy.getId(), price, name, hall, true);
    }
    //60 ===== Editable : Your Constructors ===========
    
@@ -92,12 +92,6 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
       return ((ISeatRow)o).getId().equals(this.getId());
    }
    public int hashCode() {return this.getId().hashCode();}
-   public CinemaHall getHall() throws PersistenceException{
-      return SeatRow_CinemaHallSupervisor.getInstance().getHall(this).getTheObject();
-   }
-   public void setHall(CinemaHall newHall)throws PersistenceException{
-      SeatRow_CinemaHallSupervisor.getInstance().change(this, this.getHall(), newHall);
-   }
    public PriceCategory getPrice() throws PersistenceException{
       return SeatRow_PriceCategorySupervisor.getInstance().getPrice(this).getTheObject();
    }
@@ -122,6 +116,9 @@ public class SeatRow extends Observable implements java.io.Serializable, ISeatRo
       this.name = newName;
       try{CinemaService.getInstance().getDmlExecuter().update("SeatRow", "name", "'" + newName + "'", this.getId());
       }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
+   }
+   public CinemaHall getHall() throws PersistenceException{
+      return CinemaHall_SeatRowSupervisor.getInstance().getHall(this).getTheObject();
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======

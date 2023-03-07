@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:02 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:05 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -12,7 +12,6 @@ import src.db.executer.PersistenceExecuterFactory;
 import exceptions.ConstraintViolation;
 import java.util.List;
 import generated.cinemaService.proxies.IMovieScreening;
-import generated.cinemaService.relationControl.MovieScreeninig_MovieSupervisor;
 import generated.cinemaService.relationControl.Movie_MovieScreeningSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.MovieProxy;

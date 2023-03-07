@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:02 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:05 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.movie;
@@ -6,7 +6,7 @@ import generated.cinemaService.*;
 import commands.*;
 import java.util.Collection;
 public class Movie_getScreenings_Command extends ObjectCommand<Movie, Collection<MovieScreening>>{
-   private static final long serialVersionUID = 676164371L;
+   private static final long serialVersionUID = -1780425878L;
    public Movie_getScreenings_Command(Movie receiver){
       super(receiver);
    }

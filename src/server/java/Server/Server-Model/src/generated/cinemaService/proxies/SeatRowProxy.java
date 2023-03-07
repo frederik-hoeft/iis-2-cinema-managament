@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -9,12 +9,12 @@ import src.db.executer.*;
 import generated.cinemaService.SeatRow;
 import java.sql.ResultSet;
 import java.util.Optional;
-import generated.cinemaService.CinemaHall;
-import generated.cinemaService.relationControl.SeatRow_CinemaHallSupervisor;
 import generated.cinemaService.PriceCategory;
 import generated.cinemaService.relationControl.SeatRow_PriceCategorySupervisor;
 import generated.cinemaService.Seat;
 import java.util.Set;
+import generated.cinemaService.CinemaHall;
+import generated.cinemaService.relationControl.CinemaHall_SeatRowSupervisor;
 public class SeatRowProxy implements ISeatRow{
    private Integer id;
    private Optional<SeatRow> theObject;
@@ -46,17 +46,11 @@ public class SeatRowProxy implements ISeatRow{
       Optional<ResultSet> rs = Optional.empty();
       try {
          rs = CinemaService.getInstance().getDmlExecuter().selectIdSpecifiedCursorAleadyAtFirstRow("SeatRow", this.id);
-         CinemaHall hall = SeatRow_CinemaHallSupervisor.getInstance().getHall(this).getTheObject();
          PriceCategory price = SeatRow_PriceCategorySupervisor.getInstance().getPrice(this).getTheObject();
          String name = rs.get().getString("name");
-         return SeatRow.instantiateRuntimeCopy(this, hall, price, name);
+         CinemaHall hall = CinemaHall_SeatRowSupervisor.getInstance().getHall(this).getTheObject();
+         return SeatRow.instantiateRuntimeCopy(this, price, name, hall);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
-   }
-   public CinemaHall getHall() throws PersistenceException{
-      return this.getTheObject().getHall();
-   }
-   public void setHall(CinemaHall newHall)throws PersistenceException{
-      this.getTheObject().setHall(newHall);
    }
    public PriceCategory getPrice() throws PersistenceException{
       return this.getTheObject().getPrice();
@@ -78,5 +72,8 @@ public class SeatRowProxy implements ISeatRow{
    }
    public void setName(String newName) throws PersistenceException{
       this.getTheObject().setName(newName);
+   }
+   public CinemaHall getHall() throws PersistenceException{
+      return this.getTheObject().getHall();
    }
 }

@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:05 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -14,7 +14,6 @@ import java.util.Set;
 import generated.cinemaService.Movie;
 import generated.cinemaService.relationControl.Movie_MovieScreeningSupervisor;
 import generated.cinemaService.CinemaHall;
-import java.util.List;
 import generated.cinemaService.relationControl.CinemaHall_MovieScreeningSupervisor;
 public class MovieScreeningProxy implements IMovieScreening{
    private Integer id;
@@ -50,7 +49,7 @@ public class MovieScreeningProxy implements IMovieScreening{
          Boolean finished = rs.get().getBoolean("finished");
          String name = rs.get().getString("name");
          Movie movie = Movie_MovieScreeningSupervisor.getInstance().getMovie(this).getTheObject();
-         CinemaHall hall = CinemaHall_MovieScreeningSupervisor.getInstance().getHall(this).get(0).getTheObject();
+         CinemaHall hall = CinemaHall_MovieScreeningSupervisor.getInstance().getHall(this).getTheObject();
          return MovieScreening.instantiateRuntimeCopy(this, finished, name, movie, hall);
       } catch (Exception e) {throw new PersistenceException(e.getMessage());}
    }
@@ -78,7 +77,7 @@ public class MovieScreeningProxy implements IMovieScreening{
    public Movie getMovie() throws PersistenceException{
       return this.getTheObject().getMovie();
    }
-   public List<CinemaHall> getHall() throws PersistenceException{
+   public CinemaHall getHall() throws PersistenceException{
       return this.getTheObject().getHall();
    }
 }

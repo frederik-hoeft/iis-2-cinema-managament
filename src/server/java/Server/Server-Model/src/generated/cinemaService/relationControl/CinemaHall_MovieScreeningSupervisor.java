@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:04 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:07 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -12,7 +12,6 @@ import generated.cinemaService.proxies.*;
 import exceptions.ConstraintViolation;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.List;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
@@ -38,12 +37,12 @@ public class CinemaHall_MovieScreeningSupervisor
       return this.elements.getRelatedTargets(owner).stream().collect(Collectors.toSet());
    }
    public void add(ICinemaHall owner, IMovieScreening target) throws ConstraintViolation, PersistenceException{
-      this.elements.willViolateSurjectivity(owner, null);
+      this.elements.willViolateInjectivity(owner, target);
       this.elements.addElement(owner,target);
    }
    /** Used only by service class !! **/
    public void addAlreadyPersistent(ICinemaHall owner, IMovieScreening target) throws ConstraintViolation, PersistenceException{
-      this.elements.willViolateSurjectivity(owner, null);
+      this.elements.willViolateInjectivity(owner, target);
       this.elements.addElementAlreadyPersistent(owner,target);
    }
    public boolean remove(ICinemaHall owner, IMovieScreening target) throws ConstraintViolation, PersistenceException{
@@ -56,8 +55,8 @@ public class CinemaHall_MovieScreeningSupervisor
       this.elements.willViolateSurjectivity(owner, target);
       return this.elements.removeElement(owner,target);
    }
-   public List<ICinemaHall> getHall(IMovieScreening target){
-      return this.elements.getRelatedSources(target);
+   public ICinemaHall getHall(IMovieScreening target){
+      return this.elements.getRelatedSources(target).get(0);
    }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======

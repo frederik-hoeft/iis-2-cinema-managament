@@ -1,26 +1,26 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands;
 import generated.cinemaService.*;
 import commands.*;
 public class SeatRow_constructor_Command extends ServiceCommand<SeatRow>{
-   private static final long serialVersionUID = -582266101L;
-   private CinemaHall hall;
+   private static final long serialVersionUID = 1217975406L;
    private PriceCategory price;
    private String  name;
-   public SeatRow_constructor_Command(CinemaHall hall, PriceCategory price, String  name){
+   private CinemaHall  hall;
+   public SeatRow_constructor_Command(PriceCategory price, String  name, CinemaHall  hall){
       super();
-      this.hall = hall;
       this.price = price;
       this.name = name;
+      this.hall = hall;
    }
    public void execute(){
-      try{this.result = SeatRow.createFresh(hall, price, name);
+      try{this.result = SeatRow.createFresh(price, name, hall);
       }catch(Exception e){this.e = e;
       }finally{CinemaService.getInstance().notifyObservers(this);}
    }
-   public CinemaHall hall(){return hall;}
    public PriceCategory price(){return price;}
    public String  name(){return name;}
+   public CinemaHall  hall(){return hall;}
 }

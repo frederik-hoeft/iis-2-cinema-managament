@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -61,10 +61,10 @@ public class CinemaHallProxy implements ICinemaHall{
    public Set<SeatRow> getRows() throws PersistenceException{
       return this.getTheObject().getRows();
    }
-   public void addToRows(SeatRow arg) throws PersistenceException{
+   public void addToRows(SeatRow arg) throws ConstraintViolation, PersistenceException{
       this.getTheObject().addToRows(arg);
    }
-   public boolean removeFromRows(SeatRow arg) throws PersistenceException{
+   public boolean removeFromRows(SeatRow arg) throws ConstraintViolation, PersistenceException{
       return this.getTheObject().removeFromRows(arg);
    }
    public Boolean getAvailable() {

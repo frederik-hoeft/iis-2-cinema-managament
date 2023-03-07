@@ -1,11 +1,11 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.customer;
 import generated.cinemaService.*;
 import commands.*;
 public class Customer_removeFromBookings_Command extends ObjectCommand<Customer, Boolean>{
-   private static final long serialVersionUID = -846782057L;
+   private static final long serialVersionUID = 872724434L;
    private BookingState arg;
    public Customer_removeFromBookings_Command(Customer receiver, BookingState arg){
       super(receiver);

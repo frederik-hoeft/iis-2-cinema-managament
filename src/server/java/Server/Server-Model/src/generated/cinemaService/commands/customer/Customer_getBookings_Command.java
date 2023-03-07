@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.customer;
@@ -6,7 +6,7 @@ import generated.cinemaService.*;
 import commands.*;
 import java.util.Collection;
 public class Customer_getBookings_Command extends ObjectCommand<Customer, Collection<BookingState>>{
-   private static final long serialVersionUID = 219340254L;
+   private static final long serialVersionUID = -2040008530L;
    public Customer_getBookings_Command(Customer receiver){
       super(receiver);
    }

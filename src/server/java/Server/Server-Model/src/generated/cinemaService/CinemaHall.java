@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -12,9 +12,8 @@ import src.db.executer.PersistenceExecuterFactory;
 import exceptions.ConstraintViolation;
 import java.util.List;
 import generated.cinemaService.proxies.IMovieScreening;
-import generated.cinemaService.relationControl.MovieScreening_CinemaHallSupervisor;
+import generated.cinemaService.relationControl.CinemaHall_MovieScreeningSupervisor;
 import generated.cinemaService.proxies.ISeatRow;
-import generated.cinemaService.relationControl.SeatRow_CinemaHallSupervisor;
 import generated.cinemaService.relationControl.CinemaHall_SeatRowSupervisor;
 import src.db.executer.PersistenceExecuterFactory;
 import generated.cinemaService.proxies.CinemaHallProxy;
@@ -25,7 +24,6 @@ import generated.cinemaService.proxies.*;
 import src.db.executer.PersistenceException;
 import java.util.Set;
 import java.util.HashSet;
-import generated.cinemaService.relationControl.CinemaHall_MovieScreeningSupervisor;
 //20 ===== Editable : Your Import Section =========
 
 //25 ===== GENERATED:      Header Section =========
@@ -60,14 +58,11 @@ public class CinemaHall extends Observable implements java.io.Serializable, ICin
    public static void delete(Integer id) throws ConstraintViolation, SQLException, NoConnectionException {
       if(!CinemaService.getInstance().getCinemaHallCache().containsKey(id))throw new ConstraintViolation("Deletion not possible: " + "id " + id + " does not exist!");
       CinemaHall toBeDeleted = CinemaService.getInstance().getCinemaHall(id);
-      List<ISeatRow> ownersInSeatRow_CinemaHall = SeatRow_CinemaHallSupervisor.getInstance().getRelationData().getRelatedSources(toBeDeleted);
-      if(ownersInSeatRow_CinemaHall.size()>0) throw new ConstraintViolation(" Deletion not possible: Object is still referenced within TotalMap-Association SeatRow_CinemaHall");
-      SeatRow_CinemaHallSupervisor.getInstance().getRelationData().removeAllPairsWithTarget(toBeDeleted);
       List<IMovieScreening> targetsInCinemaHall_MovieScreening = CinemaHall_MovieScreeningSupervisor.getInstance().getRelationData().getRelatedTargets(toBeDeleted);
-      for (IMovieScreening current : targetsInCinemaHall_MovieScreening)
-         if(CinemaHall_MovieScreeningSupervisor.getInstance().getRelationData().getRelatedSources(current).size()==1)
-            throw new ConstraintViolation(" Deletion not possible: Object still references a one-time referenced object in surjective Association CinemaHall_MovieScreening");
+      if(targetsInCinemaHall_MovieScreening.size()>0) throw new ConstraintViolation(" Deletion not possible: Object still contains other objects in Association CinemaHall_MovieScreening");
       CinemaHall_MovieScreeningSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
+      List<ISeatRow> targetsInCinemaHall_SeatRow = CinemaHall_SeatRowSupervisor.getInstance().getRelationData().getRelatedTargets(toBeDeleted);
+      if(targetsInCinemaHall_SeatRow.size()>0) throw new ConstraintViolation(" Deletion not possible: Object still contains other objects in Association CinemaHall_SeatRow");
       CinemaHall_SeatRowSupervisor.getInstance().getRelationData().removeAllPairsWithSource(toBeDeleted);
       CinemaService.getInstance().getCinemaHallCache().remove(id);
       CinemaService.getInstance().getDmlExecuter().delete("CinemaHall", id);
@@ -110,10 +105,10 @@ public class CinemaHall extends Observable implements java.io.Serializable, ICin
       for (ISeatRow i : CinemaHall_SeatRowSupervisor.getInstance().getRows(this)) result.add(i.getTheObject());
       return result;
    }
-   public void addToRows(SeatRow arg) throws PersistenceException{
+   public void addToRows(SeatRow arg) throws ConstraintViolation, PersistenceException{
       CinemaHall_SeatRowSupervisor.getInstance().add(this, arg);
    }
-   public boolean removeFromRows(SeatRow arg) throws PersistenceException{
+   public boolean removeFromRows(SeatRow arg) throws ConstraintViolation, PersistenceException{
       return CinemaHall_SeatRowSupervisor.getInstance().remove(this, arg);
    }
    public Boolean getAvailable() {

@@ -1,4 +1,4 @@
-/**--- Generated at Tue Mar 07 13:02:03 CET 2023 
+/**--- Generated at Tue Mar 07 13:29:06 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
@@ -16,8 +16,8 @@ public interface ICinemaHall extends Identifiable{
    public void addToScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException;
    public boolean removeFromScreenings(MovieScreening arg) throws ConstraintViolation, PersistenceException;
    public Set<SeatRow> getRows() throws PersistenceException;
-   public void addToRows(SeatRow arg) throws PersistenceException;
-   public boolean removeFromRows(SeatRow arg) throws PersistenceException;
+   public void addToRows(SeatRow arg) throws ConstraintViolation, PersistenceException;
+   public boolean removeFromRows(SeatRow arg) throws ConstraintViolation, PersistenceException;
    public Boolean getAvailable() ;
    public void setAvailable(Boolean newAvailable) throws PersistenceException;
    public String getName() ;
