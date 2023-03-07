@@ -28,7 +28,7 @@ internal record UpdateMovieScreeningRequest
 (
     [Required][Range(1, int.MaxValue)] int Id,
     [Required] string NewName,
-    [Required] bool NewHasExpired
+    [Required] bool NewFinished
 );
 
 /// <summary>

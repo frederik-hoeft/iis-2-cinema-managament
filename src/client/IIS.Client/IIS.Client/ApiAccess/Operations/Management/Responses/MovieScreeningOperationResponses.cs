@@ -12,14 +12,14 @@ internal record CreateMovieScreeningResponse(bool Success, string? Error) : IApi
 /// </summary>
 internal record DeleteMovieScreeningResponse(bool Success, string? Error) : IApiResponse;
 
-internal record GetMovieScreeningsResponseEntry(int Id, string Name, string MovieTitle, bool HasExpired);
+internal record GetMovieScreeningsResponseEntry(int Id, string Name, string MovieTitle, bool Finished);
 
 /// <summary>
 /// GET /management/movie-screening/list
 /// </summary>
 internal record GetMovieScreeningsResponse(bool Success, string? Error, GetMovieScreeningsResponseEntry[] Screenings) : IApiResponse;
 
-internal record GetMovieScreeningsFullResponseEntry(int Id, string Name, GetMoviesResponseEntry Movie, GetCinemaHallsResponseEntry Hall, bool HasExpired);
+internal record GetMovieScreeningsFullResponseEntry(int Id, string Name, GetMoviesResponseEntry Movie, GetCinemaHallsResponseEntry Hall, bool Finished);
 
 /// <summary>
 /// GET /management/movie-screening/list-full
