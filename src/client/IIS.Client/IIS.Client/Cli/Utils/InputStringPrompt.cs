@@ -10,6 +10,7 @@ internal readonly struct InputStringPrompt : IInputPrompt<string>
     {
         Console.WriteLine(_prompt);
         Console.Write(Program.SLAVE_PROMPT);
-        return Console.ReadLine();
+        string? input = Console.ReadLine();
+        return input?.Trim();
     }
 }

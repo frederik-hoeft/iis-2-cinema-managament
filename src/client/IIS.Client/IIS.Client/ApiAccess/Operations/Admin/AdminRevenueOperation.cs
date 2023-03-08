@@ -4,6 +4,7 @@ using IIS.Client.ApiAccess.Network.Extensions;
 using IIS.Client.ApiAccess.Operations.Admin.Requests;
 using IIS.Client.ApiAccess.Operations.Management.Responses;
 using IIS.Client.Cli.Utils;
+using System.Globalization;
 using System.Net.Http.Json;
 
 namespace IIS.Client.ApiAccess.Operations.Admin;
@@ -69,7 +70,7 @@ internal class AdminRevenueOperation : OperationBase
         using HttpResponseMessage revenueResponseMessage = ApiContext.HttpClient.Send(revenueRequestMessage);
         GetScreeningRevenueResponse? revenueResponse = revenueResponseMessage.Content.ReadFromJson<GetScreeningRevenueResponse>();
         decimal revenue = revenueResponse.AssertIsValid().TotalRevenue;
-        Console.WriteLine($"The total revenue for {screening.Name} was {revenue}€ so far.");
+        Console.WriteLine($"The total revenue for {screening.Name} was {revenue.ToString(CultureInfo.InvariantCulture)} EUR so far.");
         return 0;
     }
 

@@ -113,7 +113,7 @@ internal class Shell
             {
                 _renderer.RenderPrompt();
                 ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
-                if (char.IsLetter(keyInfo.KeyChar) || keyInfo.KeyChar.IsAsciiSymbol())
+                if (char.IsAsciiLetterOrDigit(keyInfo.KeyChar) || keyInfo.KeyChar.IsAsciiSymbol())
                 {
                     _argumentBuilder.Append(keyInfo);
                 }

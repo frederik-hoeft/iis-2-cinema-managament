@@ -43,7 +43,7 @@ internal readonly struct InputOptionPrompt<TOption> : IInputPrompt<TOption>
         while (true)
         {
             Console.Write(Program.SLAVE_PROMPT);
-            string? input = Console.ReadLine();
+            string? input = Console.ReadLine()?.Trim();
             if (int.TryParse(input, out int i))
             {
                 if (i == 0)
