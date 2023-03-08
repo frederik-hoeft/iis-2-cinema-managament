@@ -49,7 +49,7 @@ internal class AdminRevenueOperation : OperationBase
         using HttpResponseMessage revenueResponseMessage = ApiContext.HttpClient.Send(revenueRequestMessage);
         GetMovieRevenueResponse? revenueResponse = revenueResponseMessage.Content.ReadFromJson<GetMovieRevenueResponse>();
         decimal revenue = revenueResponse.AssertIsValid().TotalRevenue;
-        Console.WriteLine($"The total revenue for {movie.Title} was {revenue}€ so far.");
+        Console.WriteLine($"The total revenue for {movie.Title} was {revenue.ToString(CultureInfo.InvariantCulture)} EUR so far.");
         return 0;
     }
 
