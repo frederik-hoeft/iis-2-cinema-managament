@@ -14,11 +14,6 @@ public class Program
 {
 	public static void main(String[] args) 
 	{
-		// ignore this :)
-		PriceCategoryBox.getInstance().setPrice(new Rational(12));
-		PriceCategoryStalls.getInstance().setPrice(new Rational(10));
-		PriceCategoryServiceBox.getInstance().setPrice(new Rational(16));
-
 		SpringApplication.run(
 			Program.class, args);
 	}

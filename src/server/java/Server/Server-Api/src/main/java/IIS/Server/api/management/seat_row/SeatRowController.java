@@ -108,7 +108,7 @@ public class SeatRowController extends BaseController
             }
             catch (PersistenceException e) 
             {
-                Response.error(e);
+                return Response.error(e);
             }
             CreateSeatRowResponse response = new CreateSeatRowResponse();
             response.setSuccess(true);
