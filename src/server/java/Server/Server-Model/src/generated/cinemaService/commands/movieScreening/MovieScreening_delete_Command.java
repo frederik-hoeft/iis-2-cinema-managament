@@ -1,11 +1,11 @@
-/**--- Generated at Wed Mar 08 00:30:17 CET 2023 
+/**--- Generated at Wed Mar 08 17:23:04 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.movieScreening;
 import generated.cinemaService.*;
 import commands.*;
 public class MovieScreening_delete_Command extends ObjectCommand<MovieScreening, Void>{
-   private static final long serialVersionUID = -861049644L;
+   private static final long serialVersionUID = -366574216L;
    public MovieScreening_delete_Command(MovieScreening receiver){
       super(receiver);
    }

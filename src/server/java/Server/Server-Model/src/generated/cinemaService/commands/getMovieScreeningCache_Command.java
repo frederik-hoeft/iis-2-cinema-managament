@@ -1,11 +1,11 @@
-/**--- Generated at Wed Mar 08 00:30:17 CET 2023 
+/**--- Generated at Wed Mar 08 17:23:03 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands;
 import generated.cinemaService.*;
 import commands.*;
 public class getMovieScreeningCache_Command extends ServiceCommand<java.util.Map<Integer, generated.cinemaService.proxies.MovieScreeningProxy>>{
-   private static final long serialVersionUID = -2016537282L;
+   private static final long serialVersionUID = -1222005066L;
    public getMovieScreeningCache_Command(){
       super();
    }

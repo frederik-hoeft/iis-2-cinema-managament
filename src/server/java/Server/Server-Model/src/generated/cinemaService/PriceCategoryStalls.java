@@ -1,4 +1,4 @@
-/**--- Generated at Wed Mar 08 00:30:19 CET 2023 
+/**--- Generated at Wed Mar 08 17:23:05 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -26,13 +26,13 @@ public class PriceCategoryStalls extends PriceCategory implements java.io.Serial
    //40 ===== Editable : Your Attribute Section ======
    
    //50 ===== GENERATED:      Constructor ============
-   private PriceCategoryStalls(Integer id, Optional<baseTypes.Rational> price, boolean objectOnly)
+   private PriceCategoryStalls(Integer id, boolean objectOnly)
    {
-      super(id, price, objectOnly);
+      super(id, objectOnly);
       if(objectOnly) return;
    }
-   private static PriceCategoryStalls instantiateRuntimeCopy(Integer id, Optional<baseTypes.Rational> price){
-      return new PriceCategoryStalls(id, price, true);
+   private static PriceCategoryStalls instantiateRuntimeCopy(Integer id){
+      return new PriceCategoryStalls(id, true);
    }
    //60 ===== Editable : Your Constructors ===========
    
@@ -47,9 +47,7 @@ public class PriceCategoryStalls extends PriceCategory implements java.io.Serial
          Optional<ResultSet> rs = PersistenceExecuterFactory.getConfiguredFactory().getDBDMLExecuter("CinemaService").selectEntriesOfTable("PriceCategory", typeKey);
          if(rs.isPresent()) rs.get().next();
          Integer id = rs.isPresent() ? rs.get().getInt("id") : IDManagerTransient.getTheInstance().getNextId();
-         Optional<baseTypes.Rational> price = Optional.empty();
-         if(rs.isPresent()) price = (rs.get().getObject("price") == null ? Optional.empty() : Optional.of(new baseTypes.Rational(rs.get().getString("price"))));
-         return PriceCategoryStalls.instantiateRuntimeCopy(id, price);
+         return PriceCategoryStalls.instantiateRuntimeCopy(id);
       } catch (SQLException | NoConnectionException e) {
          throw new PersistenceException(e.getMessage());
       }

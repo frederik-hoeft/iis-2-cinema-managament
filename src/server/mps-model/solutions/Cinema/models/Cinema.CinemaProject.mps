@@ -128,11 +128,6 @@
     </node>
     <node concept="3_Gd56" id="6Kq672PYPGl" role="3_Gd4Z">
       <property role="TrG5h" value="PriceCategory" />
-      <node concept="2_wlaR" id="6Kq672PYPGO" role="2_wlle">
-        <property role="3_FBD6" value="price" />
-        <property role="2zC27X" value="1axOPyL0vao/PartialMap" />
-        <ref role="3_FBDr" node="5H4ykBYMXk3" resolve="Rational" />
-      </node>
     </node>
     <node concept="3_Gd56" id="6Kq672PYPH_" role="3_Gd4Z">
       <property role="TrG5h" value="PriceCategoryBox" />

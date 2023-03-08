@@ -19,11 +19,9 @@ import IIS.Server.api.admin.responses.GetMovieRevenueResponse;
 import IIS.Server.api.admin.responses.GetScreeningRevenueResponse;
 import IIS.Server.api.management.movie.responses.GetMoviesResponse;
 import IIS.Server.api.management.movie.responses.GetMoviesResponseEntry;
-import IIS.Server.api.management.movie_screening.responses.GetMovieScreeningsFullResponse;
 import IIS.Server.api.management.movie_screening.responses.GetMovieScreeningsResponseEntry;
 import IIS.Server.api.management.movie_screening.responses.GetScreeningsResponse;
 import IIS.Server.utils.ObjectX;
-import baseTypes.Rational;
 import generated.cinemaService.Booking;
 import generated.cinemaService.BookingState;
 import generated.cinemaService.CinemaService;
@@ -46,20 +44,18 @@ public class AdminController extends BaseController
             {
                 return Response.error(GetMovieRevenueResponse.class, "Could not find movie for id " + request.getMovieId());
             }
-            Rational revenue = new Rational(0);
+            Double total = 0d;
             for (MovieScreening screening : movie.getScreenings()) 
             {
                 for (BookingState booking : screening.getBookings()) 
                 {
                     if (booking instanceof Booking)
                     {
-                        revenue = Rational.add(revenue, booking.getSeat().getRow().getPrice().getPrice().get());
+                        final Double ticketPrice = PriceConverter.getValue(booking.getSeat().getRow().getPrice());
+                        total += ticketPrice;
                     }
                 }
             }
-
-            Double total = revenue.getEnumerator().divide(revenue.getDenominator()).doubleValue();
-
             GetMovieRevenueResponse response = new GetMovieRevenueResponse();
             response.setTotalRevenue(total);
             response.setSuccess(true);
@@ -77,16 +73,15 @@ public class AdminController extends BaseController
             {
                 return Response.error(GetScreeningRevenueResponse.class, "Could not find movie screening for id " + request.getScreeningId());
             }
-            Rational revenue = new Rational(0);
+            Double total = 0d;
             for (BookingState booking : screening.getBookings()) 
             {
                 if (booking instanceof Booking)
                 {
-                    revenue = Rational.add(revenue, booking.getSeat().getRow().getPrice().getPrice().get());
+                    final Double ticketPrice = PriceConverter.getValue(booking.getSeat().getRow().getPrice());
+                    total += ticketPrice;
                 }
             }
-
-            Double total = revenue.getEnumerator().divide(revenue.getDenominator()).doubleValue();
 
             GetScreeningRevenueResponse response = new GetScreeningRevenueResponse();
             response.setTotalRevenue(total);

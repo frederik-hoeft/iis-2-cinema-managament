@@ -1,10 +1,9 @@
-/**--- Generated at Wed Mar 08 00:30:19 CET 2023 
+/**--- Generated at Wed Mar 08 17:23:05 CET 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.proxies;
 import src.db.executer.PersistenceException;
 import generated.cinemaService.PriceCategory;
-import java.util.Optional;
 public abstract class PriceCategoryProxy implements IPriceCategory{
    public abstract PriceCategory getTheObject();
    public boolean equals(Object o) {
@@ -12,10 +11,4 @@ public abstract class PriceCategoryProxy implements IPriceCategory{
       return ((IPriceCategory)o).getId().equals(this.getId());
    }
    public int hashCode() {return this.getId().hashCode();}
-   public Optional<baseTypes.Rational> getPrice() {
-      return this.getTheObject().getPrice();
-   }
-   public void setPrice(baseTypes.Rational newPrice) throws PersistenceException{
-      this.getTheObject().setPrice(newPrice);
-   }
 }

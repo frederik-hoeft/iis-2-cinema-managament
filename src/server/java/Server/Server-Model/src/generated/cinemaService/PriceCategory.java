@@ -1,4 +1,4 @@
-/**--- Generated at Wed Mar 08 00:30:19 CET 2023 
+/**--- Generated at Wed Mar 08 17:23:05 CET 2023 
  * --- Mode = Integrated Database 
  * --- Change only in Editable Sections!  
  * --- Do NOT touch section numbering!   
@@ -21,15 +21,13 @@ public abstract class PriceCategory extends Observable implements java.io.Serial
 {
    //30 ===== GENERATED:      Attribute Section ======
    private Integer id;
-   private Optional<baseTypes.Rational> price;
    //40 ===== Editable : Your Attribute Section ======
    
    //50 ===== GENERATED:      Constructor ============
-   public PriceCategory(Integer id, Optional<baseTypes.Rational> price, boolean objectOnly)
+   public PriceCategory(Integer id, boolean objectOnly)
    {
       super();
       this.setId(id);
-      this.price = price;
       if(objectOnly) return;
    }
    //60 ===== Editable : Your Constructors ===========
@@ -49,14 +47,6 @@ public abstract class PriceCategory extends Observable implements java.io.Serial
       return ((IPriceCategory)o).getId().equals(this.getId());
    }
    public int hashCode() {return this.getId().hashCode();}
-   public Optional<baseTypes.Rational> getPrice() {
-      return this.price;
-   }
-   public void setPrice(baseTypes.Rational newPrice) throws PersistenceException{
-      this.price = Optional.of(newPrice);
-      try{CinemaService.getInstance().getDmlExecuter().update("PriceCategory", "price", "'" + newPrice.toString() + "'", this.getId());
-      }catch(SQLException|NoConnectionException e){throw new PersistenceException(e.getMessage());}
-   }
    //80 ===== Editable : Your Operations =============
 //90 ===== GENERATED: End of Your Operations ======
 }
