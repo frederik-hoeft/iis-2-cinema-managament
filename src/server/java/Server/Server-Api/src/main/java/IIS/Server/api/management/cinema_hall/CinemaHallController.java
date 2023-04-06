@@ -39,7 +39,7 @@ public class CinemaHallController extends BaseController {
     @GetMapping("/list")
     public ResponseEntity<GetCinemaHallsResponse> listCinemaHalls() 
     {
-        return scheduled(() ->
+        return isolated(() ->
         {
             GetCinemaHallsResponse response = new GetCinemaHallsResponse();
             response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values(), GetCinemaHallsResponseEntry.class));
@@ -52,7 +52,7 @@ public class CinemaHallController extends BaseController {
     @GetMapping("/list-full")
     public ResponseEntity<GetCinemaHallsFullResponse> listDetailedCinemaHalls() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var result = Linq.of(CinemaService.getSetOf(ICinemaHall.class))
                 .select(h -> 
@@ -78,7 +78,7 @@ public class CinemaHallController extends BaseController {
     @PostMapping("/create")
     public ResponseEntity<CreateCinemaHallResponse> createCinemaHall(@RequestBody CreateCinemaHallRequest request) {
 
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             try {
                 CinemaHall.createFresh(request.getAvailable(), request.getName());
@@ -100,7 +100,7 @@ public class CinemaHallController extends BaseController {
     @PostMapping("/update")
     public ResponseEntity<UpdateCinemaHallResponse> updateCinemaHall(@RequestBody UpdateCinemaHallRequest request) {
 
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             if (!CinemaService.getInstance().getCinemaHallCache().containsKey(request.getId())) {
                 UpdateCinemaHallResponse response = new UpdateCinemaHallResponse();
@@ -131,7 +131,7 @@ public class CinemaHallController extends BaseController {
     @PostMapping("/delete")
     public ResponseEntity<DeleteCinemaHallResponse> deleteCinemaHall(@RequestBody DeleteCinemaHallRequest request) {
 
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var cinemaHall = CinemaService.getCacheOf(ICinemaHall.class).getOrDefault(request.getId(), null);
             if (cinemaHall == null) 

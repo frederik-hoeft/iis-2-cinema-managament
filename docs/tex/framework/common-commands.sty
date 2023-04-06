@@ -1,0 +1,133 @@
+\newcommand{\chapterauthor}[1]{%
+  {\parindent0pt\vspace*{-25pt}%
+  \linespread{1}\large\scshape#1%
+  \par\nobreak\vspace*{10pt}}
+  \@afterheading%
+}
+
+\newcommand{\sectionauthor}[1]{%
+  {\parindent0pt\vspace*{-20pt}%
+  \linespread{1}\large\scshape#1%
+  \par\nobreak\vspace*{10pt}}
+  \@afterheading%
+}
+
+\newcommand{\subsectionauthor}[1]{%
+  {\parindent0pt\vspace*{-15pt}%
+  \linespread{1}\large\scshape#1%
+  \par\nobreak\vspace*{10pt}}
+  \@afterheading%
+}
+
+% Lorem ipsum, short (treated as TODO)
+\newcommand{\lorizzleshort}{
+\ifthenelse{\boolean{visibleTodo}}{
+\refstepcounter{todoCounter}Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up, gravida vizzle, dang.
+	\todos@write{TODO:~Lorem~ipsum}}{}
+}
+
+% Lorem ipsum (treated as TODO)
+\newcommand{\lorizzle}{
+\ifthenelse{\boolean{visibleTodo}}{
+\refstepcounter{todoCounter}Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down. Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up, gravida vizzle, dang.
+	\todos@write{TODO:~Lorem~ipsum}}{}
+}
+
+% Lorem ipsum, long (treated as TODO)
+\newcommand{\lorizzlelong}{
+\ifthenelse{\boolean{visibleTodo}}{
+\refstepcounter{todoCounter}Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down. Nullizzle sapien velizzle, my shizz pimpin', shizzle my nizzle crocodizzle shut the shizzle up, gravida vizzle, dang.
+Pellentesque we gonna chung tortor. Sizzle pizzle. Fizzle izzle dolor dapibus fo shizzle mah nizzle fo rizzle, mah home g-dizzle tempus tempor. Maurizzle cool nibh owned turpizzle. My shizz fo shizzle tortor. Gotta appreciate this AI generated placeholder tho :) Bow wow wow izzle dolor dapibizzle turpis tempizzle away.
+
+Things boom shackalack rhoncus yo. In fo shizzle my nizzle gangsta platea dictumst. Check it out pot. Dang suscipizzle. Integizzle sempizzle velizzle shizzlin dizzle dapibizzle turpizzle tempizzle shizzlin dizzle.
+Pellentesque eleifend rhoncizzle nisi. In hac habitasse platea dictumst. Donec dapibizzle. Yo mamma tellus urna, pretizzle eu, mattis izzle, eleifend vitae, nunc. Dang suscipit. Integer sempizzle velit sizzle da bomb. Damn suscipit. Integizzle sempizzle velit sizzle da bomb. Praesent mammasay mammasa mamma oo sa, owned fo shizzle mah nizzle fo rizzle, mah home g-dizzle, gravida vizzle, arcu. Pellentesque eget tortor. Sizzle erizzle. Ma nizzle dawg urna owned turpis tempus shizznit. Mauris break it down mauris, pretium eu, mattizzle ac, eleifend vitae, nunc. Cras da bomb tellivizzle fo shiznit yo mamma. Crazy izzle dolor dapibizzle turpis tempus shizznit. Mauris elementum maurizzle fo shiz, pretium eu, mattis izzle, eleifend vitae, nunc. 
+
+Trololo izzle dizzile my shizz. Lul check out this ipsum. Gangsta izzle tortor. Sizzle eros. Fo shizzle my nizzle fo rizzle, mah home g-dizzlez da bomb tellivizzle fo shiznit yo mamma.
+	\todos@write{TODO:~Lorem~ipsum}}{}
+}
+
+\newcommand{\lorizzleshortnospace}{\vspace{-.45cm}\lorizzleshort}
+\newcommand{\lorizzlenospace}{\vspace{-.45cm}\lorizzle}
+\newcommand{\lorizzlelongnospace}{\vspace{-.45cm}\lorizzlelong}
+
+\newcommand\equalhat{\mathrel{\stackon[1.5pt]{=}{\stretchto{%
+    \scalerel*[\widthof{=}]{\wedge}{\rule{1ex}{3ex}}}{0.5ex}}}}
+
+\newcommand{\headercode}[1]{\texttt{#1}}
+
+\newcommand{\inlinecode}[2][]{\ifthenelse{\isempty{#1}}{\mintinline{text}{#2}}{\mintinline{#1}{#2}}}
+\newcommand{\inlinecs}[1]{\mintinline{csharp}{#1}}
+
+% basic syntax highlighting for custom things
+\definecolor{colorcomplex}{HTML}{ba0066}
+\definecolor{colorprimitive}{HTML}{0066ba}
+\definecolor{colorkeyword}{HTML}{008700}
+\definecolor{colorbrownish}{HTML}{996633}
+
+\newcommand{\syntax}[2][]{\textcolor{#1}{\texttt{#2}}}
+\newcommand{\syntaxcomplex}[1]{\syntax[colorcomplex]{#1}}
+\newcommand{\syntaxprimitive}[1]{\syntax[colorprimitive]{#1}}
+\newcommand{\syntaxkeyword}[1]{\syntax[colorkeyword]{#1}}
+
+% Base Class Library (BCL)
+\newcommand{\glsfull}[1]{\acrfull{#1}}
+% Base Class Library (BCL) (no hyperlink)
+\newcommand{\glsfulltext}[1]{\glsentryfull{#1}}
+% Base Class Library
+\newcommand{\glslong}[1]{\acrlong{#1}}
+% Base Class Library (no hyperlink)
+\newcommand{\glslongtext}[1]{\glsentrylong{#1}}
+% BCL
+\newcommand{\glsshort}[1]{\acrshort{#1}}
+% BCL (no hyperlink)
+\newcommand{\glsshorttext}[1]{\glsentryacr{#1}}
+
+% Base Class Library (BCL)
+\newcommand{\Glsfull}[1]{\Acrfull{#1}}
+% Base Class Library (BCL) (no hyperlink)
+\newcommand{\Glsfulltext}[1]{\Glsentryfull{#1}}
+% Base Class Library
+\newcommand{\Glslong}[1]{\Acrlong{#1}}
+% Base Class Library (no hyperlink)
+\newcommand{\Glslongtext}[1]{\Glsentrylong{#1}}
+% BCL
+\newcommand{\Glsshort}[1]{\Acrshort{#1}}
+% BCL (no hyperlink)
+\newcommand{\Glsshorttext}[1]{\Glsentryacr{#1}}
+
+\usepackage{etoolbox} % required for \cref formatting
+% allows \requirement\label{req1} to be referenced.
+\newcounter{requirement}
+\newcommand*\requirementdefshort[1][]{\refstepcounter{requirement}\therequirement #1}
+\newcommand*\requirementdef[1][]{\refstepcounter{requirement}requirement \therequirement #1}
+\newcommand*\Requirementdef[1][]{\refstepcounter{requirement}Requirement \therequirement #1}
+
+\newcounter{modelrequirement}
+\newcommand*\modelrequirementdefshort[1][]{\refstepcounter{modelrequirement}\themodelrequirement #1}
+\newcommand*\modelrequirementdef[1][]{\refstepcounter{modelrequirement}model requirement \themodelrequirement #1}
+\newcommand*\Modelequirementdef[1][]{\refstepcounter{modelrequirement}Model requirement \themodelrequirement #1}
+
+% fix \[C|c]ref formats
+\makeatletter \apptocmd{\cref@getref}{\xdef\@lastusedlabel{#1}}{}{error} 
+    % requirement formatting
+    \crefformat{requirement}{requirement #2\ref*{\@lastusedlabel}#3}
+    \Crefformat{requirement}{Requirement #2\ref*{\@lastusedlabel}#3}
+    \crefformat{modelrequirement}{model requirement #2\ref*{\@lastusedlabel}#3}
+    \Crefformat{modelrequirement}{Model requirement #2\ref*{\@lastusedlabel}#3}
+    % appendix chapter formatting
+    \crefformat{appendices}{appendix #2\ref*{\@lastusedlabel}#3}
+    \Crefformat{appendices}{Appendix #2\ref*{\@lastusedlabel}#3}
+    % appendix section formatting
+    \crefformat{subappendices}{appendix #2\ref*{\@lastusedlabel}#3}
+    \Crefformat{subappendices}{Appendix #2\ref*{\@lastusedlabel}#3}
+    % appendix subsection formatting
+    \crefformat{subsubappendices}{appendix #2\ref*{\@lastusedlabel}#3}
+    \Crefformat{subsubappendices}{Appendix #2\ref*{\@lastusedlabel}#3}
+\makeatother
+
+\newcommand{\lref}[1]{line \ref*{#1}}
+\newcommand{\Lref}[1]{Line \ref*{#1}}
+
+\theoremstyle{definition}
+\newtheorem{algorithm}{Algorithm}
+

@@ -1,11 +1,11 @@
-/**--- Generated at Wed Mar 08 17:23:05 CET 2023 
+/**--- Generated at Wed Apr 05 19:50:25 CEST 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.bookingState;
 import generated.cinemaService.*;
 import commands.*;
 public class BookingState_getScreening_Command extends ObjectCommand<BookingState, MovieScreening>{
-   private static final long serialVersionUID = 116809424L;
+   private static final long serialVersionUID = 2053158695L;
    public BookingState_getScreening_Command(BookingState receiver){
       super(receiver);
    }

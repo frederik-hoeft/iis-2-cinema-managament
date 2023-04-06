@@ -2,18 +2,17 @@ package IIS.Server.api;
 
 import java.util.function.Supplier;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import IIS.Server.management.AsyncWorkload;
 import IIS.Server.management.GenericAsyncResult;
-import IIS.Server.management.PersistencyService;
+import IIS.Server.management.IsolationService;
 
 public abstract class BaseController 
 {
-    protected static <T> ResponseEntity<T> scheduled(Supplier<ResponseEntity<T>> requestAction)
+    protected static <T> ResponseEntity<T> isolated(Supplier<ResponseEntity<T>> requestAction)
     {
-        final AsyncWorkload<ResponseEntity<T>> workload = PersistencyService.getInstance().schedule(requestAction);
+        final AsyncWorkload<ResponseEntity<T>> workload = IsolationService.getInstance().schedule(requestAction);
         final GenericAsyncResult<ResponseEntity<T>> result = workload.getResultAsync().join();
         if (result.isSuccess())
         {

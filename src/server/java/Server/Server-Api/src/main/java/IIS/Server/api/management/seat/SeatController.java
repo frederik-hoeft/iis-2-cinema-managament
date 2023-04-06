@@ -42,7 +42,7 @@ public class SeatController extends BaseController
     @PostMapping("/list")
     public ResponseEntity<GetSeatsResponse> listSeats(@RequestBody GetSeatsRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             if (!CinemaService.getInstance().getSeatRowCache().containsKey(request.getRowId())) {
                 GetSeatsResponse response = new GetSeatsResponse();
@@ -62,7 +62,7 @@ public class SeatController extends BaseController
     @PostMapping("/create")
     public ResponseEntity<CreateSeatResponse> createSeat(@RequestBody CreateSeatRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var seatRowProxy = CinemaService.getCacheOf(ISeatRow.class).getOrDefault(request.getRowId(), null);
             if (seatRowProxy == null) 
@@ -88,7 +88,7 @@ public class SeatController extends BaseController
     @PostMapping("/update")
     public ResponseEntity<UpdateSeatResponse> updateSeat(@RequestBody UpdateSeatRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var seatProxy = CinemaService.getCacheOf(ISeat.class).getOrDefault(request.getId(), null);
             if (seatProxy == null) 
@@ -113,7 +113,7 @@ public class SeatController extends BaseController
     @GetMapping("/list-full")
     public ResponseEntity<GetSeatsFullResponse> listDetailedSeats() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var seats = Linq.of(CinemaService.getSetOf(ISeat.class))
                 .select(s ->
@@ -138,7 +138,7 @@ public class SeatController extends BaseController
     @PostMapping("/delete")
     public ResponseEntity<DeleteSeatResponse> deleteSeat(@RequestBody DeleteSeatRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var seat = CinemaService.getCacheOf(ISeat.class).getOrDefault(request.getId(), null);
             if (seat == null) 
@@ -179,7 +179,7 @@ public class SeatController extends BaseController
     @PostMapping("/available-rows")
     public ResponseEntity<GetSeatRowsResponse> getAvailableRows(@RequestBody GetSeatRowRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var hall = CinemaService.getCacheOf(ICinemaHall.class).getOrDefault(request.getCinemaHallId(), null);
             if (hall == null)
@@ -210,7 +210,7 @@ public class SeatController extends BaseController
     @GetMapping("/available-halls")
     public ResponseEntity<GetCinemaHallsResponse> getAvailableHalls() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             GetCinemaHallsResponse response = new GetCinemaHallsResponse();
             response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getSetOf(ICinemaHall.class), GetCinemaHallsResponseEntry.class));

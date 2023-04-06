@@ -1,0 +1,20 @@
+\appendixchapter{Additional Requirements}
+\label{apx:ch:extended-analysis}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{table}[H]
+    \centering
+    \caption{Summary of model requirements for \gls{g:cms}.}
+    \label{apx:tab:model-requirements}
+    \begin{tabular}{l|p{0.75\textwidth}}
+        \toprule
+        Model Requirement & Description \\ \midrule
+        \modelrequirementdefshort\label{req-mdl:cinema} & we need a cinema \\ \hline
+        \modelrequirementdefshort\label{req-mdl:other} & some other stuff. \\ \hline
+        \modelrequirementdefshort\label{req-mdl:foo} & \lorizzleshortnospace \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+Referencing \cref{req-mdl:other} works. \Cref{req-mdl:cinema} is also defined? yup :)

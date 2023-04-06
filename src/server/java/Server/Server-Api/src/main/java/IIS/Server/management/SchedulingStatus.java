@@ -1,6 +1,7 @@
 package IIS.Server.management;
 
-public enum SchedulingStatus {
+public enum SchedulingStatus 
+{
     /**
      * The job is scheduled to be executed by a {@link WorkloadManager}.
      */
