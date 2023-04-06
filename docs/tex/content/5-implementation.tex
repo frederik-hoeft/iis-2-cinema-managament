@@ -1,10 +1,10 @@
-\chapter{Implementation}\label{ch:impl}\chapterauthor{Frederik Höft}% :P
+\chapter{Implementation}\label{ch:impl}
 
 All proposed concepts have been realized in a \gls{g:cms} prototype. This chapter outlines crucial design choices and implementation specifics, including necessary modifications to the architecture and lessons learned throughout the process. Ultimately, the prototype is evaluated against the requirements delineated in \cref{sec:requirements}.
 
 \section{HTTP Response Model Mapping}\label{sec:impl-lombok}
 
-One modification made to the original architecture presented in \vref{fig:architecture} involves incorporating the Project Lombok code generation library to assist with the implementation of the \gls{a:json} \gls{a:rrm}. Adhering to the core principles of \gls{a:mdd}, Lombok is a Java library that employs a higher-level representation of a Java class to automatically generate implementation details, such as getter and setter methods for fields, at compile time. \Cref{fig:architecture-with-lombok} reflects the resulting changes to the project architecture.
+One modification made to the original architecture presented in \vref{fig:architecture} involves incorporating the Project Lombok code generation library to assist with the implementation of the \gls{a:json} \gls{a:rrm}. Adhering to the core principles of \gls{a:mdd}, Lombok is a Java library that employs a higher-level representation of a Java class to automatically generate implementation details, such as getter and setter methods for fields, at compile time \cite{lombok}. \Cref{fig:architecture-with-lombok} reflects the resulting changes to the project architecture.
 
 \begin{figure}[H]
 \centering

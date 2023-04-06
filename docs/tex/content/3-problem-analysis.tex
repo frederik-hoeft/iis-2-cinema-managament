@@ -3,9 +3,8 @@
 
 This chapter investigates the different use cases associated with cinema management and discusses potential pitfalls in the design of a generic solution. To gain a comprehensive understanding of the problem space, detailed use cases are analyzed and requirements are derived therefrom. A list of requirements is presented, which will serve as a basis for the conceptual design in the following chapter.
 
-\section{Use cases}\label{sec:use-cases}\sectionauthor{Manuele Waldheim}
+\section{Use cases}\label{sec:use-cases}
 
-\todo{use-case diagram + detailed description}
 
 An application use case diagram was created with the incoming task, which visually represents both the essential points of communication between the user and the website, as well as the configuration and use of the cinema owner and can be understood by all parties involved. The visual representation of the situation is intended to ensure that communication between all parties runs smoothly and requirements can be derived from it.
 
@@ -21,6 +20,9 @@ The use-case diagram in Figure \ref{fig:use-cases} describes, on the one hand, t
 On the other hand, the use-case diagram describes how customers can make a reservation or booking. Customers have the option to manage their created account or choose a movie. If customers choose to watch a movie, they can select their movie. After selecting their movie, they can choose which screening (different movie screenings) they want to watch the movie at. After successfully selecting the screening, the user now has the choice of which row and seat they want to sit in. When selecting a seat, the user can decide whether to book the seat immediately or reserve it first and then book it later. Upon closer inspection of the diagram, it becomes apparent that there are activities with dashed borders. All activities with dashed borders point to the activity with the name \enquote{*}, which also has a dashed border. This is for clarity and means that each of these dashed border activities involves a service request and database query.
 
 The diagram only gives a superficial insight into the functioning of the provision of ticket sales/reservations and does not show any specific details. For this reason, the following section analyzes and defines exactly what is needed to implement the electronic sale of tickets.
+
+\todo{auf genaue anforderungen überleiten: Warum REST API? (wird später als reference benötigt)}
+\todo{irgendwo erwähnen: Use-cases lassen sich gruppieren in management, user, admin (wird später als reference benötigt)}
 
 \pagebreak
 

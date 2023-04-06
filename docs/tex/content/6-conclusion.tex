@@ -3,9 +3,13 @@
 
 This work presented a case study that highlighted easily exploitable attack vectors that most anti-virus engines failed to detect. It was determined that threat actors could utilize these adversarial approaches to extract confidential information from the virtual memory of a running process. Moreover, the limitations and shortcomings of existing methods for protecting sensitive data in memory in .NET (primarily a lack of portability) were identified and translated into requirements for a new solution called XXX. \todo{copy-pasted from Ubi :P}
 
-\section{Evaluation}
+\todo{Jana´s Vorschlag}
+In this work, a network-based cinema management system was successfully developed that implements all the requirements presented previously. The requirements were first identified with the help of a use case, which was then translated into a class diagram. The class model could be used for automated code generation with MPS, as it contains all the essential requirements. With a few changes, the generated code could contribute to the successful implementation of the management system with regulated network communication between client and server. 
+Overall, it can be said that the generated code was difficult to integrate into the implementation because it does not take into account the undesired effects of network communication and therefore does not prevent them. Therefore, some changes had to be made here.
 
-\lorizzlelong
+\section{Evaluation}
+Overall, it can be stated that the cinema management system fulfills all requirements from chapter \ref{ch:problem-analysis}. These could be presented in a live demonstration of a use case using a console output. Here, the owner was able to successfully create cinema halls, movies and movie shows. Customers could first create a user account and then choose between different movies. These could either be booked or reserved. In doing so, the customer has to choose the price category, the row of seats and the seat. Reservations could be canceled and bookings cannot be canceled, in this case the customer gets a meaningful error message. The customer can convert a reservation into a booking. Furthermore, a competitive access to a seat of the same row of the same movie could be shown. It could be demonstrated that only one customer could book the seat and the other received an error message that this seat was already occupied. All in all, this application worked completely error-free during the live demonstration and the implementation of the task can be considered a success.
+
 
 \section{Future Development Prospects}
 \label{sec:outlook}
@@ -21,6 +25,3 @@ This work presented a case study that highlighted easily exploitable attack vect
 \section{Final thoughts}
 
 \lorizzle
-
-\todo{remove this:}
-A beautiful reference to fix the \enquote{Empty bibliography on input line 69.} warning: \cite{CiscoBlogsMemoryDumping}. 
