@@ -3,7 +3,7 @@
 
 This chapter introduces the proposed conceptual solution, which forms the basis for the implementation discussed in \cref{ch:impl}. Initially, an overview of the project structure is provided. Subsequently, the server-side infrastructure is examined, assessing the most suitable data model for use with \gls{a:mps} code generation, emphasizing key components, and ensuring thread-safe interactions among them. Finally, the client application is explored in depth, addressing its architecture, design, and quality of life enhancements.
 
-\section{Project Infrastructure}
+\section{Project Infrastructure}\label{sec:infrastructure}
 
 This section introduces the architectural solution designed to meet the requirements delineated in \cref{sec:requirements}. The comprehensive project architecture is illustrated in \cref{fig:architecture}, which encompasses three primary components: the client application, the server-side infrastructure, and the database.
 
@@ -35,10 +35,10 @@ The data model was created according to the requirements presented in chapter \r
     \label{fig:data-model}
 \end{figure}
 
-The class Movie contains two items, on the one hand a title as a string and on the other hand a description also as a string. The MoveScreening class contains two attributes according to the requirements. The attribute finished as a Boolean, indicates whether the film has finished screening and the attribute name as a string, identifies the name of each film screening. Between the classes Movie and MovieScreening there is an association as Containment. Furthermore, the CinemaHall class is required. It only has one attribute, namely whether the hall is currently in use. There is an association as containment within the CinemaHall and MovieScreening classes. Next, a class called SeatRow and another class Seat are necessary. The CinemaHall class and the SeatRow class have an association as a containment. There should also be a containment association from SeatRow to Seat. In addition, an abstract class BoookingState is needed for the booking system. This class is specified by the classes Reservation and Booking. There is again a containment association from the class to Seat to the abstract class BookingState. MovieScreening has a second association to BookingState, this one is also a containment. 
+The class Movie contains two items, on the one hand a title as a string and on the other hand a description also as a string. The MoveScreening class contains two attributes according to the requirements. The attribute finished as a Boolean, indicates whether the film has finished screening and the attribute name as a string, identifies the name of each film screening. Between the classes Movie and MovieScreening there is an association as Containment. Furthermore, the CinemaHall class is required. It only has one attribute, namely whether the hall is available to be used for movie screenings. There is an association as containment within the CinemaHall and MovieScreening classes. Next, a class called SeatRow and another class Seat are necessary. The CinemaHall class and the SeatRow class have an association as a containment. There should also be a containment association from SeatRow to Seat. In addition, an abstract class BoookingState is needed for the booking system. This class is specified by the classes Reservation and Booking. There is again a containment association from the class to Seat to the abstract class BookingState. MovieScreening has a second association to BookingState, this one is also a containment. 
 % you can use \inlinecode{MyClass} for code :)
 
-\subsubsection{Compliance with MPS}
+\subsubsection{Compliance with MPS}\label{sec:cs-data-mps}
 
 \todo{add subsubsections as needed!}
 

@@ -90,7 +90,7 @@ In combination with the lombok-annotated response model classes, the overhead as
 
 During development of the prototype, a number of challenges were encountered, some of which are discussed in this section.
 
-\subsection{Inserting Default Values for \headercode{PriceCategories}}
+\subsection{Inserting Default Values for \headercode{PriceCategories}}\label{sec:impl-challenges-price}
 
 As per the data model defined in \cref{sec:cs-data-model}, the \inlinecode{PriceCategory} class owns a \inlinecode{price} attribute. This attribute, intended to be of type \inlinecode{Rational}, corresponds to the ticket price for a given \inlinecode{PriceCategory}. As the default values are not part of the data model, the \inlinecode{price} attribute must be initialized with a value before being accessed by the application. The goal was to eagerly initialize the \inlinecode{price} upon the server startup. To accomplish this, the guard clause illustrated in \cref{lst:price-category-initialization} was added to the main method of the \gls{g:cms}:
 
@@ -141,8 +141,18 @@ The proposed conceptual solution was implemented in a pre-production prototype o
         \toprule
         Requirement & Validation \\
         \midrule
-        \ref{req:use-cases} &  \lorizzleshortnospace \\ \hline
-        \ref{req:model-requirements} &  \lorizzleshortnospace \\
+        \ref{req:use-cases} &  The \gls{g:cms} prototype covers all specified use-cases. \todo{citation needed} \\ \hline
+        \ref{req:model-requirements} & The data model was mostly implemented in accordance with the model requirements specified in \cref{apx:ch:extended-analysis} (see \cref{sec:cs-data-model}). Due to technical limitations the current version of the prototype does not implement the \inlinecode{price} attribute in the \inlinecode{PriceCategory} class (see \cref{sec:impl-challenges-price}). \\ \hline
+        \ref{req:client-server} & The \gls{g:cms} implements a client–server model (see \cref{sec:infrastructure}, \cref{sec:cs-api}, and \ref{sec:cs-api-access}). \\ \hline
+        \ref{req:database} & The \gls{g:cms} prototype uses a MySQL database for persistent data storage (see \cref{sec:infrastructure}). \\ \hline
+        \ref{req:server} & The \gls{g:cms} server is implemented targeting Java 17. \gls{a:mps} and Project Lombok were used for code generation (see \cref{sec:infrastructure} and \ref{sec:impl-lombok}). \\ \hline
+        \ref{req:mps} & \gls{a:mps} is used to generate the database schema and the data access layer (see \cref{sec:infrastructure} and \cref{sec:cs-data-mps}). \\ \hline
+        \ref{req:mysql} & The \gls{g:cms} prototype uses a MySQL database for persistent data storage (see \cref{sec:infrastructure}). \\ \hline
+        \ref{req:isolation} & The isolation service is ensures thread-safe database access (see \cref{sec:cs-isolation}). \\ \hline
+        \ref{req:api} & \gls{g:spring} is used to implement a \gls{a:rest}ful \gls{a:json} \gls{a:api} (see \cref{sec:cs-api}). \\ \hline
+        \ref{req:client-access} & The client is able to communicate with the server via the \gls{a:rest} \gls{a:api} (see \cref{sec:cs-api-access}). \\ \hline
+        \ref{req:client-cli} & The client provides a \gls{a:cli} with an additional ease-of-access layer for user interaction (see \cref{sec:cs-cli} and \ref{sec:cs-autocomplete}). \\ \hline
+        \ref{req:client-portability} & The client application was implemented using C\# 11/.NET 7 and can be published without dependency on an external .NET runtime installation (see \cref{sec:cs-client}). \\
         \bottomrule
     \end{tabular}
 \end{table}
