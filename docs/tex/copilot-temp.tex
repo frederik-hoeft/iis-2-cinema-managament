@@ -57,14 +57,56 @@ Various tools are available for code generation, including \glspl{a:ide}, code g
 
 The \glsfull{a:mps} is an \gls{a:ide} and software development platform developed by JetBrains. By using \gls{a:mps}, software developers can automatically generate source code targeting a variety of languages. It is a \gls{a:mdd} tool operating on the principle that the developer designs a model of their proposed system and generates corresponding source code based on this model. This offers developers an immense simplification, enabling them to focus on modeling and defining the requirements for the application instead of manually writing code. Consequently, this reduces the amount of manual work that is traditionally involved in the development of applications, decreasing the likelihood of errors. In addition, the generated source files can be automatically imported into existing projects, which further accelerates the development process. Overall, \gls{a:mps} assists the developers to work quicker and more efficiently allowing them to focus on the development of core functionalities \cite{voelter2013study}.
 
-
 \section{RESTful APIs}
+
+\todo{@Ben}
 
 \subsection{Spring Boot}
 
-\section{Something about .NET probably}
+\todo{@Ben}
+
+\section{An Antroduction to .NET}
+
+.NET is a platform that enables the development and execution of applications in a managed virtual machine referred to as the .NET Core Common Language Runtime (CoreCLR), thereby ensuring platform and hardware independence. To enable the execution of a single .NET application on multiple platforms, the source code is initially compiled into byte code, typically referred to as \gls{a:il}. This \gls{a:il} byte code can then be distributed and executed on any platform with a .NET runtime available. Upon execution, \gls{a:il} byte code is compiled into architecture-specific instructions in a process known as \gls{a:jit}-compilation
+
+Ever since .NET Core 3.1, .NET applications can be published as a self-contained executable, which means that the entire application, including the .NET Core runtime, is packaged and distributed as a single file. This allows for the execution of the application without the need for a .NET Core runtime installation.
+
+With the introduction of ahead-of-time (AOT) compilation in the most recent .NET 7 release, the application and all of its dependencies can be directly compiled into native machine code targeting x86, x86_64, ARM, and ARM64 architectures. This allows for a significant performance improvement compared to the previous .NET versions as no just-in-time compilation is required during execution.
 
 \subsection{System.CommandLine framework}
+
+\inlinecode{System.CommandLine} is an in-preview .NET library that provides a framework for building command-line interfaces. It is designed to be highly extensible, allowing for the creation of complex command-line interfaces with the help of custom command-line commands, arguments, options, and modifiers. It provides a simple and intuitive programming interface and offers a variety of features, including command-line argument validation, parameter binding, help information generation, and argument completion.
+
+Commands and sub-commands can easily be defined as a tree-like data structure, which provides a high level of flexibility in the design of the command-line interface. The command-line arguments can be parsed and validated automatically, which greatly simplifies the implementation of the command-line interface. In addition, the library provides a set of default commands, such as \inlinecode{help} and \inlinecode{version}, which can be used to generically display help information or the version of the application. Arguments can be bound to objects and passed to a handler function, which is executed when the command is invoked.
+
+An example of a simple command-line interface that can be implemented with \inlinecode{System.CommandLine} is shown in \Cref{lst:cli-example}.
+
+\begin{listing}[H]
+\begin{minted}[fontsize=\scriptsize]{csharp}
+RootCommand rootCommand = new("Will print a greeting to the console.")
+{
+    new Argument<string>("name", "The name of the person to greet."),
+    new Option<int>("--age", () => 30, "The age of the person to greet."),
+    new Option<bool>("--formal", () => false, "Whether to use a formal greeting.")
+};
+
+rootCommand.Handler = CommandHandler.Create<string, int, bool>((name, age, formal) =>
+{
+    string greeting = formal ? "Hello, Mr./Ms. " : "Hi, ";
+    Console.WriteLine($"{greeting}{name}! You're {age} years old.");
+});
+
+return rootCommand.Invoke(args);
+\end{minted}
+\caption{An example of a simple command-line interface using the System.CommandLine framework.}
+\label{lst:cli-example}
+\end{listing}
+
+\Cref{lst:cli-example} shows the usage of \inlinecode{System.CommandLine} to create a simple command-line interface. The \inlinecode{RootCommand} represents the root command of the command-line interface and is used as an entry point to the framework. It can contain multiple position-independent \inlinecode{Argument}, or \inlinecode{Option} objects. Nested \inlinecode{Command} objects with additional handlers to represent various sub-commands of the root command are also possible. These objects can be used to parse and validate the command-line arguments and options, which can then easily be bound to objects and passed to a handler function, which is executed when the command is invoked.
+
+An automatic help command is provided by the framework by default. This command can be invoked by passing the \inlinecode{--help} or \inlinecode{-h} flag to the application. The framework will then automatically generate and display help information, including the description of the root command, a list of all possible commands, a description of all command-line arguments and options, and the default values for these options. 
+
+The advantage of using \inlinecode{System.CommandLine} is that the entire command-line interface can be defined with a few lines of code, allowing for faster development cycles and less code that needs to be maintained.
 
 \chapter{Problem analysis and requirements}
 \label{ch:problem-analysis}
