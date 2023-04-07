@@ -1,0 +1,73 @@
+\documentclass[praxisarbeit,english,oneside]{framework/hgbthesis}
+\graphicspath{{images/}}            % wo liegen die Bilder? 
+\bibliography{default/literatur}  	% Angabe der BibTeX-Datei
+
+\makenoidxglossaries                % Glossarbefehl
+\loadglsentries{default/glossary}   % Laden der Glossareinträge aus der Datei
+
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+\visibleTodos{true} % Sollen TODOs angezeigt werden ? (true/false)
+
+% Einträge für Titelblatt: --------------------------------
+\title{Designing a Network-based Cinema Management Solution using Code Generation}
+\pruefer{Prof. Dr. Harald König}
+\prueferBack{} %(Nur für Bachelorthesis notwendig)
+\author{{Ben Bekir Ertugrul (Matr.-Nr. 7015745)\texorpdfstring{\\}{ }Frederik Höft (Matr.-Nr. 7015778)\texorpdfstring{\\}{ }Manuele Waldheim (Matr.-Nr. 7015668)\texorpdfstring{\\}{ }Jana Schlüsche (Matr.-Nr. 7016229)}\texorpdfstring{\\}{ }}
+\authorstreet{}
+\authortown{}
+\praxisquartal{1. Quartal 2023}
+\studiengang{HFI420IN \& HFW420WI}
+\studienort{Hannover}
+\abgabedatum{2023}{04}{07}
+
+\frontmatter
+\maketitle
+
+%%%----------------------------------------------------------
+
+%%%----------------------------------------------------------
+%%% Seiten vor dem Inhaltsverzeichnis.
+%%%----------------------------------------------------------
+
+\listoftodos %list of TODO's
+
+\include{content/00-declaration-of-authorship}
+\include{content/01-abstract}
+
+\inhaltsverzeichnis
+
+%%%----------------------------------------------------------
+\mainmatter         % Hauptteil (ab hier arab. Seitenzahlen)
+%%%----------------------------------------------------------
+
+\include{content/1-introduction}
+\include{content/2-theoretical-foundation}
+\include{content/3-problem-analysis}
+\include{content/4-conceptual-solution}
+\include{content/5-implementation}
+\include{content/6-conclusion}
+
+%%%----------------------------------------------------------
+%                        Schlussteil
+%%%----------------------------------------------------------
+
+\lists
+\listoflistings
+\addcontentsline{toc}{chapter}{List of Listings}
+
+\printnoidxglossary[type=\acronymtype, sort=word]
+\printnoidxglossary[sort=word]
+
+\MakeBibliography %Quellenverzeichnis
+
+\appendixpage
+
+%\include{content/appendix/2-extended-theoretical-foundation}
+\include{content/appendix/3-extended-problem-analysis}
+%\include{content/appendix/5-extended-implementation}
+%\include{content/appendix/6-benchmarks}
+%\include{content/appendix/7-examples}
+
+\end{document}

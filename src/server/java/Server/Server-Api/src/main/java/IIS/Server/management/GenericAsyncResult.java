@@ -1,11 +1,13 @@
 package IIS.Server.management;
 
-public final class GenericAsyncResult<TResult> implements IGenericAsyncResult<TResult> {
+public final class GenericAsyncResult<TResult> implements IGenericAsyncResult<TResult> 
+{
     private final boolean isSuccess;
     private final TResult value;
     private final Exception error;
 
-    private GenericAsyncResult(boolean isSuccess, TResult value, Exception error) {
+    private GenericAsyncResult(boolean isSuccess, TResult value, Exception error) 
+    {
         this.isSuccess = isSuccess;
         this.value = value;
         this.error = error;
@@ -15,7 +17,8 @@ public final class GenericAsyncResult<TResult> implements IGenericAsyncResult<TR
      * Indicates whether the execution of the corresponding asynchronous operation was successful.
      */
     @Override
-    public boolean isSuccess() {
+    public boolean isSuccess() 
+    {
         return isSuccess;
     }
 
@@ -23,27 +26,24 @@ public final class GenericAsyncResult<TResult> implements IGenericAsyncResult<TR
      * The value returned by the corresponding asynchronous operation or {@code null} if the execution did not run to completion.
      */
     @Override
-    public TResult getValue() {
+    public TResult getValue() 
+    {
         return value;
     }
 
     @Override
-    public Exception getError() {
+    public Exception getError() 
+    {
         return error;
     }
 
-    public static <TResult> GenericAsyncResult<TResult> of(TResult result) {
+    public static <TResult> GenericAsyncResult<TResult> of(TResult result) 
+    {
         return new GenericAsyncResult<TResult>(true, result, null);
     }
 
-    public static <TResult> GenericAsyncResult<TResult> error(Exception error) {
+    public static <TResult> GenericAsyncResult<TResult> error(Exception error) 
+    {
         return new GenericAsyncResult<TResult>(false, null, error);
-    }
-
-    /**
-     * Converts an {@code AsyncResult} instance to its {@link #getValue()} value.
-     */
-    public static <TResult> TResult toValue(GenericAsyncResult<TResult> result) {
-        return result.getValue();
     }
 }

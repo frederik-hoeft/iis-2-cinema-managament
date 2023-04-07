@@ -1,11 +1,11 @@
-/**--- Generated at Wed Mar 08 17:23:05 CET 2023 
+/**--- Generated at Wed Apr 05 19:50:25 CEST 2023 
  * --- No Change Allowed!  
  */
 package generated.cinemaService.commands.bookingState;
 import generated.cinemaService.*;
 import commands.*;
 public class BookingState_getSeat_Command extends ObjectCommand<BookingState, Seat>{
-   private static final long serialVersionUID = 1438506140L;
+   private static final long serialVersionUID = 234286418L;
    public BookingState_getSeat_Command(BookingState receiver){
       super(receiver);
    }

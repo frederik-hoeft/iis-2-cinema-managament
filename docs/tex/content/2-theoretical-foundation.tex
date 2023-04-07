@@ -1,0 +1,104 @@
+\chapter{Theoretical Foundation}
+\label{ch:foundation}
+
+This chapter provides a theoretical foundation for this work and introduces the reader to the concepts of code generation, the \gls{g:spring} \gls{a:api}, and the .NET platform. It will serve as a basis for the conceptual design and implementation of the proposed cinema management framework as well as for the evaluation presented thereafter.
+
+\section{Code Generation}
+
+Code generation plays a significant role in software development by enhancing developer productivity. As a crucial component of \glsfull{a:mdd}, a software engineering approach that utilizes models as primary development artifacts, code generation contributes to the overall efficiency and effectiveness of the development process. Compared to conventional software development approaches, \gls{a:mdd} provides a higher level of abstraction and improves code reusability \cite{peldszus2022security}. In this context, code generation refers to the process of automatically producing source code or machine code from a higher-level abstract description or model, streamlining the development process and reducing manual implementation efforts. This process usually involves a specific language and platform defined by developers \cite{peldszus2022security}.
+
+Various tools are available for code generation, including \glspl{a:ide}, code generators and templates. Of these, the \glsfull{a:mps} by JetBrains will be discussed in further details due to its relevance for this work \cite{pech2013jetbrains}.
+
+\subsection{MPS}
+
+The \glsfull{a:mps} is an \gls{a:ide} and software development platform developed by JetBrains. By using \gls{a:mps}, software developers can automatically generate source code targeting a variety of languages. It is an \gls{a:mdd} tool operating on the principle that the developer designs a model of their proposed system and generates corresponding source code based on this model. This offers developers an immense simplification, enabling them to focus on modeling and defining the requirements for the application instead of manually writing code. Consequently, this reduces the amount of manual work that is traditionally involved in the development of applications, decreasing the likelihood of errors. In addition, the generated source files can be automatically imported into existing projects, which further accelerates the development process. Overall, \gls{a:mps} assists the developers to work quicker and more efficiently allowing them to focus on the development of core functionalities \cite{pech2013jetbrains}.
+
+\section{RESTful APIs}
+
+\gls{a:rest} is an architectural style for building web services. It defines a set of constraints to be used when creating web services, which makes them flexible, efficient, scalable, and easy to use \cite{RESTGuidelines}.
+
+\subsection{REST Constraints}
+The following constraints, with the exception of the last one, must be implemented by every \gls{a:rest}ful service.
+
+\subsubsection{Uniform interface}
+\gls{a:rest}ful services define a consistent \gls{a:api} to be accessed with the \gls{a:crud} operations. These are the four basic operations typically performed on data in a database. In a \gls{a:rest}ful service, the operations are mapped to the four \gls{a:http} standard methods: POST, GET, PUT, and DELETE.
+\begin{itemize}
+\item POST: Used to create data on a server
+\item GET: Used to read data from a server
+\item PUT: Used to update data on a server
+\item DELETE: Used to delete data on a server
+\end{itemize}
+\subsubsection{Stateless}
+Each request from a client must contain all of the information necessary to understand and process that request. Therefore, the server does not need to maintain any state information about previous requests from that client \cite{RESTGuidelines}.
+\subsubsection{Cacheable}
+The data returned by the server can be cached, which improves performance and scalability by reducing the number of requests made to the \gls{a:api}. Caching can be implemented either on the server or the client-side \cite{RESTGuidelines}.
+\subsubsection{Client-Server}
+The client and the server are separated and developed independently. The client should not have any knowledge of the underlying server implementation, which allows the server to be replaced without affecting the client \cite{RESTGuidelines}.
+\subsubsection{Layered system}
+The \gls{a:api} should be built on a layered system, where each layer represents a specific set of functionality. The client must not have any knowledge about the layer of the service it is connected to. This allows for a more modular and scalable \gls{a:api} design \cite{RESTGuidelines}.
+\subsubsection{Code on demand}
+Clients are able to download and execute code that is supplied by the server. For example, the server could provide functionality that is not available to the client, resulting in a more flexible and extensible system. The \textit{code on demand} constraint is the only optional constraint in the \gls{a:rest} architecture \cite{RESTGuidelines}.
+
+\subsection{Spring Boot}\label{sec:tf-spring}
+
+\Gls{g:spring} is a Java-based framework that has become widely adopted for building \gls{a:rest}ful \glspl{a:api} due to its ability to streamline the process of web application development. Its customizable setup and pre-configured defaults make it easy to create web applications that follow the \gls{a:rest}ful architectural style \cite{SpringBoot}. \Gls{g:spring} provides built-in support for the Spring Web MVC framework, which simplifies the creation of \gls{a:rest}ful \glspl{a:api} with support for \gls{a:http} requests and responses, and exception handling \cite{SpringMvc}. Furthermore, \gls{g:spring} provides several features for documenting, testing, or implementing security for \gls{a:rest}ful \glspl{a:api} \cite{SpringFramework}. A simple \gls{a:api} endpoint can be defined as shown below.
+
+\begin{listing}[H]
+\begin{minted}[fontsize=\scriptsize]{java}
+@RestController
+public class ExampleController {
+    @GetMapping("/example")
+    public String example() {
+        return "This is an example endpoint.";
+    }
+}
+\end{minted}
+\vspace{-.6cm}
+\caption{An example of a simple endpoint using the \gls{g:spring} framework.}
+\label{lst:spring-example}
+\end{listing}
+\vspace{-.3cm}
+
+The \gls{a:rest}ful endpoint in \cref{lst:spring-example} responds to a GET request matching the \gls{a:uri} \inlinecode{/example} with the message \enquote{This is an example endpoint.}.
+
+Overall, \gls{g:spring} simplifies the development process of \gls{a:rest}ful \glspl{a:api} by providing an efficient way to build and deploy web applications.
+
+\section{An Introduction to .NET}\label{sec:tf-dotnet}
+
+.NET is a platform designed for the development and execution of applications within a managed virtual machine called the \gls{a:cclr}, ensuring platform and hardware independence. To facilitate the execution of a single .NET application on multiple platforms, the source code is first compiled into byte code, commonly known as \gls{a:il}. This \gls{a:il} byte code can then be distributed and executed on any platform that has a .NET runtime available. When executed, the \gls{a:il} byte code is compiled into architecture-specific instructions through a process called \gls{a:jit}-compilation \cite[9--12,290]{ecma335cli}\cite{GitHubTieredJittingDocs}.
+
+Starting from .NET Core 1.0, .NET applications can be published as self-contained executables, meaning that the entire application, including the \gls{a:cclr}, is packaged and distributed as a single file. This allows for the execution of the application without requiring a system-wide \gls{a:cclr} installation \cite{DotnetPublishing}.
+
+The most recent .NET 7 release introduced \gls{a:aot} compilation, enabling applications with all their dependencies to be directly compiled into native machine code targeting the different processor architectures. This offers a significant performance improvement compared to previous .NET versions, as no \gls{a:jit} compilation is necessary during execution \cite{DotnetPublishingAot}.
+
+\subsection{System.CommandLine framework}
+
+\inlinecode{System.CommandLine} is an open-source .NET library, currently in preview, that provides a framework for building \gls{a:cli} applications. Designed to be highly extensible, it allows for the creation of complex console applications using custom commands, arguments, options, and modifiers. It provides a simple and intuitive programming interface, and offers a variety of features, including argument validation, parameter binding, and help information generation \cite{DotnetSystemCommandline}\cite{DotnetSystemCommandlineGetStarted}.
+
+Commands and sub-commands can easily be defined as a tree-like data structure, offering a high level of flexibility. The arguments are parsed and validated automatically, greatly simplifying the implementation of the \gls{a:cli}. Additionally, the library provides a set of default commands, such as \inlinecode{help} and \inlinecode{version}, which can be used to generically display help information or the application's version \cite{DotnetSystemCommandlineGetStarted}. 
+
+An example of a simple console application implemented with \inlinecode{System.CommandLine} is shown in \Cref{lst:cli-example}.
+
+\begin{listing}[H]
+\begin{minted}[fontsize=\scriptsize]{csharp}
+RootCommand rootCommand = new("Will print a greeting to the console.")
+{
+    new Argument<string>("name", "The name of the person to greet."),
+    new Option<int>("--age", () => 30, "The age of the person to greet."),
+    new Option<bool>("--formal", () => false, "Whether to use a formal greeting.")
+};
+rootCommand.Handler = CommandHandler.Create<string, int, bool>((name, age, formal) =>
+{
+    string greeting = formal ? "Hello, Mr./Ms. " : "Hi, ";
+    Console.WriteLine($"{greeting}{name}! You're {age} years old.");
+});
+return rootCommand.Invoke(args);
+\end{minted}
+\caption{An example of a simple \gls{a:cli} application using the \inlinecode{System.CommandLine} framework.}
+\label{lst:cli-example}
+\end{listing}
+
+As illustrated in \Cref{lst:cli-example}, a \inlinecode{RootCommand} can be defined to represents the root of the parameter tree, serving as an entry point to the framework. It can contain multiple position-independent \inlinecode{Argument} or \inlinecode{Option} objects. Nested \inlinecode{Command} objects with additional handlers to represent various sub-commands of the root command are also possible. These objects can parse and validate the \gls{a:cli} arguments and options, which can then be easily bound to objects and passed to a handler function executed when the command is invoked.
+
+Utilizing \inlinecode{System.CommandLine} offers the benefit of streamlining command-line parsing with just a few lines of code, which facilitates quicker development cycles and reduces the amount of code requiring maintenance.
+

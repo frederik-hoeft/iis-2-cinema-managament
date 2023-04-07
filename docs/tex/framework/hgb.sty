@@ -1,0 +1,454 @@
+\NeedsTeXFormat{LaTeX2e}
+\newcommand{\hgbDate}{2013/02/19}	%Versionsdatum
+\ProvidesPackage{framework/hgb}[\hgbDate]
+
+\DeclareOption{english}{\providecommand{\hgb@MainLanguage}{english}}
+\ProcessOptions\relax
+
+
+%% ------ Shadowing conflicting symbols from other packages -------
+
+% Macros for resolving name conflicts (from symbols.tex by Scott Pakin):
+% There are a number of symbols (e.g., \Square) that are defined by      %
+% multiple packages.  In order to typeset all the variants in this       %
+% document, we have to give glyph a unique name.  To do that, we define  %
+% \savesymbol{XXX}, which renames a symbol from \XXX to \origXXX, and    %
+% \restoresymbol{yyy}{XXX}, which renames \origXXX back to \XXX and     %
+% defines a new command, \yyyXXX, which corresponds to the most recently %
+% loaded version of \XXX.   
+% Wilbur: modified to use "orig@" instead of "orig" (not visible to users)
+
+% Save a symbol that we know is going to get redefined.
+\def\@savesymbol#1{%
+  \expandafter\let\expandafter\origsym\expandafter=\csname#1\endcsname
+  \expandafter\let\csname orig@#1\endcsname=\origsym
+  \expandafter\let\csname#1\endcsname=\relax
+}
+
+% Restore a previously saved symbol, and rename the current one.
+\def\@restoresymbol#1#2{%
+  \expandafter\let\expandafter\newsym\expandafter=\csname#2\endcsname
+  \expandafter\global\expandafter\let\csname#1#2\endcsname=\newsym
+  \expandafter\let\expandafter\origsym\expandafter=\csname orig@#2\endcsname
+  \expandafter\global\expandafter\let\csname#2\endcsname=\origsym
+}
+
+%% ------------------ Required Packages ----------------------
+
+\usepackage{cmap}				
+\usepackage{lmodern}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} 		%utf8-change
+\usepackage{microtype} %optische Verbesserungen
+
+\usepackage{ifthen}
+\usepackage{xifthen}
+\usepackage[english,german,ngerman]{babel}
+
+\usepackage{booktabs}
+
+\usepackage{eurosym} % provides \euro - conflict with marvosym on \EUR!
+
+\@ifundefined{hgb@MainLanguage}%
+   {\newcommand*{\hgb@MainLanguage}{german}}%
+	 {}
+
+% Hauptsprache einstellen (babel):
+\ifthenelse{\equal{\hgb@MainLanguage}{german}}%
+	{\main@language{ngerman}}{}
+\ifthenelse{\equal{\hgb@MainLanguage}{english}}%
+	{\main@language{english}}{}
+	
+\usepackage{graphicx} 	%utf8-change, no dvips any longer
+
+\usepackage[T1,hyphens,obeyspaces,spaces,lowtilde]{url}
+\urlstyle{sf}
+
+\usepackage{verbatim}
+\def\verbatimtabsize{2\relax}
+
+\usepackage{float}
+\floatstyle{plain}
+
+
+% Captions mit Fontgroesse "small" und Abstand vom Seitenrand
+\usepackage[small,bf,justification=centering]{caption}
+% \setlength{\captionmargin}{5mm}
+\setlength{\belowcaptionskip}{0pt plus 3pt minus 2pt} 
+\setlength{\abovecaptionskip}{10pt plus 3pt minus 2pt} 
+
+\usepackage{footnote} % fix footnotes in captions
+
+\usepackage{wrapfig}
+\usepackage{exscale} % Skaliert Mathe-Modus Ausgaben in allen Umgebungen richtig.
+\usepackage{upquote} % Setzt "richtige" Quotes in verbatim-Umgebung
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsbsy}
+\usepackage{marginnote}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage[onehalfspacing]{setspace} %% Größerer zeilenabstand
+\usepackage{footnotebackref}
+\usepackage{rotating}
+\usepackage[acronym, shortcuts, toc, nopostdot]{glossaries}
+\usepackage{flafter}
+\usepackage{tikz} 
+\usepackage{framework/tikz-uml}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{tablefootnote}
+\usepackage{amsmath}
+\addtokomafont{labelinglabel}{\sffamily}
+\usepackage{amssymb}
+\usepackage{hyphenat}
+\usepackage{framework/hgbappendix}
+\usepackage[figure,table,codelisting]{totalcount}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{listings}
+\definecolor{mygray}{rgb}{0.8,0.8,0.8}
+\lstset{%
+basicstyle=\ttfamily,
+breaklines = true,
+backgroundcolor=\color{mygray},
+}
+\usepackage{realboxes}
+
+\usepackage{array} %Tabellen
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+%% --------------------------- Reference setup ------------------
+
+\usepackage{scalerel,stackengine}
+
+\usepackage{caption}
+\usepackage{varioref}
+\usepackage[noabbrev]{cleveref}
+
+\crefname{subsubsection}{subsubsection}{subsubsection}
+%\Crefname{subsubsection}{Subsubsection}{Subsubsections}
+\crefname{subsection}{subsection}{subsection}
+%\Crefname{subsection}{Subsection{Subsections}
+
+\providecommand*{\listingautorefname}{Listing}
+
+\usepackage{enumitem}
+
+%% --------------------------- Quotation setup ------------------
+
+% no idea what this does but it prevents some warning from csquotes
+\usepackage{fvextra} 
+\usepackage{csquotes}
+\DeclareQuoteStyle[american]{english}
+        {\itshape\textquotedblleft}
+        [\textquotedblleft]
+        {\textquotedblright}
+        [0.05em]
+        {\textquoteleft}
+        {\textquoteright}
+
+%% ---------------------- Environments -------------------------
+
+\newenvironment{english}%
+{\begin{otherlanguage}{english}}%
+{\end{otherlanguage}}
+
+%% --------------------- Makros --------------------------------
+
+\newcommand{\latex}{La\-TeX\xspace} % kein schnoerkeliges LaTeX mehr
+\newcommand{\tex}{TeX\xspace}     % kein schnoerkeliges TeX mehr
+\newcommand{\bs}{\textbackslash} % Backslash character
+
+%inline fractions
+\def\fraction#1/#2{\leavevmode\kern.0em
+  \raise.5ex\hbox{\the\scriptfont0 #1}\kern-.1em
+  /\kern-.15em\lower.25ex\hbox{\the\scriptfont0 #2}}
+
+\newcommand\trennstrich{%
+  \nopagebreak[4]
+  \vskip 1.5ex %
+%  \nopagebreak[4]
+  \noindent\makebox[\textwidth]{\rule{4cm}{0.4pt}}
+  \vskip 2.5ex}
+  
+\usepackage{xspace}
+
+%hin und wieder passiert es, dass Fußnoten über mehrere Seiten verlaufen. Das sieht immer echt ziemlich käse aus. Folgende Zeile "bestraft" LaTeX für Seitenumbrüche in Fußnoten ziemlich hart und sorgt damit dafür, dass sowas nicht mehr passiert. Ist zugegebenermaßen relativ brutal, aber hat bestimmt keine zu negativen Seiteneffekte^^
+\interfootnotelinepenalty=10000
+
+%¯\_(ツ)_/¯
+\usepackage{tikz}
+\newcommand{\shrug}[1][]{%
+    \begin{tikzpicture}[baseline,x=0.8\ht\strutbox,y=0.8\ht\strutbox,line width=0.125ex,#1]
+    \def\arm{(-2.5,0.95) to (-2,0.95) (-1.9,1) to (-1.5,0) (-1.35,0) to (-0.8,0)};
+    \draw \arm;
+    \draw[xscale=-1] \arm;
+    \def\headpart{(0.6,0) arc[start angle=-40, end angle=40,x radius=0.6,y radius=0.8]};
+    \draw \headpart;
+    \draw[xscale=-1] \headpart;
+    \def\eye{(-0.075,0.15) .. controls (0.02,0) .. (0.075,-0.15)};
+    \draw[shift={(-0.3,0.8)}] \eye;
+    \draw[shift={(0,0.85)}] \eye;
+    % draw mouth
+    \draw (-0.1,0.2) to [out=15,in=-100] (0.4,0.95); 
+\end{tikzpicture}}
+
+%% ------------- Einstellungen fuer's Layout --------------
+
+%\nonfrenchspacing    % erzeugt breitere Abstände zwischen Sätzen
+\frenchspacing     	  % erzeugt normale Abstände zwischen Sätzen
+\pagestyle{headings}  % Normale Kopfzeilen
+
+% Make float placement easier    
+\renewcommand{\floatpagefraction}{.9}  % vorher: .5
+\renewcommand{\textfraction}{.01}      % vorher: .2
+\renewcommand{\topfraction}{.9}        % vorher: .7
+\renewcommand{\bottomfraction}{.7}     % vorher: .3
+\setcounter{topnumber}{3}              % vorher: 2
+\setcounter{bottomnumber}{2}           % vorher: 1
+\setcounter{totalnumber}{5}            % vorher: 3
+
+%% ------------- Program environment / code listings --------------
+\usepackage{minted}
+ 
+%Minted hat bei Captions einen größeren Abstand, welcher hiermit verringert wird
+\newenvironment{compactminted}{%
+  \VerbatimEnvironment
+  \let\FV@ListVSpace\relax
+  \begin{minted}}%
+ {\end{minted}}
+ 
+\setminted{
+    numberblanklines=false,
+    breaklines=true,
+    encoding=utf8,
+    tabsize=2,
+    fontsize=\footnotesize
+}
+
+% in Frage kommende Styles: eclipse, 
+\usemintedstyle{colorful}
+
+%% ------------- | --------------
+
+% define the program float environment:
+\@ifundefined{chapter}%
+   {\newfloat{program}{tbp}{lop}}%
+	 {\newfloat{program}{tbp}{lop}[chapter]}
+%\floatname{program}{Programm}
+%\floatname{program}{\@ProgramName}
+\floatstyle{plain}
+\restylefloat*{program}
+	
+\ifthenelse{\equal{\bbl@main@language}{german} \or \equal{\bbl@main@language}{ngerman}}%
+{	\floatname{program}{Programm}
+  \floatname{algorithm}{Algorithmus}
+}{}
+
+\ifthenelse{\equal{\bbl@main@language}{english}}%
+{	\floatname{program}{Program}
+  \floatname{algorithm}{Algorithm}
+}{}
+
+\usepackage{xcolor}
+
+\definecolor{lightgray}{gray}{0.9}
+\definecolor{midgray}{gray}{0.5}
+\color{black}
+\newcommand{\@MissingArg}[1]{\textcolor{red}{#1}}
+
+%% ------------- Experimental --------------
+
+\newenvironment{NarrowList}%
+{\begin{list}{}%
+{\setlength{\leftmargin}{2.5em}
+ \setlength{\labelwidth}{1em}
+ \setlength{\labelsep}{0.5em}
+ \setlength{\itemsep}{0.5ex}
+ \setlength{\parsep}{0ex}
+ \setlength{\topsep}{0ex}
+\raggedright
+}}%
+{\end{list}}
+
+\newenvironment{FileList}[1]%
+{\paragraph{Pfad:} \url{#1}
+ \begin{list}{}%
+{\setlength{\leftmargin}{5cm}
+ \setlength{\labelwidth}{4cm}
+ \setlength{\labelsep}{0.25cm}
+ \setlength{\rightmargin}{0cm}
+ \setlength{\itemindent}{0cm}
+ \setlength{\itemsep}{0.5ex}
+ \setlength{\parsep}{0ex}
+ \setlength{\topsep}{1ex}
+\raggedright
+}}%
+{\end{list}}
+
+\def\widedotfill{\leaders\hbox to 8pt{\hfil.\hfil}\hfill}
+
+\newcommand{\fitem}[1]{%
+%\item[\url{#1}\hfill]
+%\item[\url{#1}\dotfill]
+\item[\url{#1}\widedotfill]
+}
+
+\newcommand{\Frametext}[1]{%
+\setlength{\fboxrule}{0.05mm}%
+\setlength{\fboxsep}{0.5mm}%
+\fbox{\vphantom{Ag}#1}%
+}
+
+\newcommand{\FramePic}[1]{%
+\setlength{\fboxrule}{0.1mm}%
+\setlength{\fboxsep}{0mm}%
+\fbox{#1}%
+}
+
+\newcommand{\optbreaknh}{\hskip 0pt } %optional break without hyphen: e.g. PlugIn{\optbrknh}Filter
+
+% Erzeugt einen neuen, nicht eingerückten Absatz
+% mit zusätzlichem Abstand:
+\newcommand{\SuperPar}[0]{% 
+\par\bigskip\noindent%
+}
+
+%%% Date-related commands ----------------------------------
+
+\usepackage{datetime}
+\showdowfalse	% do not show day of week
+
+% adapted from \newdate in datetime.sty
+\newcommand*{\@modifydate}[4]{%
+\@namedef{date@#1@d}{#2}%
+\@namedef{date@#1@m}{#3}%
+\@namedef{date@#1@y}{#4}%
+}
+
+\newdate{hgb@date}{\the\day}{\the\month}{\the\year}
+\newcommand{\Date}[3]{%	example for use: \Date{16}{5}{2008}
+  \@modifydate{hgb@date}{#1}{#2}{#3}
+}
+
+\newcommand{\hgb@GetDateDay}{\getdateday{hgb@date}}
+\newcommand{\hgb@GetDateMonth}{\getdatemonth{hgb@date}}
+\newcommand{\hgb@GetDateYear}{\getdateyear{hgb@date}}
+\newcommand{\hgb@DisplayDate}{\displaydate{hgb@date}}
+
+%%% Experimental:
+
+\input{default/colors}
+
+\definecolor{@darkblue}{RGB}{0,0,140}
+\definecolor{@darkgreen}{RGB}{0,100,70}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = \linkColor, %Colour for external hyperlinks
+  linkcolor    = \linkColor, %Colour of internal links
+  citecolor    = \linkColor, %Colour of citations
+  filecolor    = \linkColor
+}	%see https://www.tug.org/applications/hyperref/manual.html
+
+
+\usepackage[all]{hypcap} % fixes hyperref problem with references to float captions
+
+\usepackage{ifpdf}
+\ifpdf % LaTeX is in native PDF mode (pdflatex) 
+  \usepackage{epstopdf}		% zur automatischen Konvertierung von EPS-Dateien nach PDF für pdflatex
+%  \pdfcompresslevel=0			  % 0 = keine Kompression, 9 = max. Kompression
+%  \pdfimageresolution=300
+\else % LaTeX is in emulation mode (DVI-PS-PDF)
+  \usepackage[hyphenbreaks]{breakurl}	% erlaubt Zeilenumbruch von URLs auch ohne pdflatex (DIV, PS, PDF)
+\fi	
+	
+\usepackage{enumitem}	% fix excessive vertical spacing in lists
+\setlist{%
+	partopsep = .0ex plus .1ex, 
+	topsep = .6ex plus .3ex, 
+	itemsep = .0ex plus .1ex, 
+	parsep = .4ex plus .2ex
+}
+\setlist{nolistsep}	% kein Spacing zwischen items
+\setlist{noitemsep}  % überhaupt kein vertik. Spacing
+
+%% -------------------------------------------------------
+
+\newcommand{\TurnWidowsOff}{%
+\clubpenalty=10000%
+\widowpenalty=10000%
+\displaywidowpenalty=10000}
+
+\newenvironment{nowidows}%
+{\TurnWidowsOff}%
+{}
+
+%%Beispiel
+%\begin{nowidows}
+%Beliebiger Text, in dem absolut keine Hurenkinder zugelassen werden.
+%\end{nowidows}
+
+%%How to display TeX parameters:
+\newcommand{\ShowParameter}[1]{\relax\the#1\showthe#1}
+%Beispiel: \ShowParameter{\clubpenalty}
+
+%Verhindert das einrücken der ersten Zeile in einem Absatz
+% \setlength{\parindent}{0em} 
+% \setlength{\parskip}{5pt plus 2pt minus 2pt }
+
+% \setlength{\parskip}{0pt plus 0.1pt}
+
+% "\flushbottom" bewirkt, dass der Abstand von Paragraphen auf die Seite angepasst wird...
+% Wenn also nach beispielsweise 3 Paragraphen ein Bild eingfügt wird das nicht mehr auf
+% die Seite passt so wird der Abstand zwischen den Paragraphen so erweitert, dass der letzte
+% Paragraph ganz unten auf der Seite steht
+% \flushbottom
+
+\usepackage{chngcntr}
+\counterwithout{footnote}{chapter}
+
+\setcounter{secnumdepth}{2} %
+\setcounter{tocdepth}{2} %Tiefe im Inhaltsverzeichnis 
+
+%% -----------------------------------------------
+% Notwendigkeit zum Erstellen eines Code-Listings
+\newcommand{\listcodename}{Quellcodeverzeichnis}
+\DeclareCaptionType{codelisting}[Quellcode][\listcodename]
+
+\newcommand{\lists}{
+    \setlength{\parskip}{0pt plus 0.1pt}
+    \ifnum\totalfigures > 0
+        \listoffigures
+        \addcontentsline{toc}{chapter}{\listfigurename}
+    \fi
+    \ifnum\totaltables > 0
+        \listoftables
+        \addcontentsline{toc}{chapter}{\listtablename}
+    \fi
+    \ifnum\totalcodelistings > 0
+        \listofcodelistings
+        \addcontentsline{toc}{chapter}{\listcodename}
+    \fi
+}
+
+
+\newcommand{\inhaltsverzeichnis}{
+    \currentpdfbookmark{\contentsname}{toc}
+    \tableofcontents %Inhaltsverzeichnis 
+    \setlength{\parindent}{0em} 
+    \setlength{\parskip}{5pt plus 2pt minus 2pt }
+}
+
+
+%% ------------- Zusätzliche Imports --------------
+
+\input{default/hyphenation} %Zusätzliche Trennregeln
+
+\definecolor{rosso}{RGB}{220,57,18}
+\definecolor{giallo}{RGB}{255,153,0}
+\definecolor{blu}{RGB}{102,140,217}
+\definecolor{verde}{RGB}{16,150,24}
+\definecolor{viola}{RGB}{153,0,153}

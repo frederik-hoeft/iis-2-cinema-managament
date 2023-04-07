@@ -42,7 +42,7 @@ public class MovieScreeningController extends BaseController {
     @GetMapping("/list")
     public ResponseEntity<GetScreeningsResponse> listMovieScreenings() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var screenings = Linq.of(CinemaService.getSetOf(IMovieScreening.class))
                 .select(s -> 
@@ -62,7 +62,7 @@ public class MovieScreeningController extends BaseController {
     @GetMapping("/list-full")
     public ResponseEntity<GetMovieScreeningsFullResponse> listDetailedMovieScreenings() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             GetMovieScreeningsFullResponse response = new GetMovieScreeningsFullResponse();
             List<GetMovieScreeningsFullResponseEntry> screenings = new ArrayList<GetMovieScreeningsFullResponseEntry>();
@@ -81,7 +81,7 @@ public class MovieScreeningController extends BaseController {
     @PostMapping("/create")
     public ResponseEntity<CreateScreeningResponse> createMovieScreening(@RequestBody CreateScreeningRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             List<String> errors = new ArrayList<String>();
             if (!CinemaService.getInstance().getMovieCache().containsKey(request.getMovieId())) {
@@ -124,7 +124,7 @@ public class MovieScreeningController extends BaseController {
     @PostMapping("/update")
     public ResponseEntity<UpdateScreeningResponse> updateMovieScreening(@RequestBody UpdateScreeningRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             if (!CinemaService.getInstance().getMovieScreeningCache().containsKey(request.getId())) 
             {
@@ -154,7 +154,7 @@ public class MovieScreeningController extends BaseController {
     @PostMapping("/delete")
     public ResponseEntity<DeleteScreeningResponse> deleteMovieScreening(@RequestBody DeleteScreeningRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var screening = CinemaService.getCacheOf(IMovieScreening.class).getOrDefault(request.getId(), null);
             if (screening == null) 
@@ -191,7 +191,7 @@ public class MovieScreeningController extends BaseController {
     @GetMapping("/available-movies")
     public ResponseEntity<GetMoviesResponse> getAvailableMovies() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             GetMoviesResponse response = new GetMoviesResponse();
             response.setMovies(ObjectX.createFromMany(CinemaService.getInstance().getMovieCache().values(), GetMoviesResponseEntry.class));
@@ -204,7 +204,7 @@ public class MovieScreeningController extends BaseController {
     @GetMapping("/available-halls")
     public ResponseEntity<GetCinemaHallsResponse> getAvailableHalls() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             GetCinemaHallsResponse response = new GetCinemaHallsResponse();
             response.setCinemaHalls(ObjectX.createFromMany(CinemaService.getInstance().getCinemaHallCache().values().stream()

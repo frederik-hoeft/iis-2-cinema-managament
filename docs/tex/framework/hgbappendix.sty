@@ -1,0 +1,58 @@
+\usepackage[titles]{tocloft}
+
+\newcommand{\appendixpage}{
+    \listofappendices
+    \addcontentsline{toc}{chapter}{\appendicesname}
+    \appendix
+    \pagestyle{appendix}
+    \hypersetup{bookmarksdepth=5}
+}
+
+\newcommand{\appendicesname}{Appendix}
+\newcommand{\listappendicesname}{Appendix contents}
+\newlistof{appendices}{apx}{\listappendicesname}
+\newlistentry[appendices]{subappendices}{apx}{1}
+\newlistentry[subappendices]{subsubappendices}{apx}{2}
+\cftsetindents{subappendices}{1.5em}{3.0em}
+
+\renewcommand{\theappendices}{\Alph{appendices}}
+\renewcommand{\thesubappendices}{\theappendices.\arabic{subappendices}}
+\renewcommand{\thesubsubappendices}{\thesubappendices.\arabic{subsubappendices}}
+
+\newcommand{\appendixchapter}[2][]{
+    \refstepcounter{chapter}
+    \refstepcounter{appendices}
+    \thispagestyle{appendix}
+    \ifthenelse{\isempty{#1}}{
+        \chapter*{\theappendices\hspace{1cm}#2}
+    }{
+        \chapter*{\theappendices\hspace{1cm}#1}
+    }
+    \addcontentsline{apx}{appendices}{\protect\numberline{\theappendices}#2}\par
+    \pdfbookmark[1]{#2}{#2}
+}
+
+
+\newcommand{\appendixsection}[2][]{
+    \refstepcounter{subappendices}
+    \ifthenelse{\isempty{#1}}{
+        \section*{\thesubappendices\hspace{1cm}#2}
+    }{
+        \section*{\thesubappendices\hspace{1cm}#1}
+    }
+    \addcontentsline{apx}{subappendices}{\protect\numberline{\thesubappendices}#2}\par
+    \pdfbookmark[2]{#2}{#2}
+}
+
+\newcommand{\appendixsubsection}[2][]{
+    \refstepcounter{subsubappendices}
+    \ifthenelse{\isempty{#1}}{
+        \subsection*{\thesubsubappendices\hspace{1cm}#2}
+    }{
+        \subsection*{\thesubsubappendices\hspace{1cm}#1}
+    }
+    \addcontentsline{apx}{subsubappendices}{\protect\numberline{\thesubsubappendices}#2}\par
+    \pdfbookmark[3]{#2}{#2}
+}
+
+\setcounter{apxdepth}{3}

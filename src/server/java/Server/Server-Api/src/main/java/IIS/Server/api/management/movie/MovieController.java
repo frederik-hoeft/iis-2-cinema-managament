@@ -2,7 +2,6 @@ package IIS.Server.api.management.movie;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,7 @@ public class MovieController extends BaseController
     @GetMapping("/list")
     public ResponseEntity<GetMoviesResponse> listMovies() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             GetMoviesResponse response = new GetMoviesResponse();
             response.setMovies(ObjectX.createFromMany(CinemaService.getInstance().getMovieCache().values(), GetMoviesResponseEntry.class));
@@ -47,7 +46,7 @@ public class MovieController extends BaseController
     @GetMapping("/list-full")
     public ResponseEntity<GetMoviesFullResponse> listDetailedMovies() 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             GetMoviesFullResponse response = new GetMoviesFullResponse();
             List<GetMoviesFullResponseEntry> movies = new ArrayList<GetMoviesFullResponseEntry>();
@@ -65,7 +64,7 @@ public class MovieController extends BaseController
     @PostMapping("/create")
     public ResponseEntity<CreateMovieResponse> createMovie(@RequestBody CreateMovieRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             try 
             {
@@ -84,7 +83,7 @@ public class MovieController extends BaseController
     @PostMapping("/update")
     public ResponseEntity<UpdateMovieResponse> updateMovie(@RequestBody UpdateMovieRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var movie = CinemaService.getCacheOf(IMovie.class).getOrDefault(request.getId(), null);
             if (movie == null) 
@@ -110,7 +109,7 @@ public class MovieController extends BaseController
     @PostMapping("/delete")
     public ResponseEntity<DeleteMovieResponse> deleteMovie(@RequestBody DeleteMovieRequest request) 
     {
-        return scheduled(() -> 
+        return isolated(() -> 
         {
             final var movie = CinemaService.getCacheOf(IMovie.class).getOrDefault(request.getId(), null);
             if (movie == null) 

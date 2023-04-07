@@ -1,0 +1,77 @@
+\newcommand{\fontHeadline}[1]{{\sffamily#1}}
+
+\newcounter{todoCounter}
+
+\newboolean{visibleTodo}
+\setboolean{visibleTodo}{false}
+
+\newcommand{\visibleTodos}[1]{\setboolean{visibleTodo}{#1}}
+
+\newcommand{\todos@write}[1]{%
+	\addcontentsline{tdo}{todo}{%
+		\thetodoCounter. #1
+	}%
+}
+\newcommand{\l@todo}
+    {\@dottedtocline{1}{0em}{2.3em}}
+
+\newcommand{\todo}[1]{
+\ifthenelse{\boolean{visibleTodo}}{
+	\refstepcounter{todoCounter}%
+	\textcolor{red}{\fontHeadline{{$\langle$\bfseries TODO \thetodoCounter:~}#1$\rangle$}}%
+	\marginnote{\textcolor{red}{\fontHeadline{{\bfseries !!!}}}}%
+	\todos@write{TODO:~#1}}{}}
+\newcommand{\TODO}[1][]{\todo{#1}}
+
+\newcommand{\question}[1]{%
+\ifthenelse{\boolean{visibleTodo}}{
+	\refstepcounter{todoCounter}%
+	\textcolor{green8}{\fontHeadline{{$\langle$\bfseries FRAGE \thetodoCounter:~}#1$\rangle$}}%
+	\marginnote{\textcolor{green8}{\fontHeadline{{\bfseries ???}}}}%
+	\todos@write{FRAGE:~#1}}{}}
+\newcommand{\QUESTION}[1][]{\question{#1}}
+\newcommand{\frage}[1]{\question{#1}}
+
+\newcommand{\example}[1]{
+\ifthenelse{\boolean{visibleTodo}}{
+	\refstepcounter{todoCounter}%
+	\textcolor{purple6}{\fontHeadline{{$\langle$\bfseries BEISPIEL \thetodoCounter:~}#1$\rangle$}}%
+	\marginnote{\textcolor{purple6}{\fontHeadline{{\bfseries Bsp.}}}}%
+	\todos@write{BEISPIEL:~#1}}{}}
+\newcommand{\EXAMPLE}[1][]{\example{#1}}
+\newcommand{\beispiel}[1]{\example{#1}}
+
+\newcommand{\listoftodos}{
+\ifthenelse{\boolean{visibleTodo}}{
+	\let\tdocontentsline\contentsline
+	\renewcommand{\contentsline}[4]{\tdocontentsline{##1}{##2}{##3}{##4}\vspace{0.25\baselineskip}}
+	\@ifundefined{openTodos}{}{%
+   		\ifnum\@nameuse{openTodos}>0
+			\chapter*{Offene Punkte} 
+			Noch \underline{\@nameuse{openTodos}} offene Punkte!
+			\@starttoc{tdo}
+			\newpage
+		\fi
+	}%
+	\let\contentsline\tdocontentsline
+}}{}
+
+\newenvironment{thatsTodo}{%
+	\newcommand{\do}[1]{\item \todo{##1}}%
+	\begin{itemize}%
+		\color{red}
+}{\end{itemize}}
+
+\newcommand{\showTodos}{%
+   \@ifundefined{openTodos}{}{%
+   		\ifnum\@nameuse{openTodos}>0
+      		\textbf{\textsc{\textcolor{red}{!!! Noch \underline{\@nameuse{openTodos}} offene Punkte!!!}}}\medskip
+      	\fi
+  }%
+}
+
+\AtEndDocument{%
+  \immediate\write\@auxout{%
+    \global\noexpand\@namedef{openTodos}{\number\c@todoCounter}%
+  }%
+}

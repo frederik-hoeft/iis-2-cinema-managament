@@ -1,34 +1,46 @@
 package IIS.Server.management;
 
-public abstract class ConcurrentWorkload {
+public abstract class ConcurrentWorkload 
+{
     protected final Object statusLock = new Object();
     protected volatile SchedulingStatus status = SchedulingStatus.NOT_TRACKED;
 
-    public SchedulingStatus getStatus() {
+    public SchedulingStatus getStatus() 
+    {
         return status;
     }
 
     public abstract void execute();
 
-    public void cancel() {
-        exchangeStatusInterlocked(SchedulingStatus.CANCELED);
+    public void cancel() 
+    {
+        synchronized (statusLock)
+        {
+            if (status == SchedulingStatus.NOT_TRACKED || status == SchedulingStatus.SCHEDULED)
+            {
+                status = SchedulingStatus.CANCELED;
+            }
+        }
     }
 
-    public boolean compareExchangeStatusInterlocked(SchedulingStatus comparand, SchedulingStatus newStatus) {
-        synchronized (statusLock) {
+    public boolean compareExchangeStatusInterlocked(SchedulingStatus comparand, SchedulingStatus newStatus) 
+    {
+        synchronized (statusLock) 
+        {
             boolean hasValue = status == comparand;
-            if (hasValue) {
+            if (hasValue) 
+            {
                 status = newStatus;
             }
             return hasValue;
         }
     }
 
-    public boolean compareStatusInterlocked(SchedulingStatus comparand) {
-        return status == comparand;
-    }
-
-    public void exchangeStatusInterlocked(SchedulingStatus newStatus) {
-        status = newStatus;
+    public void exchangeStatusInterlocked(SchedulingStatus newStatus) 
+    {
+        synchronized (statusLock)
+        {
+            status = newStatus;
+        }
     }
 }

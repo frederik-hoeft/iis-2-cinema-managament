@@ -1,0 +1,52 @@
+%% --------------- Headings setup --------------------------------------
+
+\usepackage{titlesec} 
+\titleformat{\chapter}{\bf\Huge}{\thechapter\quad}{0pt}{}
+\titlespacing*{\chapter}{0pt}{-30pt plus 1pt}{15pt minus 1pt}
+\titlespacing*{\section}{0pt}{15pt minus 2pt}{10pt minus 1pt}
+\titlespacing*{\subsection}{0pt}{10pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{5pt}{5pt}
+
+% \patchcmd{\@makechapterhead}{\vspace*{50\p@}}{}{}{}% Removes space above \chapter head
+% \patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{}{}{}% Removes space above \chapter* head
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.~#1}{}} 
+
+\fancyhf{} % clear all header and footer fields
+\renewcommand{\footrulewidth}{0pt} % no line under foot
+\renewcommand{\headrulewidth}{0pt} % no line under header
+
+\if@twoside %extra for one or twoside
+    \fancyfoot[LE,RO]{\sffamily\thepage}
+    \fancyfoot[LO,RE]{\sffamily\nouppercase{\leftmark}}
+\else
+    \fancyfoot[R]{\sffamily\thepage}
+    \fancyfoot[L]{\sffamily\nouppercase{\leftmark}}
+\fi
+
+\fancypagestyle{plain}{
+	\fancyhf{} 
+    \if@twoside
+	    \fancyfoot[LE,RO]{\sffamily\thepage}
+	\else
+	    \fancyfoot[R]{\sffamily\thepage}
+	\fi
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+}
+
+\fancypagestyle{appendix}{
+	\fancyhf{} 
+    \if@twoside
+    	\fancyfoot[LE,RO]{\sffamily\thepage}
+        \fancyfoot[LO,RE]{\sffamily\nouppercase{\appendixname}}
+	\else
+    	\fancyfoot[R]{\sffamily\thepage}
+        \fancyfoot[L]{\sffamily\nouppercase{\appendixname}}
+	\fi
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+}

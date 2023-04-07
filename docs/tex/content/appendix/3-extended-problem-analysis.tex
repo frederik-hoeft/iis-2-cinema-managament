@@ -1,0 +1,110 @@
+\appendixchapter{Additional Requirements}
+\label{apx:ch:extended-analysis}
+
+\appendixsection{Use-cases for Validation}\label{apx:sec:use-cases}
+
+Use cases:
+
+\begin{enumerate}
+    \item Configure Seating Arrangement:
+    \begin{itemize}
+        \item The cinema owner creates and configures seating arrangements for two cinema halls.
+        \item The owner assigns seats to rows and categorizes them into \enquote{stalls}, \enquote{box}, or \enquote{box with service}.
+        \item Once the seating configuration is complete, the hall is released for ticket sales.
+    \end{itemize}
+    
+    \item Manage Film Library:
+    \begin{itemize}
+        \item The cinema owner can add, edit, or remove films from the cinema's film library.
+    \end{itemize}
+    
+    \item Schedule Film Screenings:
+    \begin{itemize}
+        \item The cinema owner schedules film screenings and assigns them to available cinema halls.
+        \item Each film can have multiple screenings in different halls.".
+        \item Once the seating configuration is complete, the hall is released for ticket sales.
+    \end{itemize}
+    
+    \item Customer Account Management:
+    \begin{itemize}
+        \item Customers can create or edit their accounts, which store their contact information and booking history.
+    \end{itemize}
+    
+    \item Reserve Tickets:
+    \begin{itemize}
+        \item A customer chooses a screening and a desired seat category for which they want to reserve tickets.
+        \item Customers can view real-time seat availability for a specific screening before making a reservation or booking.
+        \item The system checks seat availability and allows reservations only if there are available seats.
+        \item A customer can cancel their reservation.
+        \item A customer can upgrade their reservation into a booking.
+        \item The booking can not be canceled.
+    \end{itemize}
+    
+    \item Direct Booking:
+    \begin{itemize}
+        \item A customer can directly book a ticket without a previous reservation.
+    \end{itemize}
+    
+    \item Mark Screening as \enquote{Taken Place}:
+    \begin{itemize}
+        \item The cinema owner can mark a screening as "taken place" to prevent further bookings.
+        \item Customers are now unable to book or reserve tickets for this screening.
+    \end{itemize}
+    
+    \item Calculate Revenue:
+    \begin{itemize}
+        \item The cinema owner can view the revenue generated from a single screening or a single film based on the current bookings made.
+        \item Reservations must not affect the calculation.
+    \end{itemize}
+    
+    \item Client-Server Communication:
+    \begin{itemize}
+        \item Multiple client computers can be used to operate the cinema management software.
+        \item The software ensures that messages from clients to the server are transmitted and unintended effects are avoided.
+        \item Multiple clients booking or reserving the same ticket concurrently results in only a single client succeeding.
+        \item The other clients are notified that their operation did not succeed.
+    \end{itemize}
+    
+    \item Update Seating Arrangement:
+    \begin{itemize}
+        \item The cinema owner can update the seating arrangement in a cinema hall by modifying seat categories or deleting and adding rows and seats.
+    \end{itemize}
+    
+    \item Edit Film Screening Details:
+    \begin{itemize}
+        \item The cinema owner can edit film screening details, such as the display name.
+    \end{itemize}
+
+\end{enumerate}
+
+\appendixsection{Data Model Requirements}\label{apx:sec:model-requirements}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{table}[H]
+    \centering
+    \caption{Summary of model requirements for \gls{g:cms}.}
+    \label{apx:tab:model-requirements}
+    \begin{tabular}{l|p{0.75\textwidth}}
+        \toprule
+        Model Requirement & Description \\ \midrule
+        \modelrequirementdefshort\label{req-mdl:cinema} & Cinema management system is required \\ \hline
+        \modelrequirementdefshort\label{req-mdl:Sale system} & Online ticket sale system \\ \hline
+        \modelrequirementdefshort\label{req-mdl:hall} & Administration cinema halls (with seatrows, seats) \\ \hline
+        \modelrequirementdefshort\label{req-mdl:screening} & Administration of movie screenings \\ \hline
+        \modelrequirementdefshort\label{req-mdl:seatrow} &  Creation of any number of seatrows in a cinema hall\\ \hline
+        \modelrequirementdefshort\label{req-mdl:seat} & Creation of any number of seats in a seatrow \\ \hline
+        \modelrequirementdefshort\label{req-mdl:price category} & A seatrow needs a Price category \\ \hline
+        \modelrequirementdefshort\label{req-mdl:sale release} & When the seating is complete, the cinema hall can be released for sale (reservations or bookings can be transacted) \\ \hline
+        \modelrequirementdefshort\label{req-mdl:ScreeningAndHall} & A film screening has exactly one cinema hall \\ \hline
+        \modelrequirementdefshort\label{req-mdl:FilmScreenings} & A film can be shown in several screenings (and halls)  \\ \hline
+        \modelrequirementdefshort\label{req-mdl:Tickets} & Customer can book tickets for each movie screening, if the seat is free \\ \hline
+        \modelrequirementdefshort\label{req-mdl:Reservation} & Reservation of a seat is only possible if the seat is free \\ \hline
+        \modelrequirementdefshort\label{req-mdl:Cancel} & Reservation can be canceled \\ \hline
+        \modelrequirementdefshort\label{req-mdl:ReservationToBooking} & The customer can modify the reservation into a booking \\ \hline
+        \modelrequirementdefshort\label{req-mdl:Booking} & The customer can take a booking, he can no longer cancel it \\ \hline
+        \modelrequirementdefshort\label{req-mdl:ScreeningFinished} & No timing component, but movie screening will be marked when it is over \\ \hline
+        \modelrequirementdefshort\label{req-mdl:Revenues} & Cinema owner can view the complete revenues and the revenues of a single movie \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\renewcommand{\arraystretch}{1}

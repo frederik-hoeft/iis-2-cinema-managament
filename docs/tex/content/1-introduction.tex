@@ -1,0 +1,32 @@
+\chapter{Introduction}
+\label{ch:intro}
+
+This applied research project was conducted as part of an assignment for the course \enquote{Informationsinfrastrukturen 2} at \gls{a:fhdw} Hannover, supervised by Prof. Dr. Harald König.
+
+\section{Objectives of this work}
+
+The objective of this work is to develop a network-based solution for managing core operations of a cinema. These operations cater to the interests of two roles: the cinema owner and the cinema visitor. The owner should have the ability to create cinema halls, movies, and movie screenings, as well as view revenues. Conversely, the customer requires control over reservations and bookings, with the capability to cancel ticket reservations.
+
+Moreover, these requirements should be implemented with an emphasis on network communication. The interaction between client and server should be facilitated through commands, without leading to unintended consequences that may arise from concurrent data access \cite[2]{IIS2-ass}.
+
+To aid development, the \gls{a:mdd} approach is employed to automate code generation. To fulfill these requirements, the following overarching milestones are established:
+
+\begin{itemize}
+\item Design a conceptual framework for a cinema management system.
+\item Implement a prototype of the proposed solution to serve as a proof of concept.
+\item Assess the effectiveness of the solution and pinpoint areas for improvement.
+\end{itemize}
+
+By adhering to these milestones, the \gls{a:cms} is created within the scope of this work, offering a valuable foundation for software-driven cinema management.
+
+\section{About the \glslongtext{a:cms}}
+
+The \glsfull{a:cms} is designed to provide a wide array of capabilities for efficiently managing a cinema. As detailed in \cref{sec:use-cases}, one of the critical aspects optimized by such a system is the booking and reservation process for cinema tickets. Customers can conveniently purchase or reserve tickets online, expediting sales and delivering a satisfying customer experience.
+
+Utilizing the \gls{g:cms}, cinema owners can reduce operating expenses and augment their profits. Enhancing the efficacy of ticket sales and optimizing cinema configurations attracts more patrons and streamlines cinema operations.
+
+Ultimately, the \gls{g:cms} solution aims to provide a comprehensive management system for cinemas. By automating various processes, it facilitates the operation of a cinema and offers a variety of useful features, simplifying the work of cinema owners and employees.
+
+\section{Structure of this work}
+
+Five additional chapters follow this introduction. \Cref{ch:foundation} establishes a theoretical foundation for the subsequent chapters by providing an introduction to \gls{a:mps}-based code generation, the \gls{g:spring} \gls{a:api}, and the .NET platform. \Cref{ch:problem-analysis} investigates the different use-cases associated with cinema management, ticket sales, and administration, analyzing potential pitfalls and deriving concrete requirements for the solution. \Cref{ch:concept} presents a conceptual solution to address these issues. This solution is then implemented and evaluated in \cref{ch:impl}. Finally, \cref{ch:conclusion} discusses the results of this work, the current state of the project, and potential avenues for future development.
