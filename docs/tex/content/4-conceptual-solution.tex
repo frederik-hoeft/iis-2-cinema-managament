@@ -6,19 +6,20 @@ This chapter introduces the proposed conceptual solution, which forms the basis 
 \section{Project Infrastructure}\label{sec:infrastructure}
 
 This section introduces the architectural solution designed to meet the requirements delineated in \cref{sec:requirements}. The comprehensive project architecture is illustrated in \cref{fig:architecture}, which encompasses three primary components: the client application, the server-side infrastructure, and the database.
-
+\vspace{-.2cm}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/big-picture-no-lombok}
     \caption{Key aspects encompassing project architecture of the proposed solution.}
     \label{fig:architecture}
 \end{figure}
-
+\vspace{-.35cm} % :)
 \Cref{fig:architecture} illustrates the project architecture for the proposed solution. The architecture allows for multiple client application instances to connect concurrently to a single server instance, facilitating simultaneous user interactions. Communication between the client and server is achieved through a \gls{a:rest}ful \gls{a:json} \gls{a:api}, which adheres to standardized conventions and promotes interoperability between the C\# clients and the Java server. The design of the client is elaborated in further details in \cref{sec:cs-client}.
 
 Upon invoking a specific endpoint using the client application, the server-side \gls{g:spring} \gls{a:api} controllers handle deserialization of the corresponding \gls{a:json} request model in accordance to the \gls{a:api} design specified in \cref{sec:cs-api}. These \gls{a:api} controllers subsequently process the request utilizing \gls{a:mps}-generated data access layer elucidated in \cref{sec:cs-data-model}, therefore ensuring a consistent, efficient, and maintainable interface with the underlying data storage.
 
 The \inlinecode{IsolationService} plays a crucial role in managing and scheduling the data access requests performed by the \gls{a:api} controllers. It provides a level of isolation between concurrent requests, ensuring data consistency and preventing conflicts or race conditions. This service facilitates communication with the \gls{a:mps}-generated database schema, which is tailored to efficiently store and manage the system's data. A more comprehensive overview of the isolation service is provided in \cref{sec:cs-isolation}.
+\vspace{-.15cm} % :)
 
 \section{Server}
 
@@ -26,41 +27,83 @@ The server application constitutes the central component of the \gls{g:cms}, ove
 
 \subsection{Data Model Design}\label{sec:cs-data-model}
 
-\todo{formally proof containments for relationships, e.g., mathe stuff}
-
-The data model was created according to the requirements presented in chapter \ref{ch:problem-analysis}, see figure \ref{fig:data-model}. In order to provide a better orientation, the description of this figure should be from left to right.
+To adhere to the requirements identified in \cref{ch:problem-analysis} and \cref{apx:ch:extended-analysis}, a data model has been designed, as illustrated in \cref{fig:data-model}. The data model represents the essential entities and their relationships within the \gls{g:cms} domain.
+\vspace{-.25cm} % :)
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/data-model-final-enum}
-    \caption{Data model for CMS according to requirements.}
-    \label{fig:data-model-mps}
+    \caption{Data model for \gls{g:cms} according to requirements.}
+    \label{fig:data-model}
 \end{figure}
 
-The class \inlinecode{Movie} contains two items, on the one hand a title as a string and on the other hand a description also as a string. The \inlinecode{MoveScreening} class contains two attributes according to the requirements. The attribute finished as a Boolean, indicates whether the film has finished screening and the attribute name as a string, identifies the name of each film screening. Between the classes \inlinecode{Movie} and \inlinecode{MovieScreening} there is an association as Containment. This association can be understood as a containment, as it is not sensible to change the film in a film performance. In addition, the film should be clearly identifiable through the screening and, at the same time, every screening needs a film. 
-Furthermore, the \inlinecode{CinemaHall} class is required. It only has one attribute, namely whether the hall is available to be used for movie screenings. There is an association as containment within the \inlinecode{CinemaHall} and \inlinecode{MovieScreening} classes. This association is a containment because the screening cannot exist without a hall. Additionally, there should only be one hall per screening. The hall can be clearly identified by a screening.
-Next, a class called \inlinecode{SeatRow} and another class \inlinecode{Seat} are necessary. The \inlinecode{CinemaHall} class and the \inlinecode{SeatRow} class have an association as a containment.
-This association is a containment because the SeatRow cannot exist without a hall. Additionally, there can only be one hall per SeatRow. The hall should be uniquely identifiable via a SeatRow.
-There should also be a containment association from \inlinecode{SeatRow} to \inlinecode{Seat}. This is a containment because a SeatRow has several Seats and a Seat cannot exist without a SeatRow. A seat should be uniquely identifiable in a SeatRow.
-In addition, an abstract class \inlinecode{BoookingState} is needed for the booking system. This class is specified by the classes \inlinecode{Reservation} and \inlinecode{Booking}. There is again a containment association from the class to \inlinecode{Seat} to the abstract class \inlinecode{BookingState}. This association is a containment because a BookingState cannot exist without a Seat. A BookingState uniquely identifies a Seat.
-\inlinecode{MovieScreening} has a second association to \inlinecode{BookingState}, this one is also a containment. This is a containment because a MovieScreening exists for every BookingState. Thereby, a BookingState cannot exist without a MovieScreening.
-In addition, there is to be an abstract class \inlinecode{PriceCategory}, which is specified by three classes. This class is to express in which category the place is booked. For example, in the Parquet, the Lodge or the Lodge with Service. The Singelton classes \inlinecode{PriceCategoryBox}, \inlinecode{PriceCategoryServiceBox} and \inlinecode{PriceCategoryStalls} specify the class \inlinecode{PriceCategory} and have the function mentioned previously. The seat row has an association to the price category in order to assign the respective row to the specific category. This association is not a conatinment as it should be possible to change the PriceCategory of a SeatRow at any time. 
-In addition, the customer of the cinema was described in the \inlinecode{Customer} class. The class has three attributes, the first name, the last name and the e-mail address of the customer. The \inlinecode{Customer} class has a containment association with the \inlinecode{BookingState} class in order to be able to assign its own bookings to the customers. This is a Conatinment because a BookingState could not exist without a Customer. A BookingState uniquely identifies a Customer and a Customer has a list of BookingStates.
+To formally prove the correctness of the proposed data model depicted in \cref{fig:data-model}, the validity of all relationships within the model must be ensured. The following definitions apply to an association between two classes $A$ and $B$, represented by a function $R : A \to B$:
 
-\subsubsection{Compliance with MPS}
-\label{sec:cs-data-mps}
+\begin{description}[labelwidth=\linewidth, listparindent=0pt]
+    \item[Partial function]\phantomsection\label{def:partial}
+        $R$ is a partial function if and only if the following holds true:
+        $$\forall (x_1, x_2), (x_1', x_2')\in R : x_1 = x_1' \implies x_2 = x_2'$$
+        In other words: \enquote{Every instance of $A$ owns at most one $B$ object}.
+    \item[Total function]\phantomsection\label{def:total}
+        $R$ is a total function if and only if the following holds true: $R$ is a partial function and
+        $$\forall x_1 \in A: \exists x_2 \in B: (x_1, x_2) \in R$$
+        In other words: \enquote{Every instance of $A$ owns exactly one $B$ object}.
+    \item[Injective function]\phantomsection\label{def:injective}
+        $R$ is an injective function if and only if the following holds true:
+        $$\forall (x_1, x_2), (x_1', x_2')\in R : x_2 = x_2' \implies x_1 = x_1'$$
+        In other words: \enquote{Every $A$ object is uniquely identifiable using the associated instance of $B$} or \enquote{Given an instance of $B$, the corresponding $A$ object is uniquely identifiable}.
+    \item[Surjective function]\phantomsection\label{def:surjective}
+        $R$ is a surjective function if and only if the following holds true:
+        $$\forall x_2 \in B: \exists x_1 \in A: (x_1, x_2) \in R$$
+        In other words: \enquote{Any $B$ object can not exist without a corresponding instance of $A$} or \enquote{$B$ is entirely dependent on $A$}. 
+    \item[Containment]\phantomsection\label{def:containment}
+        $R$ is a containment if and only if the following holds true: $R$ is an injective and surjective function.
+        
+        In other words: \enquote{Given an instance of $B$, the corresponding $A$ object is uniquely identifiable. Additionally the $B$ object can not exist without a corresponding instance of $A$}.
+\end{description}
 
-\todo{@Manu: vllt sollten wir den mathe-stuff mit dem text von Jana da oben irgendwie kombinieren. Das ist aktuell so ein riesiger text block der einfach alles erschlägt.}
+On the following page these properties are proven for every association in \cref{fig:data-model}.
 
-\todo{How do we need to change the model to comply with MPS? (Hint: enums and singletons)}
-\todo{sooo done. musst halt eigentlich nur beschreiben, was sich ändert von dem modell oben, zu dem hier unten, das mit dem enum/singleton kram halt und noch dazu sagen WARUM enums nicht anders gehen. vllt gibts dazu im internet oder in seinem skript was, halt als quelle :)}
+\pagebreak
+
+For the convenience of the reader, \cref{fig:data-model} is repeated below.
+\vspace{-.2cm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/data-model-final-enum}
+\end{figure}
+\vspace{-.6cm}
+
+The class \inlinecode{Movie} comprises two attributes: a title and a description, both represented as strings. The \inlinecode{MovieScreening} class includes two attributes as per the requirements: a boolean attribute named \inlinecode{finished} indicating whether the movie screening has already taken place, and a string attribute called \inlinecode{name} allowing a human-readable representation of the screening to be stored.
+
+The association from \inlinecode{Movie} to \inlinecode{MovieScreening} implies that every \inlinecode{Movie} is unambiguously identifiable given a \inlinecode{MovieScreening} instance. A \inlinecode{MovieScreening} without a corresponding \inlinecode{Movie} would be meaningless, making the association a \containment.
+
+Moreover, for every \inlinecode{MovieScreening} a \inlinecode{CinemaHall} class is required (\surjectivity) and given a screening, the hall must be unambiguously identifiable (\injectivity $\implies$ \containment). The cinema hall features a single attribute to denotes whether the hall is available for being used to create movie screenings.
+
+The data model also includes a class called \inlinecode{SeatRow}, with a corresponding \inlinecode{PriceCategory}, and another class called \inlinecode{Seat}. The \inlinecode{CinemaHall} class and the \inlinecode{SeatRow} class have a \containment association, as a seat row cannot practically exist without a hall, and there can only be one hall per seat row. Another \containment association exists from \inlinecode{SeatRow} to \inlinecode{Seat}, because for the context of cinema management, a seat without an associated row is pointless, additionally, given a seat the corresponding row should be clearly determinable.
+
+Moreover, the booking system necessitates an abstract class, \inlinecode{BookingState}, which is further refined by the \inlinecode{Reservation} and \inlinecode{Booking} classes. A \containment association exists between the \inlinecode{Seat} class and the abstract \inlinecode{BookingState} class, as a booking state (ticket) must always be associated with a seat and uniquely identify it. The \inlinecode{MovieScreening} class has a second \containment association with \inlinecode{BookingState}, signifying that a ticket is entirely dependent on a movie screening and can be used for unambiguous identification of the screening.
+
+Lastly, the \inlinecode{Customer} class embodies the cinema's patrons and encompasses three attributes: first name, last name, and email address. An association exists between the \inlinecode{Customer} and \inlinecode{BookingState} (ticket) classes to distinctly associate each customer with their respective bookings. Since a \inlinecode{BookingState} cannot exist without a customer, this relationship is also considered a \containment.
+
+\subsubsection{Compliance with MPS}\label{sec:cs-data-mps}
+
+Due to technical constraints imposed by \gls{a:mps}, the data model introduced in \cref{fig:data-model} necessitated adjustments prior to implementation.
+
+\Cref{fig:data-model} specified an enumeration for representing price categories within the data model, which is not easily modeled within \gls{a:mps}. Consequently, for database representation, an abstract class with sub-classes was employed to improve maintainability and extensibility compared to a flat integer or string representation. As such, the class diagram in \cref{fig:data-model-mps} was specified in order to reflect these changes.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/data-model-final-with-price}
-    \caption{Data model for CMS according to requirements.}
-    \label{fig:data-model}
+    \caption{Adjusted data model for \gls{g:cms} due to technical limitations.}
+    \label{fig:data-model-mps}
 \end{figure}
+
+As depicted in \cref{fig:data-model-mps}, the \inlinecode{PriceCategory} enumeration has been replaced by an abstract class comprising three singleton subclasses: \inlinecode{PriceCategoryBox} for the \inlinecode{Box} price category, \inlinecode{PriceCategoryServiceBox} for the \inlinecode{ServiceBox} price category, and \inlinecode{PriceCategoryStalls} for the \inlinecode{Stalls} price category.
+
+Transitioning from an enumeration to an abstract class with inheriting singletons offers several advantages. First, it enhances type safety by mitigating potential risks of invalid changes to data associated with using flat integers or string representations in the database. Singleton classes guarantee a single instance of each concrete price category, minimizing errors due to inconsistent states. Furthermore, employing abstract classes and inheritance fosters better code organization.
+
+Another benefit of this modification is the ability to directly incorporate price values within new price category classes. As such, the \inlinecode{price} attribute was added as a \inlinecode{Rational} number.
 
 \pagebreak
 

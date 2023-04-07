@@ -5,15 +5,13 @@ This chapter provides a theoretical foundation for this work and introduces the 
 
 \section{Code Generation}
 
-\todo{actual references}
+Code generation plays a significant role in software development by enhancing developer productivity. As a crucial component of \gls{a:mdd}, a software development approach that utilizes models as primary development artifacts, code generation contributes to the overall efficiency and effectiveness of the development process. Compared to conventional software development approaches, \gls{a:mdd} provides a higher level of abstraction and improves code reusability \cite{peldszus2022security}. In this context, code generation refers to the process of automatically producing source code or machine code from a higher-level abstract description or model, streamlining the development process and reducing manual implementation efforts. This process usually involves a specific language and platform defined by developers \cite{peldszus2022security}.
 
-Code generation plays a significant role in software development by enhancing developer productivity. As a crucial component of \gls{a:mdd}, a software development approach that utilizes models as primary development artifacts, code generation contributes to the overall efficiency and effectiveness of the development process. Compared to conventional software development approaches, \gls{a:mdd} provides a higher level of abstraction and improves code reusability \cite{voelter2017model}. In this context, code generation refers to the process of automatically producing source code or machine code from a higher-level abstract description or model, streamlining the development process and reducing manual implementation efforts. This process usually involves a specific language and platform defined by developers \cite{greenfield2002code}.
-
-Various tools are available for code generation, including \glspl{a:ide}, code generators and templates. Of these, the \glsfull{a:mps} by JetBrains will be discussed in further details due to its relevance for this work \cite{biermann2017model}.
+Various tools are available for code generation, including \glspl{a:ide}, code generators and templates. Of these, the \glsfull{a:mps} by JetBrains will be discussed in further details due to its relevance for this work \cite{pech2013jetbrains}.
 
 \subsection{MPS}
 
-The \glsfull{a:mps} is an \gls{a:ide} and software development platform developed by JetBrains. By using \gls{a:mps}, software developers can automatically generate source code targeting a variety of languages. It is a \gls{a:mdd} tool operating on the principle that the developer designs a model of their proposed system and generates corresponding source code based on this model. This offers developers an immense simplification, enabling them to focus on modeling and defining the requirements for the application instead of manually writing code. Consequently, this reduces the amount of manual work that is traditionally involved in the development of applications, decreasing the likelihood of errors. In addition, the generated source files can be automatically imported into existing projects, which further accelerates the development process. Overall, \gls{a:mps} assists the developers to work quicker and more efficiently allowing them to focus on the development of core functionalities \cite{voelter2013study}.
+The \glsfull{a:mps} is an \gls{a:ide} and software development platform developed by JetBrains. By using \gls{a:mps}, software developers can automatically generate source code targeting a variety of languages. It is a \gls{a:mdd} tool operating on the principle that the developer designs a model of their proposed system and generates corresponding source code based on this model. This offers developers an immense simplification, enabling them to focus on modeling and defining the requirements for the application instead of manually writing code. Consequently, this reduces the amount of manual work that is traditionally involved in the development of applications, decreasing the likelihood of errors. In addition, the generated source files can be automatically imported into existing projects, which further accelerates the development process. Overall, \gls{a:mps} assists the developers to work quicker and more efficiently allowing them to focus on the development of core functionalities \cite{pech2013jetbrains}.
 
 \section{RESTful APIs}
 
@@ -23,7 +21,7 @@ The \glsfull{a:mps} is an \gls{a:ide} and software development platform develope
 The following constraints, with the exception of the last one, must be implemented by every \gls{a:rest}ful service.
 
 \subsubsection{Uniform interface}
-\gls{a:rest}ful services define a consistent \gls{a:api} to be accessed with the \gls{a:crud} operations. These are the four basic operations typically performed on data in a database. In a \gls{a:rest}ful service, the operations are mapped to the four HTTP standard methods: POST, GET, PUT, and DELETE.
+\gls{a:rest}ful services define a consistent \gls{a:api} to be accessed with the \gls{a:crud} operations. These are the four basic operations typically performed on data in a database. In a \gls{a:rest}ful service, the operations are mapped to the four \gls{a:http} standard methods: POST, GET, PUT, and DELETE.
 \begin{itemize}
 \item POST: Used to create data on a server
 \item GET: Used to read data from a server
@@ -42,10 +40,27 @@ The \gls{a:api} should be built on a layered system, where each layer represents
 Clients are able to download and execute code that is supplied by the server. For example, the server could provide functionality that is not available to the client, resulting in a more flexible and extensible system. The \textit{code on demand} constraint is the only optional constraint in the \gls{a:rest} architecture \cite{RESTGuidelines}.
 
 \subsection{Spring Boot}
-Spring Boot is a Java-based framework that is used for building and deploying web applications.
-It has built-in support for building RESTful APIs using the Spring MVC (Model-View-Controller) framework. The Spring MVC framework provides a set of tools for building RESTful web services, including support for HTTP requests and responses, and exception handling.
+\Gls{g:spring} is a Java-based framework that has become widely adopted for building \gls{a:rest}ful \glspl{a:api} due to its ability to streamline the process of web application development. Its opinionated setup and pre-configured defaults make it easy to create web applications that follow the \gls{a:rest}ful architectural style \cite{SpringBoot}. \Gls{g:spring} provides built-in support for the Spring Web MVC framework, which simplifies the creation of \gls{a:rest}ful \glspl{a:api} with support for \gls{a:http} requests and responses, and exception handling \cite{SpringMvc}. Furthermore, \gls{g:spring} provides several features for documenting, testing, or implementing security for \gls{a:rest}ful \glspl{a:api} \cite{SpringFramework}. A simple \gls{a:api} endpoint can be defined as shown below.
 
-\todo{@Ben}
+\begin{listing}[H]
+\begin{minted}[fontsize=\scriptsize]{java}
+@RestController
+public class ExampleController {
+    @GetMapping("/example")
+    public String example() {
+        return "This is an example endpoint.";
+    }
+}
+\end{minted}
+\vspace{-.6cm}
+\caption{An example of a simple endpoint using the \gls{g:spring} framework.}
+\label{lst:spring-example}
+\end{listing}
+\vspace{-.3cm}
+
+The \gls{a:rest}ful endpoint in \cref{lst:spring-example} responds to a GET request matching the \gls{a:uri} \inlinecode{/example} with the message \enquote{This is an example endpoint.}.
+
+Overall, \gls{g:spring} simplifies the development process of \gls{a:rest}ful \glspl{a:api} by providing an efficient way to build and deploy web applications.
 
 \section{An Introduction to .NET}\label{sec:tf-dotnet}
 
@@ -71,13 +86,11 @@ RootCommand rootCommand = new("Will print a greeting to the console.")
     new Option<int>("--age", () => 30, "The age of the person to greet."),
     new Option<bool>("--formal", () => false, "Whether to use a formal greeting.")
 };
-
 rootCommand.Handler = CommandHandler.Create<string, int, bool>((name, age, formal) =>
 {
     string greeting = formal ? "Hello, Mr./Ms. " : "Hi, ";
     Console.WriteLine($"{greeting}{name}! You're {age} years old.");
 });
-
 return rootCommand.Invoke(args);
 \end{minted}
 \caption{An example of a simple \gls{a:cli} application using the \inlinecode{System.CommandLine} framework.}
