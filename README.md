@@ -6,6 +6,15 @@
 
 ![data-model](./docs/export/data-model-final.png)
 
+## Repository Structure:
+
+- [client](/src/client/IIS.Client)
+- [MPS model](/src/server/mps-model)
+- [Java cinema server workspace](/src/server/java/Server)
+- [Java cinema server application source](/src/server/java/Server/Server-Api/src/main/java/IIS/Server)
+- [Java cinema server application isolation layer](/src/server/java/Server/Server-Api/src/main/java/IIS/Server/management)
+- [Java cinema server application Spring API](/src/server/java/Server/Server-Api/src/main/java/IIS/Server/api)
+
 ## DB: 
 
  - MySQL
